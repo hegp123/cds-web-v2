@@ -3,13 +3,18 @@ import "../css/InputTextFmb.css";
 
 class InputTextFmb extends Component {
   render() {
+
+    const icon = `${this.props.icon}  form-control-feedback`;
+    console.log(icon);
     return (
-      <div className="form-group has-search">
-        <span className="fa fa-search form-control-feedback" />
-        <input
-          type="text"
+
+        
+      <div className="form-group has-icon">
+        <span className= {icon}/>
+        <input 
+          type={this.props.type}
           className="form-control"
-          placeholder="Search"
+          placeholder={this.props.placeholder}
           value={this.props.value}
           onChange={this.props.onChange}
         />

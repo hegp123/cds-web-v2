@@ -36,6 +36,8 @@ class Login extends Component {
           <div className="form-group, labelLogin">Usuario</div>
           <div className="form-group">
             <InputTextFmb
+             type = "text"
+             icon = "fa fa-user"
               name="Titulo"
               placeholder="Usuario"
               value={this.state.user}
@@ -44,14 +46,15 @@ class Login extends Component {
           </div>
           <div className="form-group, labelLogin">Contraseña</div>
           <div className="form-group">
-            <input
-              type="text"
-              name="responsible"
-              className="form-control"
+          <InputTextFmb
+            icon = "fas fa-key"
+             type = "password"
+              name="password"
               placeholder="Contraseña"
               value={this.state.password}
               onChange={this.handleChange("password")}
             />
+          
           </div>
           <ButtonFmb name="Iniciar Sesión" disabled={this.validateForm()} />
         </form>
