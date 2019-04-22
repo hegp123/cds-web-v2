@@ -11,6 +11,15 @@ class Payment extends Component {
     return (
       <div>
         <Header />
+        <div className="navbar navbar-default navbar-fixed-top app">
+          <div className="container">
+            <div className="navbar-header">
+              <a className="navbar-brand" href="#">
+                Project name
+              </a>
+            </div>
+          </div>
+        </div>
 
         <div className="container, containerFmb">
           <div className="page-header">
@@ -44,8 +53,6 @@ class Payment extends Component {
                 <img src={report} />
               </div>
             </div>
-
-            <p className="text-muted">Place sticky footer content here.</p>
           </div>
         </footer>
       </div>
