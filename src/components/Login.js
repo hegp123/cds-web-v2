@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "../css/Login.css"
 import logo from "../img/appIcon.png";
+import InputTextFmb from './InputTextFmb';
 
 class Login extends Component {
   render() {
@@ -15,12 +16,10 @@ class Login extends Component {
           </div>
           <div className="form-group, labelLogin">Usuario</div>
           <div className="form-group">
-            <input
-              type="text"
-              name="title"
-              className="form-control"
-              placeholder="Usuario"
-            />
+            
+            <InputTextFmb name="Titulo" placeholder="Usuario" />
+
+
           </div>
           <div className="form-group, labelLogin">Contraseña</div>
           <div className="form-group">
