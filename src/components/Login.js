@@ -62,6 +62,10 @@ class Login extends Component {
   handleSubmit = event => {
     alert(this.state.user + "    -  " + this.state.password);
     event.preventDefault();
+    var usuario = {
+      loginUsuario: this.state.user,
+      claveUsuario: this.state.password
+    };
   };
 }
 
