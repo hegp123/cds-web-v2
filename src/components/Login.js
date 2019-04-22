@@ -15,14 +15,6 @@ class Login extends Component {
     //this.handleChange = this.handleChange.bind(this);
   }
 
-  validateForm() {
-    return this.state.user.length > 0 && this.state.password.length > 0;
-  }
-
-  handleChange = prop => event => {
-    this.setState({ [prop]: event.target.value });
-  };
-
   render() {
     return (
       <div className="App">
@@ -61,6 +53,19 @@ class Login extends Component {
       </div>
     );
   }
+
+  validateForm() {
+    return this.state.user.length > 0 && this.state.password.length > 0;
+  }
+
+  handleChange = prop => event => {
+    this.setState({ [prop]: event.target.value });
+  };
+
+  handleSubmit = event => {
+    alert(this.state.user + "    -  " + this.state.password);
+    event.preventDefault();
+  };
 }
 
 export default Login;
