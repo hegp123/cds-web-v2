@@ -1,8 +1,8 @@
-.has-search .form-control {
+.has-icon .form-control {
     padding-left: 2.375rem;
 }
 
-.has-search .form-control-feedback {
+.has-icon .form-control-feedback {
     position: absolute;
     z-index: 2;
     display: block;
