@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "../css/Login.css";
 import logo from "../img/appIcon.png";
 import ButtonFmb from "./ButtonFmb";
+import InputTextFmb from "./InputTextFmb";
 
 class Login extends Component {
   constructor(props) {
@@ -34,10 +35,8 @@ class Login extends Component {
           </div>
           <div className="form-group, labelLogin">Usuario</div>
           <div className="form-group">
-            <input
-              type="text"
-              name="title"
-              className="form-control"
+            <InputTextFmb
+              name="Titulo"
               placeholder="Usuario"
               value={this.state.user}
               onChange={this.handleChange("user")}
