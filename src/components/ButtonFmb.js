@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button } from "react-bootstrap";
+import "../css/ButtonFmb.css";
 
 class ButtonFmb extends Component {
   constructor(props) {
@@ -7,23 +7,15 @@ class ButtonFmb extends Component {
   }
 
   render() {
-    const divStyle = {
-      color: "#FFD100",
-      backgroundColor: "#630448",
-      borderColor: "#630448"
-    };
     const disabled = this.props.disabled;
     return (
       <button
         type="submit"
-        className="btn btn-primary btn-lg btn-block"
-        style={divStyle}
+        className="buttonFmb btn btn-primary btn-lg btn-block"
         disabled={!disabled}
       >
-        <div>
-          <i class="fa-lock" />
-        </div>
-
+        <i class="fa fa-lock" />
+        {"   "}
         {this.props.name}
       </button>
     );
