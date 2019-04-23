@@ -14,7 +14,7 @@ class ButtonFmb extends Component {
         className="buttonFmb btn btn-primary btn-lg btn-block"
         disabled={!disabled}
       >
-        <i class="fa fa-unlock" />
+        <i class={this.props.icon} />
         {"   "}
         {this.props.name}
       </button>
