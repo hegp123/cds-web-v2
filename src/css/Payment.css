@@ -16,6 +16,28 @@ body {
   }
 
   .app {
-    text-align: center;
+   padding: 0 0 0 0;
     background:#872175;
+  }
+
+  .footerMenu{
+      padding-left: 30%;
+      padding-right: 30%;
+      padding-top: 10px;
+  }
+
+  .textEnable{
+      color: #872175;
+      font-size: 12px;
+  }
+
+  .navbar{
+    padding: .5rem .1rem;
+  }
+
+  .subHeader{
+      background: #e6d0e3;
+      color: #872175;
+      font-weight: bold;     
+      font-size: 11pt; 
   }

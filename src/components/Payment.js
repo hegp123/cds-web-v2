@@ -5,6 +5,10 @@ import invoice from "../img/reimpFactura.png";
 import report from "../img/reportePagos.png";
 
 
+import movil from "../img/cdsMovil.png";
+import icon from "../img/appIconMore.png";
+
+
 import "../css/Payment.css";
 
 
@@ -16,14 +20,29 @@ class Payment extends Component {
 
             <div>
 
-                <div className="navbar navbar-default navbar-fixed-top app" >
+                <div className="app" >
                     <div className="container">
-                        <div className="navbar-header">
-
-                            <a className="navbar-brand" href="#">Project name</a>
+                        <div className="row">
+                            <div className="col-sm-11">
+                                <img src={movil} />
+                            </div>
+                            <div className="col-sm-1">
+                                <img src={icon} />
+                            </div>
                         </div>
                     </div>
                 </div>
+
+
+                <div className="navbar navbar-default navbar-fixed-top subHeader" >
+                    <div className="navbar-header">
+                        <div className="container">
+                            Registrar pago
+                         </div>
+                    </div>
+                </div>
+
+
 
 
                 <div className="container, containerFmb">
@@ -35,11 +54,29 @@ class Payment extends Component {
                 </div>
 
                 <footer>
-                    <div className="container">
+                    <div className="container, footerMenu">
                         <div className="row">
-                            <div className="col-sm-4"> <img src={payment} /></div>
-                            <div className="col-sm-4"> <img src={invoice} /></div>
-                            <div className="col-sm-4"> <img src={report} /></div>
+                            <div className="col-sm-4">
+                                <div className="form-group">
+
+                                    <img src={payment} />
+                                    <div className="textEnable">Registrar pago</div>
+                                </div>
+                            </div>
+                            <div className="col-sm-4">
+                                <div className="form-group">
+
+                                    <img src={report} />
+                                    <div className="textEnable">Reporte de pagos</div>
+                                </div>
+                            </div>
+                            <div className="col-sm-4">
+                                <div className="form-group">
+
+                                    <img src={invoice} />
+                                    <div className="textEnable">Reimprimir orden</div>
+                                </div>
+                            </div>
                         </div>
 
 
