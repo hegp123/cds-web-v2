@@ -53,4 +53,6 @@ body {
     position: absolute;
   }
   
-  
+  .dropdown-toggle:after {
+    display: none;
+}  

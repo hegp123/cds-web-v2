@@ -18,12 +18,16 @@ class Payment extends Component {
         return (
 
             <div>
+
+
                 <nav className="navbar navbar-expand navbar-light app">
 
-                    <img src={movil} />
 
+                    <div class="collapse navbar-collapse">
 
+                    </div>
 
+                    <a class="navbar-brand mx-auto" href="#"><div id="logo"><img src={movil} /></div></a>
 
 
                     <ul className="navbar-nav ml-auto">
@@ -39,16 +43,16 @@ class Payment extends Component {
                                 </a>
                                 <a className="dropdown-item" href="#">
                                     <i className="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
+                                    Cambiar Contraseña
                                 </a>
                                 <a className="dropdown-item" href="#">
                                     <i className="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
+                                    Probar impresora
                                 </a>
                                 <div className="dropdown-divider"></div>
                                 <a className="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i className="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                    Cerrar Sesión
                                 </a>
                             </div>
                         </li>
