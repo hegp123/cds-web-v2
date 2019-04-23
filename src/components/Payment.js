@@ -2,10 +2,15 @@ import React, { Component } from "react";
 import HeaderFmb from "./HeaderFmb";
 import FooterFmb from "./FooterFmb";
 import PaymentContainer from "./PaymentContainer";
+import { withRouter } from "react-router";
 
 import "../css/Payment.css";
 
 class Payment extends Component {
+  componentDidMount() {
+    document.body.style.backgroundColor = "white";
+  }
+
   render() {
     const typeProcess = "payment";
     return (

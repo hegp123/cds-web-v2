@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router";
 
 import payment from "../img/registrarPago.png";
 import print from "../img/reimpFactura.png";
@@ -12,6 +13,10 @@ import "../css/FooterFmb.css";
 class FooterFmb extends Component {
   constructor(props) {
     super(props);
+  }
+
+  redirectPage(ruta) {
+    this.props.history.push("/" + ruta);
   }
 
   render() {
@@ -32,7 +37,7 @@ class FooterFmb extends Component {
           <div className="container, footerMenu">
             <div className="row">
               <div className="col-sm-4">
-                <a href="#">
+                <a href="#" onClick={this.redirectPage.bind(this, "payment")}>
                   <div className="form-group">
                     <img src={paymentImg} />
                     <div className={paymentText}>Registrar pago</div>
@@ -40,7 +45,7 @@ class FooterFmb extends Component {
                 </a>
               </div>
               <div className="col-sm-4">
-                <a href="#">
+                <a href="#" onClick={this.redirectPage.bind(this, "report")}>
                   <div className="form-group">
                     <img src={reportImg} />
                     <div className={reportText}>Reporte de pagos</div>
@@ -48,12 +53,12 @@ class FooterFmb extends Component {
                 </a>
               </div>
               <div className="col-sm-4">
-                <a href="#">
-                  <div className="form-group">
+                <div className="form-group">
+                  <a href="#" onClick={this.redirectPage.bind(this, "print")}>
                     <img src={printImg} />
                     <div className={printText}>Reimprimir orden</div>
-                  </div>
-                </a>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -63,4 +68,5 @@ class FooterFmb extends Component {
   }
 }
 
+FooterFmb = withRouter(FooterFmb);
 export default FooterFmb;
