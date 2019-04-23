@@ -1,1 +1,21 @@
+.font-label-fmb {
+  color: #872175;
+  font-size: 14px;
+}
 
+.font-label-bold-fmb {
+  color: #872175;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.font-label-gray {
+  color: #666;
+  font-size: 14px;
+}
+
+.font-label-bold-gray {
+  color: #666;
+  font-size: 14px;
+  font-weight: bold;
+}
