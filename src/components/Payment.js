@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import Header from "./Header";
 import payment from "../img/registrarPago.png";
 import invoice from "../img/reimpFactura.png";
 import report from "../img/reportePagos.png";
@@ -10,7 +10,6 @@ import icon from "../img/appIconMore.png";
 
 
 import "../css/Payment.css";
-
 
 class Payment extends Component {
 
