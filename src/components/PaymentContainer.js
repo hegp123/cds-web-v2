@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import InputTextFmb from "./InputTextFmb";
 import ButtonFmb from "./ButtonFmb";
-import { handleChange } from "../js/Utils.js";
 
 export default class ContainerFmb extends Component {
   constructor(props) {
@@ -26,7 +25,7 @@ export default class ContainerFmb extends Component {
             <select
               className="form-control"
               id="typeFilterForm"
-              onChange={handleChange("typeFilter")}
+              onChange={this.handleChange("typeFilter")}
             >
               <option value="0" selected>
                 Cédula
@@ -43,7 +42,7 @@ export default class ContainerFmb extends Component {
               name="Titulo"
               placeholder="Escriba aquí el número"
               value={this.state.numberFilter}
-              onChange={handleChange("numberFilter")}
+              onChange={this.handleChange("numberFilter")}
             />
           </div>
         </div>
