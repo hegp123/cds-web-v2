@@ -18,19 +18,51 @@ class Payment extends Component {
         return (
 
             <div>
+                <nav className="navbar navbar-expand navbar-light app">
 
-                <div className="app" >
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-sm-11">
-                                <img src={movil} />
+                    <img src={movil} />
+
+
+
+
+
+                    <ul className="navbar-nav ml-auto">
+
+                        <li className="nav-item dropdown no-arrow">
+                            <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img className="img-profile rounded-circle" src={icon} />
+                            </a>
+                            <div className="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                <a className="dropdown-item" href="#">
+                                    <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                                <a className="dropdown-item" href="#">
+                                    <i className="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Settings
+                                </a>
+                                <a className="dropdown-item" href="#">
+                                    <i className="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Activity Log
+                                </a>
+                                <div className="dropdown-divider"></div>
+                                <a className="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i className="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
                             </div>
-                            <div className="col-sm-1">
-                                <img src={icon} />
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        </li>
+                    </ul>
+                </nav>
+
+
+
+
+
+
+
+
+
 
 
                 <div className="navbar navbar-default navbar-fixed-top subHeader" >
@@ -83,7 +115,7 @@ class Payment extends Component {
                 </footer>
 
 
-            </div>
+            </div >
 
         );
     }

@@ -16,6 +16,7 @@ body {
   }
 
   .app {
+
    padding: 0 0 0 0;
     background:#872175;
   }
@@ -41,3 +42,15 @@ body {
       font-weight: bold;     
       font-size: 11pt; 
   }
+
+  .nav-link {
+     padding: 0.1rem 0rem;
+}
+
+.navbar-brand {
+    transform: translateX(-50%);
+    left: 50%;
+    position: absolute;
+  }
+  
+  
