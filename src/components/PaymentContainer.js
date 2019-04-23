@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import InputTextFmb from "./InputTextFmb";
 import ButtonFmb from "./ButtonFmb";
-import { handleChange } from "../js/Utils.js";
+import {
+  placeHolderCedula,
+  placeHolderCredito,
+  cedulaValue,
+  creditoValue
+} from "../js/Constants";
 
 export default class ContainerFmb extends Component {
   constructor(props) {
@@ -9,7 +14,8 @@ export default class ContainerFmb extends Component {
 
     this.state = {
       typeFilter: "0", //cedula por defecto
-      numberFilter: ""
+      numberFilter: "",
+      placeHolderNumberFilter: placeHolderCedula
     };
   }
 
@@ -26,12 +32,13 @@ export default class ContainerFmb extends Component {
             <select
               className="form-control"
               id="typeFilterForm"
-              onChange={handleChange("typeFilter")}
+              name="typeFilterForm"
+              onChange={this.handleChange("typeFilter")}
             >
-              <option value="0" selected>
+              <option value={cedulaValue} selected>
                 Cédula
               </option>
-              <option value="1">Crédito</option>
+              <option value={creditoValue}>Crédito</option>
             </select>
           </div>
         </div>
@@ -41,9 +48,9 @@ export default class ContainerFmb extends Component {
               type="text"
               icon="fa fa-search"
               name="Titulo"
-              placeholder="Escriba aquí el número"
+              placeholder={this.state.placeHolderNumberFilter}
               value={this.state.numberFilter}
-              onChange={handleChange("numberFilter")}
+              onChange={this.handleChange("numberFilter")}
             />
           </div>
         </div>
@@ -67,7 +74,23 @@ export default class ContainerFmb extends Component {
   }
 
   handleChange = prop => event => {
-    this.setState({ [prop]: event.target.value });
+    let value = event.target.value;
+
+    if (!/^([0-9])*$/.test(value)) {
+      return false;
+    }
+    this.setState({ [prop]: value });
+    if (prop === "typeFilter") {
+      if (value === cedulaValue) {
+        this.setState({
+          placeHolderNumberFilter: placeHolderCedula
+        });
+      } else {
+        this.setState({
+          placeHolderNumberFilter: placeHolderCredito
+        });
+      }
+    }
   };
 
   handleSubmit = event => {
