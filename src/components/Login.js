@@ -12,10 +12,28 @@ class Login extends Component {
       user: "",
       password: ""
     };
-    //this.handleChange = this.handleChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(e) {
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
+
+    localStorage.setItem("user", "user");
+  }
+
+  validateForm() {
+    return this.state.user.length > 0 && this.state.password.length > 0;
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    this.props.history.push("/payment");
   }
 
   render() {
+    //localStorage.clear();
     return (
       <div className="App">
         <form className="container" onSubmit={this.handleSubmit}>
@@ -30,10 +48,10 @@ class Login extends Component {
             <InputTextFmb
               type="text"
               icon="fa fa-user"
-              name="Titulo"
+              name="user"
               placeholder="Usuario"
               value={this.state.user}
-              onChange={this.handleChange("user")}
+              onChange={this.handleChange}
             />
           </div>
           <div className="form-group, labelLogin">Contraseña</div>
@@ -44,7 +62,7 @@ class Login extends Component {
               name="password"
               placeholder="Contraseña"
               value={this.state.password}
-              onChange={this.handleChange("password")}
+              onChange={this.handleChange}
             />
           </div>
           <ButtonFmb
@@ -56,23 +74,6 @@ class Login extends Component {
       </div>
     );
   }
-
-  validateForm() {
-    return this.state.user.length > 0 && this.state.password.length > 0;
-  }
-
-  handleChange = prop => event => {
-    this.setState({ [prop]: event.target.value });
-  };
-
-  handleSubmit = event => {
-    alert(this.state.user + "    -  " + this.state.password);
-    event.preventDefault();
-    var usuario = {
-      loginUsuario: this.state.user,
-      claveUsuario: this.state.password
-    };
-  };
 }
 
 export default Login;

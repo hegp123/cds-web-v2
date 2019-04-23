@@ -1,28 +1,30 @@
 body {
-  background:#872175;
+  background: #872175;
   text-align: center;
 }
 
 .App {
   text-align: center;
-  background:#872175;
+  background: #872175;
 }
 
-.labelLogin{
+.labelLogin {
   text-align: center;
   margin: 10px 0;
-  font-size:16px;
-  font-weight:bold;
-  color: #FFD100;
-}
-
-.headerLogin{
-  color: #FFD100;
+  font-size: 16px;
   font-weight: bold;
-  padding:10px;
-  font-size:18px;
-  background-color:#630448;
-  margin:20px 0 20px;
+  color: #ffd100;
 }
 
-.appIconLog{padding: 60px 0 15px;}
+.headerLogin {
+  color: #ffd100;
+  font-weight: bold;
+  padding: 10px;
+  font-size: 18px;
+  background-color: #630448;
+  margin: 20px 0 20px;
+}
+
+.appIconLog {
+  padding: 60px 0 15px;
+}
