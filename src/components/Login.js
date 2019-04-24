@@ -3,6 +3,7 @@ import "../css/Login.css";
 import logo from "../img/appIcon.png";
 import ButtonFmb from "./ButtonFmb";
 import InputTextFmb from "./InputTextFmb";
+import { LoginService } from "../services/LoginService";
 
 class Login extends Component {
   constructor(props) {
@@ -75,6 +76,11 @@ class Login extends Component {
   handleSubmit(e) {
     e.preventDefault();
     //LoginService.login();
+    var loginData = {
+      user: this.state.user,
+      password: this.state.password
+    };
+    LoginService.login(loginData);
     sessionStorage.setItem("user", "user");
     this.props.history.push("/payment");
   }
