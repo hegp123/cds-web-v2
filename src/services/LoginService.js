@@ -1,31 +1,18 @@
 import axios from "axios";
 import { conexion, ws_api } from "../utils/Parameters";
-import Base64 from "base-64";
 
 export const LoginService = {
   logout,
-  login: loginData => {
-    axios
-      .post(conexion.URL_WS + ws_api.EP_VALIDAR_API, {})
-      .then(response => {
-        if (response) {
-          //alert("estado: " + response.data.estado);
-          if (response.data.appVersion == null) {
-            alert("Hubo un error en el API, pero el api no muestra nada :( ");
-          } else {
-            //aca vamos bien
-            // alert("appVersion: " + response.data.appVersion);
-            let user = loginData.user;
-            let password = Base64.encode(loginData.password);
-            alert(`User: ${user}   Password: ${password}`);
-            // $http.post(URL_WS + EP_SESION, usuario);
-          }
-        }
-        console.log(response);
+  login: user => {
+    validateAPI()
+      .then(() => {
+        return login(user);
       })
-      .catch(function(error) {
-        alert(error.message);
-        console.log(error.message);
+      .then(data => {
+        alert(`logueo?  ${data.logueado}`);
+      })
+      .catch(error => {
+        alert(error);
       });
   }
 };
@@ -34,17 +21,33 @@ function logout(historyPush) {
   sessionStorage.removeItem("user");
   historyPush.push("/login");
 }
-export default LoginService;
-/*
-axios
-.get("http://localhost:8000/notas")
-.then(res => {
-  let nota = res.data.notas;
 
-  this.setState({
-    notas: nota
+let validateAPI = () => {
+  return new Promise((resolve, reject) => {
+    axios.post(conexion.URL_WS + ws_api.EP_VALIDAR_API, {}).then(response => {
+      if (response) {
+        if (response.data.appVersion == null) {
+          reject("Hubo un error en el API, pero el api no muestra nada :( ");
+        } else {
+          resolve(response);
+        }
+      }
+    });
   });
-})
-.catch(err => {
-  console.log(err);
-});*/
+};
+
+let login = user => {
+  return new Promise((resolve, reject) => {
+    axios.post(conexion.URL_WS + ws_api.EP_SESION, user).then(response => {
+      if (response) {
+        if (!response.data.logueado) {
+          reject("No se pudo loguear :( ");
+        } else {
+          resolve(response.data);
+        }
+      }
+    });
+  });
+};
+
+export default LoginService;
