@@ -8,9 +8,9 @@ import "../css/HeaderFmb.css";
 class HeaderFmb extends Component {
   render() {
     var title = "Registrar pago";
-    if (this.props.type == "print") {
+    if (this.props.type === "print") {
       title = "Reimprimir orden de recibo";
-    } else if (this.props.type == "report") {
+    } else if (this.props.type === "report") {
       title = "Reporte de pagos";
     }
 
