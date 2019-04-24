@@ -16,11 +16,13 @@ class Login extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    document.body.style.backgroundColor = "#872175";
+  }
+
   handleChange(e) {
     const { name, value } = e.target;
     this.setState({ [name]: value });
-
-    localStorage.setItem("user", "user");
   }
 
   validateForm() {
@@ -29,6 +31,7 @@ class Login extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    sessionStorage.setItem("user", "user");
     this.props.history.push("/payment");
   }
 
