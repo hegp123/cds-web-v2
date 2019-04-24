@@ -1,12 +1,7 @@
 import axios from "axios";
 import { conexion } from "../utils/Parameters";
 
-export const LoginService = {
-  logout,
-  login
-};
-
-export const login = () => {
+export var login = () => {
   //$http.post(URL_WS + EP_VALIDAR_API);
   //$autenticacion.validarAPI().success(function (response, status, headers, config) {
 
