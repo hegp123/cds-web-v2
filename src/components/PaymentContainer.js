@@ -76,9 +76,6 @@ export default class ContainerFmb extends Component {
   handleChange = prop => event => {
     let value = event.target.value;
 
-    if (!/^([0-9])*$/.test(value)) {
-      return false;
-    }
     this.setState({ [prop]: value });
     if (prop === "typeFilter") {
       if (value === cedulaValue) {
