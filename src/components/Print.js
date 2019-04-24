@@ -3,6 +3,7 @@ import HeaderFmb from "./HeaderFmb";
 import FooterFmb from "./FooterFmb";
 import InputTextFmb from "./InputTextFmb";
 import ButtonFmb from "./ButtonFmb";
+import ModalAlert from "./modal/ModalAlert";
 
 import "../css/Payment.css";
 
@@ -11,10 +12,18 @@ class Print extends Component {
     super(props);
 
     this.state = {
-      orden: ""
+      orden: "",
+      modal: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.toggle = this.toggle.bind(this);
+  }
+
+  toggle() {
+    this.setState(prevState => ({
+      modal: !prevState.modal
+    }));
   }
 
   handleChange(e) {
@@ -30,7 +39,6 @@ class Print extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    alert(this.state.orden);
   }
 
   render() {
@@ -64,8 +72,7 @@ class Print extends Component {
               <button
                 type="button"
                 className="buttonFmb btn btn-primary btn-lg btn-block"
-                data-toggle="modal"
-                data-target="#myModal"
+                onClick={this.toggle}
               >
                 <i class="fa fa-search" />
                 {"   "}
@@ -76,29 +83,11 @@ class Print extends Component {
         </form>
         <FooterFmb type={typeProcess} />
 
-        <div class="modal" id="myModal">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title">Modal Heading</h4>
-                <button type="button" class="close" data-dismiss="modal">
-                  &times;
-                </button>
-              </div>
-              <div class="modal-body">Modal body..</div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-danger"
-                  data-dismiss="modal"
-                >
-                  {" "}
-                  Close
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <ModalAlert
+          isOpen={this.state.modal}
+          toggle={this.toggle}
+          content="El numeor de la factura es adasd asdasdas addasdasd adasdasd adssa"
+        />
       </div>
     );
   }
