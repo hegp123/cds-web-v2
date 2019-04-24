@@ -7,7 +7,7 @@ export const LoginService = {
   login: loginData => {
     axios
       .post(conexion.URL_WS + ws_api.EP_VALIDAR_API, {})
-      .then(function(response) {
+      .then(response => {
         if (response) {
           //alert("estado: " + response.data.estado);
           if (response.data.appVersion == null) {
@@ -15,9 +15,10 @@ export const LoginService = {
           } else {
             //aca vamos bien
             // alert("appVersion: " + response.data.appVersion);
-            var user = loginData.user;
-            var password = Base64.encode(loginData.password);
+            let user = loginData.user;
+            let password = Base64.encode(loginData.password);
             alert(`User: ${user}   Password: ${password}`);
+            // $http.post(URL_WS + EP_SESION, usuario);
           }
         }
         console.log(response);
