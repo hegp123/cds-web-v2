@@ -6,7 +6,7 @@ import {
   placeHolderCredito,
   cedulaValue,
   creditoValue
-} from "../js/Constants";
+} from "../utils/Constants";
 
 export default class ContainerFmb extends Component {
   constructor(props) {

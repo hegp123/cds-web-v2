@@ -3,6 +3,7 @@ import "../css/Login.css";
 import logo from "../img/appIcon.png";
 import ButtonFmb from "./ButtonFmb";
 import InputTextFmb from "./InputTextFmb";
+import LoginService from "../services/LoginService";
 
 class Login extends Component {
   constructor(props) {
@@ -14,25 +15,6 @@ class Login extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  componentDidMount() {
-    document.body.style.backgroundColor = "#872175";
-  }
-
-  handleChange(e) {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
-  }
-
-  validateForm() {
-    return this.state.user.length > 0 && this.state.password.length > 0;
-  }
-
-  handleSubmit(e) {
-    e.preventDefault();
-    sessionStorage.setItem("user", "user");
-    this.props.history.push("/payment");
   }
 
   render() {
@@ -76,6 +58,26 @@ class Login extends Component {
         </form>
       </div>
     );
+  }
+
+  componentDidMount() {
+    document.body.style.backgroundColor = "#872175";
+  }
+
+  handleChange(e) {
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
+  }
+
+  validateForm() {
+    return this.state.user.length > 0 && this.state.password.length > 0;
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    //LoginService.login();
+    sessionStorage.setItem("user", "user");
+    this.props.history.push("/payment");
   }
 }
 
