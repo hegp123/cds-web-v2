@@ -1,29 +1,34 @@
 import axios from "axios";
-import { conexion } from "../utils/Parameters";
+import { conexion, ws_api } from "../utils/Parameters";
+import Base64 from "base-64";
 
 export const LoginService = {
-  logout
+  logout,
+  login: loginData => {
+    axios
+      .post(conexion.URL_WS + ws_api.EP_VALIDAR_API, {})
+      .then(function(response) {
+        if (response) {
+          //alert("estado: " + response.data.estado);
+          if (response.data.appVersion == null) {
+            alert("Hubo un error en el API, pero el api no muestra nada :( ");
+          } else {
+            //aca vamos bien
+            // alert("appVersion: " + response.data.appVersion);
+            var user = loginData.user;
+            var password = Base64.encode(loginData.password);
+            alert(`User: ${user}   Password: ${password}`);
+          }
+        }
+        console.log(response);
+      })
+      .catch(function(error) {
+        alert(error.message);
+        console.log(error.message);
+      });
+  }
 };
 
-/*login = () => {
-  //$http.post(URL_WS + EP_VALIDAR_API);
-  //$autenticacion.validarAPI().success(function (response, status, headers, config) {
-
-  axios
-    .post(conexion.URL_WS + conexion.EP_VALIDAR_API, {
-      // nota: nota
-    })
-    .then(function(response) {
-      if (response) {
-        alert("olas");
-      }
-      console.log(response);
-    })
-    .catch(function(error) {
-      console.log(error);
-    });
-};
-*/
 function logout(historyPush) {
   sessionStorage.removeItem("user");
   historyPush.push("/login");
