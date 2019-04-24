@@ -1,4 +1,4 @@
-export const Userservice = {
+export const LoginService = {
   logout
 };
 
@@ -7,4 +7,4 @@ function logout(historyPush) {
   historyPush.push("/login");
 }
 
-export default Userservice;
+export default LoginService;
