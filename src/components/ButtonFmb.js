@@ -2,10 +2,6 @@ import React, { Component } from "react";
 import "../css/ButtonFmb.css";
 
 class ButtonFmb extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const disabled = this.props.disabled;
     return (
