@@ -2,8 +2,10 @@ import React, { Component } from "react";
 
 import movil from "../img/cdsMovil.png";
 import icon from "../img/appIconMore.png";
-
+import { withRouter } from "react-router";
 import "../css/HeaderFmb.css";
+
+import Userservice from "./../services/userservice";
 
 class HeaderFmb extends Component {
   render() {
@@ -57,8 +59,7 @@ class HeaderFmb extends Component {
                 <a
                   className="dropdown-item"
                   href="#"
-                  data-toggle="modal"
-                  data-target="#logoutModal"
+                  onClick={Userservice.logout.bind(this, this.props.history)}
                 >
                   <i className="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400" />
                   Cerrar sesión
@@ -78,4 +79,5 @@ class HeaderFmb extends Component {
   }
 }
 
+HeaderFmb = withRouter(HeaderFmb);
 export default HeaderFmb;
