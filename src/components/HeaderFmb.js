@@ -5,7 +5,7 @@ import icon from "../img/appIconMore.png";
 import { withRouter } from "react-router";
 import "../css/HeaderFmb.css";
 
-import Userservice from "./../services/LoginService";
+import LoginService from "../services/LoginService";
 
 class HeaderFmb extends Component {
   render() {
@@ -59,7 +59,7 @@ class HeaderFmb extends Component {
                 <a
                   className="dropdown-item"
                   href="#"
-                  onClick={Userservice.logout.bind(this, this.props.history)}
+                  onClick={LoginService.logout.bind(this, this.props.history)}
                 >
                   <i className="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400" />
                   Cerrar sesión

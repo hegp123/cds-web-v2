@@ -2,11 +2,10 @@ import axios from "axios";
 import { conexion } from "../utils/Parameters";
 
 export const LoginService = {
-  logout,
-  login
+  logout
 };
 
-export const login = () => {
+/*login = () => {
   //$http.post(URL_WS + EP_VALIDAR_API);
   //$autenticacion.validarAPI().success(function (response, status, headers, config) {
 
@@ -24,14 +23,12 @@ export const login = () => {
       console.log(error);
     });
 };
-
+*/
 function logout(historyPush) {
   sessionStorage.removeItem("user");
   historyPush.push("/login");
 }
-
 export default LoginService;
-
 /*
 axios
 .get("http://localhost:8000/notas")
