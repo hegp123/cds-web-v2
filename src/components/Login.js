@@ -3,6 +3,7 @@ import "../css/Login.css";
 import logo from "../img/appIcon.png";
 import ButtonFmb from "./ButtonFmb";
 import InputTextFmb from "./InputTextFmb";
+import Base64 from "base-64";
 import { LoginService } from "../services/LoginService";
 
 class Login extends Component {
@@ -75,12 +76,13 @@ class Login extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    //LoginService.login();
-    var loginData = {
-      user: this.state.user,
-      password: this.state.password
+
+    var user = {
+      loginUsuario: this.state.user,
+      claveUsuario: Base64.encode(this.state.password)
     };
-    LoginService.login(loginData);
+    LoginService.login(user);
+
     sessionStorage.setItem("user", "user");
     this.props.history.push("/payment");
   }
