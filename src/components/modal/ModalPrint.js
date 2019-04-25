@@ -30,33 +30,23 @@ class ModalPrint extends Component {
               <div className="container">
                 <div className="row">
                   <div className="label-name">
-                    <b>Nombre del cliente:</b> MIE
+                    <b>OR No.:</b> {this.props.order}
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="label-popup">
+                    <b>Cliente:</b> {this.props.customer}
                   </div>
                 </div>
                 <div className="row">
                   {" "}
                   <div className="label-popup">
-                    <b>Cédula:</b> 82.990{" "}
+                    <b>Fecha:</b> {this.props.dateOrder}
                   </div>
                 </div>
                 <div className="row">
                   <div className="label-popup">
-                    <b>Producto:</b> Fundacredito Activos Fijos{" "}
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="label-popup">
-                    <b>Crédito:</b> 121212{" "}
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="label-popup">
-                    <b>Valor cuota:</b> $82.990,00{" "}
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="label-popup">
-                    <b>Fecha de vencimiento:</b> Diciembre 10 de 2008{" "}
+                    <b>Total:</b> {this.props.total} {"$"}
                   </div>
                 </div>
               </div>
