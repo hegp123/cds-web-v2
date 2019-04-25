@@ -7,6 +7,7 @@ import ModalAlert from "./modal/ModalAlert";
 import ModalPrint from "./modal/ModalPrint";
 
 import "../css/Payment.css";
+import { PrintService } from "./../services/PrintService";
 
 class Print extends Component {
   constructor(props) {
@@ -14,17 +15,45 @@ class Print extends Component {
 
     this.state = {
       orden: "",
-      modal: false
+      order: "",
+      customer: "",
+      dateOrder: "",
+      total: "",
+      modal: false,
+      modalAlert: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.toggle = this.toggle.bind(this);
+    this.toggleAlert = this.toggleAlert.bind(this);
+    this.searchInvoice = this.searchInvoice.bind(this);
   }
 
   toggle() {
     this.setState(prevState => ({
       modal: !prevState.modal
     }));
+  }
+
+  toggleAlert() {
+    this.setState(prevState => ({
+      modalAlert: !prevState.modalAlert
+    }));
+  }
+
+  searchInvoice() {
+    PrintService.buscarFactura(this.state.orden, 12, 15).then(response => {
+      console.log(response);
+      if (response.length > 0 && response[0].numeroFactura !== null) {
+        this.setState({ order: response[0].numeroFactura });
+        this.setState({ customer: response[0].cliente });
+        this.setState({ dateOrder: response[0].fecha });
+        this.setState({ total: response[0].total });
+        this.toggle();
+      } else {
+        this.toggleAlert();
+      }
+    });
   }
 
   handleChange(e) {
@@ -52,7 +81,7 @@ class Print extends Component {
           <div className="row">
             <div className="w-100">
               <span className="float-left font-label-fmb">
-                Orden de Recibo No.
+                Orden de Recibo No. {this.state.modal}
               </span>
             </div>
           </div>
@@ -73,10 +102,10 @@ class Print extends Component {
               <button
                 type="button"
                 className="buttonFmb btn btn-primary btn-lg btn-block"
-                onClick={this.toggle}
+                onClick={this.searchInvoice}
                 disabled={false}
               >
-                <i class="fa fa-search" />
+                <i className="fa fa-search" />
                 {"   "}
                 Buscar
               </button>
@@ -86,14 +115,18 @@ class Print extends Component {
         <FooterFmb type={typeProcess} />
 
         <ModalAlert
-          toggle={this.toggle}
-          content="El numeor de la factura es adasd asdasdas addasdasd adasdasd adssa"
+          toggle={this.toggleAlert}
+          isOpen={this.state.modalAlert}
+          content="No existe el número de Orden de Recibo ingresado, o el pago se realizó en otro punto de recaudo"
         />
 
         <ModalPrint
           isOpen={this.state.modal}
           toggle={this.toggle}
-          content="El numeor de la factura es adasd asdasdas addasdasd adasdasd adssa"
+          order={this.state.order}
+          customer={this.state.customer}
+          dateOrder={this.state.dateOrder}
+          total={this.state.total}
         />
       </div>
     );
