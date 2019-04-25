@@ -22,3 +22,39 @@
   background: #ffffff;
   background: rgba(255, 255, 255, 0.8);
 }
+
+.body-header {
+  background-color: #872175;
+  padding: 0.5rem 1rem;
+  border: 0;
+  border-top-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+.pop-up-padding {
+  padding: 0 0 1rem 0rem;
+}
+
+.modal-print {
+  -webkit-border-radius: 0px !important;
+  -moz-border-radius: 0px !important;
+  border-radius: 0px !important;
+}
+
+.list-print {
+  margin-top: 8px;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.label-name {
+  font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
+  color: #872175;
+  font-size: 14px;
+}
+
+.label-popup {
+  font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
+  color: #666666;
+  font-size: 14px;
+}

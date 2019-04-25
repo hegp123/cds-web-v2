@@ -4,6 +4,7 @@ import FooterFmb from "./FooterFmb";
 import InputTextFmb from "./InputTextFmb";
 import ButtonFmb from "./ButtonFmb";
 import ModalAlert from "./modal/ModalAlert";
+import ModalPrint from "./modal/ModalPrint";
 
 import "../css/Payment.css";
 
@@ -34,7 +35,7 @@ class Print extends Component {
   }
 
   validateForm() {
-    return this.state.orden.length > 0;
+    return this.state.orden.length === 0;
   }
 
   handleSubmit(e) {
@@ -73,6 +74,7 @@ class Print extends Component {
                 type="button"
                 className="buttonFmb btn btn-primary btn-lg btn-block"
                 onClick={this.toggle}
+                disabled={false}
               >
                 <i class="fa fa-search" />
                 {"   "}
@@ -84,6 +86,11 @@ class Print extends Component {
         <FooterFmb type={typeProcess} />
 
         <ModalAlert
+          toggle={this.toggle}
+          content="El numeor de la factura es adasd asdasdas addasdasd adasdasd adssa"
+        />
+
+        <ModalPrint
           isOpen={this.state.modal}
           toggle={this.toggle}
           content="El numeor de la factura es adasd asdasdas addasdasd adasdasd adssa"
