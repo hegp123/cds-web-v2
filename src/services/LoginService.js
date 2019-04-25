@@ -22,6 +22,9 @@ function logout(historyPush) {
   historyPush.push("/login");
 }
 
+/**
+ * Consume servicio web Validate
+ */
 let validateAPI = () => {
   return new Promise((resolve, reject) => {
     axios.post(conexion.URL_WS + ws_api.EP_VALIDAR_API, {}).then(response => {
@@ -36,6 +39,10 @@ let validateAPI = () => {
   });
 };
 
+/**
+ * Consume servicio web Login
+ * @param {json con usuario y password} user
+ */
 let login = user => {
   return new Promise((resolve, reject) => {
     axios.post(conexion.URL_WS + ws_api.EP_SESION, user).then(response => {
