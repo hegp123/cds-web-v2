@@ -45,7 +45,7 @@ export default class ContainerFmb extends Component {
         <div className="row">
           <div className="w-100 form-group">
             <InputTextFmb
-              type="text"
+              type="number"
               icon="fa fa-search"
               name="Titulo"
               placeholder={this.state.placeHolderNumberFilter}

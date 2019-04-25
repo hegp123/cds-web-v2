@@ -12,7 +12,8 @@ class Login extends Component {
 
     this.state = {
       user: "",
-      password: ""
+      password: "",
+      loginAttempts: 0
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -81,7 +82,8 @@ class Login extends Component {
       loginUsuario: this.state.user,
       claveUsuario: Base64.encode(this.state.password)
     };
-    LoginService.login(user);
+
+    LoginService.login(user, this.state.loginAttempts);
 
     sessionStorage.setItem("user", "user");
     this.props.history.push("/payment");
