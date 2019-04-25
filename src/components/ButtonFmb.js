@@ -6,9 +6,10 @@ class ButtonFmb extends Component {
     const disabled = this.props.disabled;
     return (
       <button
-        type="submit"
+        type="button"
         className="buttonFmb btn btn-primary btn-lg btn-block"
         disabled={!disabled}
+        onClick={this.props.onClick}
       >
         <i class={this.props.icon} />
         {"   "}
