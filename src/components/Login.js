@@ -4,7 +4,7 @@ import logo from "../img/appIcon.png";
 import ButtonFmb from "./ButtonFmb";
 import InputTextFmb from "./InputTextFmb";
 import Base64 from "base-64";
-import { LoginService } from "../services/LoginService";
+import { validateAPI, login } from "../services/LoginService";
 
 class Login extends Component {
   constructor(props) {
@@ -12,7 +12,8 @@ class Login extends Component {
 
     this.state = {
       user: "",
-      password: ""
+      password: "",
+      loginAttempts: 0
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -81,11 +82,71 @@ class Login extends Component {
       loginUsuario: this.state.user,
       claveUsuario: Base64.encode(this.state.password)
     };
-    LoginService.login(user);
+    let loginAttempts = this.state.loginAttempts;
+
+    validateAPI()
+      .then(() => {
+        return login(user);
+      })
+      .then(userData => {
+        if (loginAttempts < 5) {
+          if (userData.logueado) {
+            if (userData.puntoBloqueado !== 0) {
+              alert(
+                "Su punto de recaudo se encuentra bloqueado por Conciliación (consignación). Tan pronto se valide su pago será habilitado."
+              );
+            } else if (userData.puntoCerrado !== 0) {
+              alert("Su punto de recaudo se encuentra cerrado.");
+            } else if (userData.estadoSucursalPrincipal !== "A") {
+              alert(
+                "La sucursal principal se encuentra cerrada, por favor intente de nuevo más tarde."
+              );
+            } else {
+              //let d1 = moment(new Date());
+              //let d2 = moment(userData.fechaCambioClave, "YYYYMMDD");
+
+              alert("ilas que toca hacer un calculo");
+              let diasCambio = 20; // moment.duration(d1.diff(d2)).asDays();
+
+              if (
+                userData.mensajePantalla !== null &&
+                userData.mensajePantalla !== ""
+              ) {
+                alert(userData.mensajePantalla);
+              }
+
+              if (
+                userData.mensajeResolucion !== null &&
+                userData.mensajeResolucion !== ""
+              ) {
+                alert(userData.mensajeResolucion);
+              }
+
+              if (userData.forzarCambioClave === 1 || diasCambio >= 60) {
+                this.asignarSesion("sesion", userData);
+                //$scope.modalCambiarContrasenha.show();
+                alert("debe cambiar la contraseña");
+              } else {
+                this.asignarSesion("sesion", userData);
+                // $state.go("tab.pagos");
+                alert("TODO: redireccionar a payment");
+              }
+            }
+          }
+        }
+      })
+      .catch(error => {
+        alert(error);
+      });
 
     sessionStorage.setItem("user", "user");
     this.props.history.push("/payment");
   }
+
+  asignarSesion = (llave, valor) => {
+    //$window.localStorage[llave] = JSON.stringify(valor);
+    alert(`asignar al local storage llave: ${llave}    valor: ${valor}`);
+  };
 }
 
 export default Login;

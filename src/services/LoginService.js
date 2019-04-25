@@ -1,31 +1,10 @@
 import axios from "axios";
 import { conexion, ws_api } from "../utils/Parameters";
 
-export const LoginService = {
-  logout,
-  login: user => {
-    validateAPI()
-      .then(() => {
-        return login(user);
-      })
-      .then(data => {
-        alert(`logueo?  ${data.logueado}`);
-      })
-      .catch(error => {
-        alert(error);
-      });
-  }
-};
-
-function logout(historyPush) {
-  sessionStorage.removeItem("user");
-  historyPush.push("/login");
-}
-
 /**
  * Consume servicio web Validate
  */
-let validateAPI = () => {
+export let validateAPI = () => {
   return new Promise((resolve, reject) => {
     axios.post(conexion.URL_WS + ws_api.EP_VALIDAR_API, {}).then(response => {
       if (response) {
@@ -43,7 +22,7 @@ let validateAPI = () => {
  * Consume servicio web Login
  * @param {json con usuario y password} user
  */
-let login = user => {
+export let login = user => {
   return new Promise((resolve, reject) => {
     axios.post(conexion.URL_WS + ws_api.EP_SESION, user).then(response => {
       if (response) {
@@ -56,5 +35,3 @@ let login = user => {
     });
   });
 };
-
-export default LoginService;
