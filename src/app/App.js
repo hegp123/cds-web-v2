@@ -5,7 +5,7 @@ import PrivateRoute from "../privateRoute/PrivateRoute";
 
 import LoginPage from "../components/Login";
 import PaymentPage from "../components/Payment";
-import PrintPage from "../components/PrintDetail";
+import PrintPage from "../components/Print";
 import ReportPage from "../components/Report";
 
 class App extends React.Component {

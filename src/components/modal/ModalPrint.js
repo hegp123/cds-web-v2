@@ -1,6 +1,9 @@
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import React, { Component } from "react";
+import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import "../../css/Alert.css";
+
+import { AppContext } from "../../context/AppContext";
+
 class ModalPrint extends Component {
   constructor(props) {
     super(props);
@@ -12,8 +15,6 @@ class ModalPrint extends Component {
         isOpen={this.props.isOpen}
         size="lg"
         backdrop="false"
-        keyboard="false"
-        centered="false"
         className="modal-print"
       >
         <ModalHeader toggle={this.props.toggle} className="body-header" />
@@ -25,8 +26,12 @@ class ModalPrint extends Component {
             </div>
           </div>
 
-          <div class="list-group, list-print">
-            <a href="#" class="list-group-item list-group-item-action">
+          <div className="list-group, list-print">
+            <a
+              href="#"
+              className="list-group-item list-group-item-action"
+              onClick={console.log(this.context.invoice.numeroFactura)}
+            >
               <div className="container">
                 <div className="row">
                   <div className="label-name">
@@ -57,5 +62,7 @@ class ModalPrint extends Component {
     );
   }
 }
+
+ModalPrint.contextType = AppContext;
 
 export default ModalPrint;

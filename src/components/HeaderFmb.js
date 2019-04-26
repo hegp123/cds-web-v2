@@ -18,9 +18,9 @@ class HeaderFmb extends Component {
     return (
       <div>
         <nav className="navbar navbar-expand navbar-light app">
-          <div class="collapse navbar-collapse" />
+          <div className="collapse navbar-collapse" />
 
-          <a class="navbar-brand mx-auto" href="#">
+          <a className="navbar-brand mx-auto" href="#">
             <div id="logo">
               <img src={movil} />
             </div>
