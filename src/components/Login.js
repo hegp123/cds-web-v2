@@ -1,12 +1,12 @@
 import React, { Component } from "react";
+import Base64 from "base-64";
+import { moment } from "moment";
 import "../css/Login.css";
 import logo from "../img/appIcon.png";
 import ButtonFmb from "./ButtonFmb";
 import InputTextFmb from "./InputTextFmb";
-import Base64 from "base-64";
 import { validateAPI, login } from "../services/LoginService";
 import ModalAlert from "./modal/ModalAlert";
-import { toggleAlert } from "../utils/Utils";
 
 class Login extends Component {
   constructor(props) {
@@ -24,10 +24,9 @@ class Login extends Component {
     this.toggleAlert = this.toggleAlert.bind(this);
   }
 
-  toggleAlert(contentMessage) {
+  toggleAlert() {
     this.setState(prevState => ({
-      modalAlert: !prevState.modalAlert,
-      modalAlertContent: contentMessage
+      modalAlert: !prevState.modalAlert
     }));
   }
 
@@ -93,12 +92,7 @@ class Login extends Component {
     return this.state.user.length > 0 && this.state.password.length > 0;
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-    this.toggleAlert("TODO: redireccionar a payment");
-
-    return;
-    alert("szzz");
+  handleSubmit() {
     var user = {
       loginUsuario: this.state.user,
       claveUsuario: Base64.encode(this.state.password)
@@ -123,6 +117,16 @@ class Login extends Component {
   /**
    *
    */
+  showAlert = message => {
+    this.setState({
+      modalAlertContent: message
+    });
+    this.toggleAlert();
+  };
+
+  /**
+   *
+   */
   validateUserDate = (userData, loginAttempts) => {
     if (loginAttempts < 5) {
       if (userData.logueado) {
@@ -138,10 +142,9 @@ class Login extends Component {
           );
         } else {
           //let d1 = moment(new Date());
-          //let d2 = moment(userData.fechaCambioClave, "YYYYMMDD");
-          //this.toggleAlert("ilas que toca hacer un calculo");
-          //alert("ilas que toca hacer un calculo");
-          let diasCambio = 20; // moment.duration(d1.diff(d2)).asDays();
+          // let d2 = moment(userData.fechaCambioClave, "YYYYMMDD");
+          alert(moment(new Date()));
+          let diasCambio = 20; // Moment.duration(d1.diff(d2)).asDays();
 
           if (
             userData.mensajePantalla !== null &&
@@ -164,21 +167,19 @@ class Login extends Component {
           } else {
             this.asignarSesion("sesion", userData);
             // $state.go("tab.pagos");
-            this.toggleAlert("TODO: redireccionar a payment");
+            this.showAlert("TODO: redireccionar a payment");
             //alert("TODO: redireccionar a payment");
           }
         }
       } else {
         //intentos_login += 1;
         //$ionicLoading.hide();
-        this.toggleAlert(
-          `El nombre de usuario o la contraseña son incorrectos`
-        );
+        this.showAlert(`El nombre de usuario o la contraseña son incorrectos`);
 
         // document.getElementById("btnLogin").disabled = false;
       }
     } else {
-      this.toggleAlert(
+      this.showAlert(
         `Máximo número de intentos de inicio de sesión superado, favor ingresar a la aplicación e intente de nuevo.`
       );
     }
@@ -187,7 +188,7 @@ class Login extends Component {
   asignarSesion = (llave, valor) => {
     //$window.localStorage[llave] = JSON.stringify(valor);
     //alert(`asignar al local storage llave: ${llave}    valor: ${valor}`);
-    // this.toggleAlert(
+    // this.showAlert(
     //`asignar al local storage llave: ${llave}    valor: ${valor}`
     // );
   };
