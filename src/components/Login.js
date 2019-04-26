@@ -140,7 +140,7 @@ class Login extends Component {
             logout.bind(this, this.props.history)
           );
         } else {
-          // TODO: aca deberia limpiar los datos del usuario de la session
+          // TODO: aca deberia limpiar los datos del usuario de la session redux
           // codigo ionic
           // $scope.usuario = {
           //   nombreU suario: '',
@@ -176,8 +176,7 @@ class Login extends Component {
           }
         }
       } else {
-        //intentos_login += 1;
-        //$ionicLoading.hide();
+        loginAttempts += 1;
         this.showAlert(`El nombre de usuario o la contraseña son incorrectos`);
 
         // document.getElementById("btnLogin").disabled = false;

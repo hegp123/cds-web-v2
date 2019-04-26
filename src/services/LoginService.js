@@ -18,7 +18,7 @@ export let validateAPI = () => {
         }
       })
       .catch(error => {
-        reject(error);
+        reject("El sistema se encuentra cerrado. Intente más tarde.");
       });
   });
 };

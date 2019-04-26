@@ -10,9 +10,10 @@ export const general = {
  * Parámetros de conexión Servicio Web
  **************************************************/
 export const conexion = {
-  URL_WS: "http://localhost:8081/cdsws/apiv1", //local
+  URL_WS: "http://localhost:8081/cdsws/apiv1" //local
   //URL_WS : "https://cdspruebas.app.fundaciondelamujer.com:8085/cdsws/apiv1" //pruebas
-  URL_WS2: "http://localhost:8081/cdsws/apiv1"
+  //este URL_WS2 no es necesario, en el proyecto anterior lo usaban para cuando fallaba al hacer login por URL_WS, entonces intentaba por este otro
+  //ver archivo: LoginCtrl.js linea: 139
 };
 
 /**************************************************
