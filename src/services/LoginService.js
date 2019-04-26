@@ -11,7 +11,7 @@ export let validateAPI = () => {
       .then(response => {
         if (response) {
           if (response.data.appVersion == null) {
-            reject("Hubo un error en el API, pero el api no muestra nada :( ");
+            reject("Hubo un error dentro del API Validate (Web Service).");
           } else {
             resolve(response);
           }
@@ -34,7 +34,7 @@ export let login = user => {
       .then(response => {
         if (response) {
           if (!response.data.logueado) {
-            reject("No se pudo loguear :( ");
+            reject("El nombre de usuario o la contraseña son incorrectos");
           } else {
             resolve(response.data);
           }
