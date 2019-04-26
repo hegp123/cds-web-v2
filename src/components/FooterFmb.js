@@ -11,25 +11,21 @@ import reportAct from "../img/reportePagosAct.png";
 import "../css/FooterFmb.css";
 
 class FooterFmb extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   redirectPage(ruta) {
     this.props.history.push("/" + ruta);
   }
 
   render() {
-    const paymentImg = this.props.type == "payment" ? paymentAct : payment;
-    const printImg = this.props.type == "print" ? printAct : print;
-    const reportImg = this.props.type == "report" ? reportAct : report;
+    const paymentImg = this.props.type === "payment" ? paymentAct : payment;
+    const printImg = this.props.type === "print" ? printAct : print;
+    const reportImg = this.props.type === "report" ? reportAct : report;
 
     const paymentText =
-      this.props.type == "payment" ? "textEnabled" : "textDisabled";
+      this.props.type === "payment" ? "textEnabled" : "textDisabled";
     const printText =
-      this.props.type == "print" ? "textEnabled" : "textDisabled";
+      this.props.type === "print" ? "textEnabled" : "textDisabled";
     const reportText =
-      this.props.type == "report" ? "textEnabled" : "textDisabled";
+      this.props.type === "report" ? "textEnabled" : "textDisabled";
 
     return (
       <div>

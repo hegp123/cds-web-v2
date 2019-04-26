@@ -2,10 +2,6 @@ import { Modal, ModalBody } from "reactstrap";
 import React, { Component } from "react";
 import "../../css/Alert.css";
 class ModalAlert extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <Modal

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import HeaderFmb from "./HeaderFmb";
 import FooterFmb from "./FooterFmb";
 import PaymentContainer from "./PaymentContainer";
-import { withRouter } from "react-router";
 
 import "../css/Payment.css";
 
