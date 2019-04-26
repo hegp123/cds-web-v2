@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Base64 from "base-64";
-import { moment } from "moment";
 import "../css/Login.css";
 import logo from "../img/appIcon.png";
 import ButtonFmb from "./ButtonFmb";
@@ -111,7 +110,7 @@ class Login extends Component {
       });
 
     sessionStorage.setItem("user", "user");
-    // this.props.history.push("/payment");
+    this.props.history.push("/payment");
   }
 
   /**
@@ -143,7 +142,7 @@ class Login extends Component {
         } else {
           //let d1 = moment(new Date());
           // let d2 = moment(userData.fechaCambioClave, "YYYYMMDD");
-          alert(moment(new Date()));
+
           let diasCambio = 20; // Moment.duration(d1.diff(d2)).asDays();
 
           if (
