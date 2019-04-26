@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import Base64 from "base-64";
-import { moment } from "moment";
 import "../css/Login.css";
 import logo from "../img/appIcon.png";
 import ButtonFmb from "./ButtonFmb";
 import InputTextFmb from "./InputTextFmb";
-import { validateAPI, login } from "../services/LoginService";
 import ModalAlert from "./modal/ModalAlert";
+import { validateAPI, login } from "../services/LoginService";
+import { logout } from "../utils/Utils";
 
 class Login extends Component {
   constructor(props) {
@@ -17,7 +17,8 @@ class Login extends Component {
       password: "",
       loginAttempts: 0,
       modalAlert: false,
-      modalAlertContent: ""
+      modalAlertContent: "",
+      callbackOnClosed: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -74,6 +75,7 @@ class Login extends Component {
           toggle={this.toggleAlert}
           isOpen={this.state.modalAlert}
           content={this.state.modalAlertContent}
+          callbackOnClosed={this.state.callbackOnClosed}
         />
       </div>
     );
@@ -107,7 +109,7 @@ class Login extends Component {
         this.validateUserDate(userData, loginAttempts);
       })
       .catch(error => {
-        alert(error);
+        this.showAlert(error);
       });
 
     sessionStorage.setItem("user", "user");
@@ -117,57 +119,60 @@ class Login extends Component {
   /**
    *
    */
-  showAlert = message => {
-    this.setState({
-      modalAlertContent: message
-    });
-    this.toggleAlert();
-  };
-
-  /**
-   *
-   */
   validateUserDate = (userData, loginAttempts) => {
+    //siempre lo inicializamos en vacio, porque el callback onclose esto solo lo utilizan varios en la alertMessage
+    this.setState({
+      callbackOnClosed: ""
+    });
+    let moment = require("moment");
     if (loginAttempts < 5) {
       if (userData.logueado) {
         if (userData.puntoBloqueado !== 0) {
-          alert(
-            "Su punto de recaudo se encuentra bloqueado por Conciliación (consignación). Tan pronto se valide su pago será habilitado."
+          this.showAlert(
+            "Su punto de recaudo se encuentra bloqueado por Conciliación (consignación). Tan pronto se valide su pago será habilitado.",
+            logout.bind(this, this.props.history)
           );
         } else if (userData.puntoCerrado !== 0) {
-          alert("Su punto de recaudo se encuentra cerrado.");
+          this.showAlert(
+            "Su punto de recaudo se encuentra cerrado.",
+            logout.bind(this, this.props.history)
+          );
         } else if (userData.estadoSucursalPrincipal !== "A") {
-          alert(
-            "La sucursal principal se encuentra cerrada, por favor intente de nuevo más tarde."
+          this.showAlert(
+            "La sucursal principal se encuentra cerrada, por favor intente de nuevo más tarde.",
+            logout.bind(this, this.props.history)
           );
         } else {
-          //let d1 = moment(new Date());
-          // let d2 = moment(userData.fechaCambioClave, "YYYYMMDD");
-          alert(moment(new Date()));
-          let diasCambio = 20; // Moment.duration(d1.diff(d2)).asDays();
+          let d1 = moment(new Date());
+          let d2 = moment(userData.fechaCambioClave, "YYYYMMDD");
+          let diasCambio = moment.duration(d1.diff(d2)).asDays();
 
           if (
             userData.mensajePantalla !== null &&
             userData.mensajePantalla !== ""
           ) {
-            alert(userData.mensajePantalla);
+            this.showAlert(userData.mensajePantalla);
           }
 
           if (
             userData.mensajeResolucion !== null &&
             userData.mensajeResolucion !== ""
           ) {
-            alert(userData.mensajeResolucion);
+            this.showAlert(userData.mensajeResolucion);
           }
 
           if (userData.forzarCambioClave === 1 || diasCambio >= 60) {
             this.asignarSesion("sesion", userData);
             //$scope.modalCambiarContrasenha.show();
-            alert("debe cambiar la contraseña");
+            this.showAlert("debe cambiar la contraseña");
           } else {
             this.asignarSesion("sesion", userData);
             // $state.go("tab.pagos");
-            this.showAlert("TODO: redireccionar a payment");
+            this.showAlert(
+              "TODO: redireccionar a payment",
+              logout.bind(this, this.props.history)
+            );
+            //logout(this, this.props.history);
             //alert("TODO: redireccionar a payment");
           }
         }
@@ -183,6 +188,18 @@ class Login extends Component {
         `Máximo número de intentos de inicio de sesión superado, favor ingresar a la aplicación e intente de nuevo.`
       );
     }
+  };
+
+  /**
+   *
+   */
+  showAlert = (message, callback) => {
+    this.setState({
+      modalAlertContent: message,
+      callbackOnClosed: callback
+    });
+
+    this.toggleAlert();
   };
 
   asignarSesion = (llave, valor) => {

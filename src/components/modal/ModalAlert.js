@@ -1,4 +1,4 @@
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Modal, ModalBody } from "reactstrap";
 import React, { Component } from "react";
 import "../../css/alert.css";
 class ModalAlert extends Component {
@@ -15,6 +15,7 @@ class ModalAlert extends Component {
         keyboard="false"
         centered="false"
         contentClassName="body-transparent"
+        onClosed={this.props.callbackOnClosed}
       >
         <ModalBody>
           <div className="container">
