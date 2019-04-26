@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import HeaderFmb from "./HeaderFmb";
 import ButtonFmb from "./ButtonFmb";
 import "../css/Alert.css";
 
@@ -15,7 +14,6 @@ class PrintDetail extends Component {
     const typeProcess = "print";
     return (
       <div>
-        <HeaderFmb type={typeProcess} />
         <div className="container">
           <div className="form-group text-center">
             <b>Reimpresión</b>

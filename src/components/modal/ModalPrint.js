@@ -30,7 +30,7 @@ class ModalPrint extends Component {
             <a
               href="#"
               className="list-group-item list-group-item-action"
-              onClick={console.log(this.context.invoice.numeroFactura)}
+              onClick={this.context.setMasterChanged.bind(this)}
             >
               <div className="container">
                 <div className="row">
