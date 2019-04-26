@@ -11,7 +11,7 @@ export let validateAPI = () => {
       .then(response => {
         if (response) {
           if (response.data.appVersion == null) {
-            reject("Hubo un error en el API, pero el api no muestra nada :( ");
+            reject("Hubo un error dentro del API Validate (Web Service).");
           } else {
             resolve(response);
           }
