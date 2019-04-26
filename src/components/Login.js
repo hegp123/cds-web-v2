@@ -111,9 +111,6 @@ class Login extends Component {
       .catch(error => {
         this.showAlert(error);
       });
-
-    sessionStorage.setItem("user", "user");
-    this.props.history.push("/payment");
   }
 
   /**
@@ -143,6 +140,13 @@ class Login extends Component {
             logout.bind(this, this.props.history)
           );
         } else {
+          // TODO: aca deberia limpiar los datos del usuario de la session
+          // codigo ionic
+          // $scope.usuario = {
+          //   nombreU suario: '',
+          //   clave: ''
+          // };
+
           let d1 = moment(new Date());
           let d2 = moment(userData.fechaCambioClave, "YYYYMMDD");
           let diasCambio = moment.duration(d1.diff(d2)).asDays();
@@ -164,16 +168,11 @@ class Login extends Component {
           if (userData.forzarCambioClave === 1 || diasCambio >= 60) {
             this.asignarSesion("sesion", userData);
             //$scope.modalCambiarContrasenha.show();
-            this.showAlert("debe cambiar la contraseña");
+            //TODO: aca debe abrir la modal
           } else {
             this.asignarSesion("sesion", userData);
             // $state.go("tab.pagos");
-            this.showAlert(
-              "TODO: redireccionar a payment",
-              logout.bind(this, this.props.history)
-            );
-            //logout(this, this.props.history);
-            //alert("TODO: redireccionar a payment");
+            this.props.history.push("/payment");
           }
         }
       } else {
@@ -203,6 +202,7 @@ class Login extends Component {
   };
 
   asignarSesion = (llave, valor) => {
+    sessionStorage.setItem("user", "user");
     //$window.localStorage[llave] = JSON.stringify(valor);
     //alert(`asignar al local storage llave: ${llave}    valor: ${valor}`);
     // this.showAlert(
