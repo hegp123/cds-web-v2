@@ -1,6 +1,6 @@
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import React, { Component } from "react";
-import "../../css/alert.css";
+import "../../css/Alert.css";
 class ModalPrint extends Component {
   constructor(props) {
     super(props);

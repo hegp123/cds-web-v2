@@ -53,8 +53,17 @@
   font-size: 14px;
 }
 
+.label-detail {
+  font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
+  font-size: 14px;
+}
+
 .label-popup {
   font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
   color: #666666;
   font-size: 14px;
+}
+
+.space {
+  margin: 0 0 10px;
 }

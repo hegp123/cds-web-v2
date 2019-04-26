@@ -113,7 +113,7 @@ class Login extends Component {
       });
 
     sessionStorage.setItem("user", "user");
-    // this.props.history.push("/payment");
+    this.props.history.push("/payment");
   }
 
   /**
