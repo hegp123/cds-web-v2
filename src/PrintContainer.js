@@ -1,20 +1,21 @@
 import React, { Component } from "react";
-import HeaderFmb from "./HeaderFmb";
-import FooterFmb from "./FooterFmb";
-import InputTextFmb from "./InputTextFmb";
-import ButtonFmb from "./ButtonFmb";
-import ModalAlert from "./modal/ModalAlert";
-import ModalPrint from "./modal/ModalPrint";
 
+import "../css/Payment.css";
+import { PrintService } from "./../services/PrintService";
 
+class PrintContainer extends Component {
+  constructor(props) {
+    super(props);
 
-class Print extends Component {
-  
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.toggle = this.toggle.bind(this);
-    this.toggleAlert = this.toggleAlert.bind(this);
-    this.searchInvoice = this.searchInvoice.bind(this);
+    this.state = {
+      orden: "",
+      order: "",
+      customer: "",
+      dateOrder: "",
+      total: "",
+      modal: false,
+      modalAlert: false
+    };
   }
 
   toggle() {
@@ -58,13 +59,10 @@ class Print extends Component {
   handleSubmit(e) {
     e.preventDefault();
   }
-
   render() {
     const typeProcess = "print";
     return (
       <div>
-        <HeaderFmb type={typeProcess} />
-
         <form className="container" onSubmit={this.handleSubmit}>
           <div className="row">
             <div className="w-100">
@@ -100,7 +98,6 @@ class Print extends Component {
             </div>
           </div>
         </form>
-        <FooterFmb type={typeProcess} />
 
         <ModalAlert
           toggle={this.toggleAlert}
@@ -121,4 +118,4 @@ class Print extends Component {
   }
 }
 
-export default Print;
+export default PrintContainer;
