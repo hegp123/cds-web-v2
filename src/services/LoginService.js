@@ -34,7 +34,7 @@ export let login = user => {
       .then(response => {
         if (response) {
           if (!response.data.logueado) {
-            reject("No se pudo loguear :( ");
+            reject("El nombre de usuario o la contraseña son incorrectos");
           } else {
             resolve(response.data);
           }
