@@ -7,6 +7,8 @@ import InputTextFmb from "./InputTextFmb";
 import ModalAlert from "./modal/ModalAlert";
 import { validateAPI, login } from "../services/LoginService";
 import { logout } from "../utils/Utils";
+import { SESSION } from "../utils/Constants";
+import { PAYMENT } from "../utils/Paths";
 
 class Login extends Component {
   constructor(props) {
@@ -140,12 +142,7 @@ class Login extends Component {
             logout.bind(this, this.props.history)
           );
         } else {
-          // TODO: aca deberia limpiar los datos del usuario de la session redux
-          // codigo ionic
-          // $scope.usuario = {
-          //   nombreU suario: '',
-          //   clave: ''
-          // };
+          localStorage.removeItem(SESSION);
 
           let d1 = moment(new Date());
           let d2 = moment(userData.fechaCambioClave, "YYYYMMDD");
@@ -166,13 +163,13 @@ class Login extends Component {
           }
 
           if (userData.forzarCambioClave === 1 || diasCambio >= 60) {
-            this.asignarSesion("sesion", userData);
+            this.asignarSesion(SESSION, userData);
             //$scope.modalCambiarContrasenha.show();
             //TODO: aca debe abrir la modal
           } else {
-            this.asignarSesion("sesion", userData);
+            this.asignarSesion(SESSION, userData);
             // $state.go("tab.pagos");
-            this.props.history.push("/payment");
+            this.props.history.push(PAYMENT);
           }
         }
       } else {
@@ -201,9 +198,7 @@ class Login extends Component {
   };
 
   asignarSesion = (llave, valor) => {
-    //localStorage.setItem(llave, JSON.stringify(valor));
-    sessionStorage.setItem(llave, valor);
-    //$window.localStorage[llave] = JSON.stringify(valor);
+    sessionStorage.setItem(llave, JSON.stringify(valor));
   };
 }
 

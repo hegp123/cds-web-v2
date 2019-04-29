@@ -1,12 +1,17 @@
 import React, { Component } from "react";
 
-import "../css/Payment.css";
+import ModalAlert from "./modal/ModalAlert";
+import ModalPrint from "./modal/ModalPrint";
+
+import { AppContext } from "../context/AppContext";
+import InputTextFmb from "./InputTextFmb";
+import ButtonFmb from "./ButtonFmb";
 import { PrintService } from "./../services/PrintService";
+import { withRouter } from "react-router";
 
 class PrintContainer extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       orden: "",
       order: "",
@@ -16,6 +21,11 @@ class PrintContainer extends Component {
       modal: false,
       modalAlert: false
     };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.toggle = this.toggle.bind(this);
+    this.toggleAlert = this.toggleAlert.bind(this);
+    this.searchInvoice = this.searchInvoice.bind(this);
   }
 
   toggle() {
@@ -37,6 +47,7 @@ class PrintContainer extends Component {
         this.setState({ customer: response[0].cliente });
         this.setState({ dateOrder: response[0].fecha });
         this.setState({ total: response[0].total });
+        this.context.setInvoice(response[0]);
         this.toggle();
       } else {
         this.toggleAlert();
@@ -58,8 +69,8 @@ class PrintContainer extends Component {
   handleSubmit(e) {
     e.preventDefault();
   }
+
   render() {
-    const typeProcess = "print";
     return (
       <div>
         <form className="container" onSubmit={this.handleSubmit}>
@@ -111,10 +122,14 @@ class PrintContainer extends Component {
           customer={this.state.customer}
           dateOrder={this.state.dateOrder}
           total={this.state.total}
+          setMasterChanged={this.props.setMasterChanged}
         />
       </div>
     );
   }
 }
 
+PrintContainer.contextType = AppContext;
+
+PrintContainer = withRouter(PrintContainer);
 export default PrintContainer;
