@@ -1,3 +1,3 @@
 export const ROOT = "/";
-export const LOGIN = "/LOGIN";
+export const LOGIN = "/login";
 export const PAYMENT = "/payment";
