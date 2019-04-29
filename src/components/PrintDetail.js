@@ -2,13 +2,19 @@ import React, { Component } from "react";
 import ButtonFmb from "./ButtonFmb";
 import "../css/Alert.css";
 import { AppContext } from "../context/AppContext";
+import { numberFilter } from "../utils/Utils";
 
 class PrintDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      invoice: this.props.invoice
+      sesion: {}
     };
+  }
+
+  componentDidMount() {
+    var valueSession = JSON.parse(sessionStorage.getItem("sesion"));
+    this.setState({ sesion: valueSession });
   }
 
   reprint(mostrarFactura) {
@@ -39,7 +45,7 @@ class PrintDetail extends Component {
       this.context.invoice.cliente +
       " \r\n" +
       "Documento identidad: " +
-      //$filter("number")(this.context.invoice.cedulaCliente) +
+      numberFilter(this.context.invoice.cedulaCliente) +
       "\r\n";
 
     factura +=
@@ -48,14 +54,12 @@ class PrintDetail extends Component {
       " \r\n \r\n";
 
     factura +=
-      "Valor pagado: $" +
-      // $filter("number")(this.context.invoice.total) +
-      ",00 \r\n";
+      "Valor pagado: $" + numberFilter(this.context.invoice.total) + ",00 \r\n";
 
     factura +=
       "------ \r\n" +
       "Total: $" +
-      //$filter("number")(this.context.invoice.total) +
+      numberFilter(this.context.invoice.total) +
       ",00 \r\n \r\n";
 
     if (
@@ -144,7 +148,32 @@ class PrintDetail extends Component {
               <div className="row">
                 <div className="label-detail space">
                   <b>Total:</b>
-                  {this.context.invoice.total}
+                  {"$" + numberFilter(this.context.invoice.total) + ",00"}
+                </div>
+              </div>
+              <br />
+
+              <div className="row">
+                <div className="label-detail space">
+                  {this.state.sesion.mensajePantalla !== "" &&
+                  this.state.sesion.mensajePantalla !== null
+                    ? this.state.sesion.mensajePantalla
+                    : ""}
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="label-detail space">
+                  {this.context.invoice.mensaje !== "" &&
+                  this.context.invoice.mensaje !== null
+                    ? <b>Mensaje:</b> + "this.context.invoice.mensaje "
+                    : ""}
+                </div>
+              </div>
+              <div className="row">
+                <div className="label-detail space">
+                  <b>Promoción:</b>
+                  {this.state.sesion.mensajeGlobal}
                 </div>
               </div>
             </div>

@@ -95,16 +95,12 @@ class PrintContainer extends Component {
           </div>
           <div className="row">
             <div className="w-100 form-group">
-              <button
-                type="button"
-                className="buttonFmb btn btn-primary btn-lg btn-block"
+              <ButtonFmb
+                name="Buscar"
+                disabled={!this.validateForm()}
+                icon="fa fa-search"
                 onClick={this.searchInvoice}
-                disabled={false}
-              >
-                <i className="fa fa-search" />
-                {"   "}
-                Buscar
-              </button>
+              />
             </div>
           </div>
         </form>

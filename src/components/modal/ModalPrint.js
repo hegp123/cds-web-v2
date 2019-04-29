@@ -4,6 +4,7 @@ import "../../css/Alert.css";
 import { withRouter } from "react-router";
 
 import { AppContext } from "../../context/AppContext";
+import { numberFilter } from "../../utils/Utils";
 
 class ModalPrint extends Component {
   constructor(props) {
@@ -56,7 +57,8 @@ class ModalPrint extends Component {
                 </div>
                 <div className="row">
                   <div className="label-popup">
-                    <b>Total:</b> {this.props.total} {"$"}
+                    <b>Total:</b>
+                    {"$" + numberFilter(this.props.total)}
                   </div>
                 </div>
               </div>
