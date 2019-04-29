@@ -1,12 +1,17 @@
 import React, { Component } from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import "../../css/Alert.css";
+import { withRouter } from "react-router";
 
 import { AppContext } from "../../context/AppContext";
 
 class ModalPrint extends Component {
   constructor(props) {
     super(props);
+  }
+
+  alertar() {
+    this.props.setMasterChanged();
   }
 
   render() {
@@ -30,7 +35,7 @@ class ModalPrint extends Component {
             <a
               href="#"
               className="list-group-item list-group-item-action"
-              onClick={this.context.setMasterChanged.bind(this)}
+              onClick={this.alertar.bind(this)}
             >
               <div className="container">
                 <div className="row">
@@ -64,5 +69,6 @@ class ModalPrint extends Component {
 }
 
 ModalPrint.contextType = AppContext;
+ModalPrint = withRouter(ModalPrint);
 
 export default ModalPrint;

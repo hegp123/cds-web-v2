@@ -7,6 +7,7 @@ import { AppContext } from "../context/AppContext";
 import InputTextFmb from "./InputTextFmb";
 import ButtonFmb from "./ButtonFmb";
 import { PrintService } from "./../services/PrintService";
+import { withRouter } from "react-router";
 
 class PrintContainer extends Component {
   constructor(props) {
@@ -122,6 +123,7 @@ class PrintContainer extends Component {
           customer={this.state.customer}
           dateOrder={this.state.dateOrder}
           total={this.state.total}
+          setMasterChanged={this.props.setMasterChanged}
         />
       </div>
     );
@@ -130,4 +132,5 @@ class PrintContainer extends Component {
 
 PrintContainer.contextType = AppContext;
 
+PrintContainer = withRouter(PrintContainer);
 export default PrintContainer;

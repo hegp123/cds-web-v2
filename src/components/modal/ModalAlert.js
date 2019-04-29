@@ -7,6 +7,7 @@ class ModalAlert extends Component {
       <Modal
         isOpen={this.props.isOpen}
         size="sm"
+        centered="true"
         backdrop="false"
         contentClassName="body-transparent"
         onClosed={this.props.callbackOnClosed}

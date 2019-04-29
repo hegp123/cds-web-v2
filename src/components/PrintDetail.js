@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ButtonFmb from "./ButtonFmb";
 import "../css/Alert.css";
+import { AppContext } from "../context/AppContext";
 
 class PrintDetail extends Component {
   constructor(props) {
@@ -24,6 +25,7 @@ class PrintDetail extends Component {
               <div className="row">
                 <div className="label-name space">
                   <b>OR No.:</b>
+                  {this.context.invoice.numeroFactura}
                 </div>
               </div>
               <div className="row">
@@ -73,5 +75,7 @@ class PrintDetail extends Component {
     );
   }
 }
+
+PrintDetail.contextType = AppContext;
 
 export default PrintDetail;
