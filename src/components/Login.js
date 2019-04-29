@@ -201,12 +201,9 @@ class Login extends Component {
   };
 
   asignarSesion = (llave, valor) => {
-    sessionStorage.setItem("user", "user");
+    //localStorage.setItem(llave, JSON.stringify(valor));
+    sessionStorage.setItem(llave, valor);
     //$window.localStorage[llave] = JSON.stringify(valor);
-    //alert(`asignar al local storage llave: ${llave}    valor: ${valor}`);
-    // this.showAlert(
-    //`asignar al local storage llave: ${llave}    valor: ${valor}`
-    // );
   };
 }
 
