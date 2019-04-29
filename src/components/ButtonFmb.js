@@ -11,7 +11,7 @@ class ButtonFmb extends Component {
         disabled={!disabled}
         onClick={this.props.onClick}
       >
-        <i class={this.props.icon} />
+        <i className={this.props.icon} />
         {"   "}
         {this.props.name}
       </button>

@@ -19,7 +19,7 @@ class Print extends Component {
   }
 
   setMasterChanged() {
-    this.setState({ masterChanged: true });
+    this.setState({ masterChanged: !this.state.masterChanged });
   }
 
   render() {
@@ -30,7 +30,7 @@ class Print extends Component {
         {!this.state.masterChanged ? (
           <PrintContainer setMasterChanged={this.setMasterChanged} />
         ) : (
-          <PrintDetail />
+          <PrintDetail setMasterChanged={this.setMasterChanged} />
         )}
         {!this.state.masterChanged ? <FooterFmb type={typeProcess} /> : ""}
       </AppContextProvider>

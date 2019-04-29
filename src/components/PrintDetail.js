@@ -11,6 +11,87 @@ class PrintDetail extends Component {
     };
   }
 
+  reprint() {
+    var reimp = "";
+    /*
+    if ($scope.mostrarFactura) {
+      reimp = " - REIMPRESION";
+    }*/
+    var factura =
+      "\r\n \r\n \r\n" +
+      "Fundacion delamujer \r\n" +
+      "NIT. 901.128.535-8 \r\n" +
+      "Fecha: " +
+      this.context.invoice.fecha +
+      " \r\n" +
+      "AG: " +
+      this.context.invoice.agencia +
+      " \r\n" +
+      "\r\n" +
+      "ORDEN DE RECIBO POR CDS NO.: \r\n" +
+      this.context.invoice.numeroFactura +
+      "\r\n" +
+      "\r\n" +
+      reimp +
+      "\r\n" +
+      "Cliente: " +
+      this.context.invoice.cliente +
+      " \r\n" +
+      "Documento identidad: " +
+      //$filter("number")(this.context.invoice.cedulaCliente) +
+      "\r\n";
+
+    factura +=
+      "Concepto: Abono Credito " +
+      this.context.invoice.codigoCredito +
+      " \r\n \r\n";
+
+    factura +=
+      "Valor pagado: $" +
+      // $filter("number")(this.context.invoice.total) +
+      ",00 \r\n";
+
+    factura +=
+      "------ \r\n" +
+      "Total: $" +
+      //$filter("number")(this.context.invoice.total) +
+      ",00 \r\n \r\n";
+
+    if (
+      this.context.invoice.mensaje !== "" &&
+      this.context.invoice.mensaje !== null
+    ) {
+      factura +=
+        "Mensaje: " +
+        this.context.invoice.mensaje +
+        " \r\n" +
+        //sesion.mensajeImpresion +
+        " \r\n \r\n" +
+        "PROMOCION: " +
+        //sesion.mensajeGlobal +
+        " \r\n \r\n" +
+        "CODIGO DE SEGURIDAD: " +
+        this.context.invoice.codigoSeguridad +
+        " \r\n" +
+        "\r\n \r\n \r\n";
+    } else {
+      factura +=
+        //sesion.mensajeImpresion +
+        " \r\n \r\n" +
+        "PROMOCION: " +
+        //sesion.mensajeGlobal +
+        " \r\n \r\n" +
+        "CODIGO DE SEGURIDAD: " +
+        this.context.invoice.codigoSeguridad +
+        " \r\n" +
+        "\r\n \r\n \r\n";
+    }
+    alert(factura);
+    /* useDefaultPrinter();
+    qz.append(factura);
+    qz.print();*/
+  }
+
   render() {
     const typeProcess = "print";
     return (
@@ -31,32 +112,38 @@ class PrintDetail extends Component {
               <div className="row">
                 <div className="label-detail space">
                   <b>Fecha:</b>
+                  {this.context.invoice.fecha}
                 </div>
               </div>
               <div className="row">
                 <div className="label-detail space">
                   <b>Agencia:</b>
+                  {this.context.invoice.agencia}
                 </div>
               </div>
               <div className="row">
                 <div className="label-detail space">
                   <b>Cliene:</b>
+                  {this.context.invoice.cliente}
                 </div>
               </div>
 
               <div className="row">
                 <div className="label-detail space">
                   <b>Cédula:</b>
+                  {this.context.invoice.cedulaCliente}
                 </div>
               </div>
               <div className="row">
                 <div className="label-detail space">
                   <b>Crédito:</b>
+                  {this.context.invoice.codigoCredito}
                 </div>
               </div>
               <div className="row">
                 <div className="label-detail space">
-                  <b>Total</b>
+                  <b>Total:</b>
+                  {this.context.invoice.total}
                 </div>
               </div>
             </div>
@@ -65,10 +152,20 @@ class PrintDetail extends Component {
         <br />
         <div className="container">
           <div className="form-group">
-            <ButtonFmb name="Imprimir" disabled="true" icon="fas fa-print" />
+            <ButtonFmb
+              name="Imprimir"
+              disabled="true"
+              icon="fas fa-print"
+              onClick={this.reprint.bind(this)}
+            />
           </div>
           <div className="form-group">
-            <ButtonFmb name="Cerrar" disabled="true" icon="fas fa-times" />
+            <ButtonFmb
+              name="Cerrar"
+              disabled="true"
+              icon="fas fa-times"
+              onClick={this.props.setMasterChanged}
+            />
           </div>
         </div>
       </div>
