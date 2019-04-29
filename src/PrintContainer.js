@@ -32,7 +32,6 @@ class PrintContainer extends Component {
 
   searchInvoice() {
     PrintService.buscarFactura(this.state.orden, 12, 15).then(response => {
-      console.log(response);
       if (response.length > 0 && response[0].numeroFactura !== null) {
         this.setState({ order: response[0].numeroFactura });
         this.setState({ customer: response[0].cliente });

@@ -11,12 +11,13 @@ class PrintDetail extends Component {
     };
   }
 
-  reprint() {
+  reprint(mostrarFactura) {
     var reimp = "";
-    /*
-    if ($scope.mostrarFactura) {
+    var sesion = JSON.parse(sessionStorage.getItem("sesion"));
+    console.log(sesion);
+    if (mostrarFactura) {
       reimp = " - REIMPRESION";
-    }*/
+    }
     var factura =
       "\r\n \r\n \r\n" +
       "Fundacion delamujer \r\n" +
@@ -65,10 +66,10 @@ class PrintDetail extends Component {
         "Mensaje: " +
         this.context.invoice.mensaje +
         " \r\n" +
-        //sesion.mensajeImpresion +
+        sesion.mensajeImpresion +
         " \r\n \r\n" +
         "PROMOCION: " +
-        //sesion.mensajeGlobal +
+        sesion.mensajeGlobal +
         " \r\n \r\n" +
         "CODIGO DE SEGURIDAD: " +
         this.context.invoice.codigoSeguridad +
@@ -76,10 +77,10 @@ class PrintDetail extends Component {
         "\r\n \r\n \r\n";
     } else {
       factura +=
-        //sesion.mensajeImpresion +
+        sesion.mensajeImpresion +
         " \r\n \r\n" +
         "PROMOCION: " +
-        //sesion.mensajeGlobal +
+        sesion.mensajeGlobal +
         " \r\n \r\n" +
         "CODIGO DE SEGURIDAD: " +
         this.context.invoice.codigoSeguridad +

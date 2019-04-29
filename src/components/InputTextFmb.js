@@ -4,7 +4,6 @@ import "../css/InputTextFmb.css";
 class InputTextFmb extends Component {
   render() {
     const icon = `${this.props.icon}  form-control-feedback`;
-    console.log(icon);
     return (
       <div className="form-group has-icon">
         <span className={icon} />
