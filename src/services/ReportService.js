@@ -1,18 +1,10 @@
 import axios from "axios";
 import { conexion, ws_api } from "../utils/Parameters";
 
-export let buscarFactura = (factura, puntoReca, idRecaudador) => {
+export let buscarPagos = (fecha, idPunto) => {
   return new Promise((resolve, reject) => {
     axios
-      .get(
-        conexion.URL_WS +
-          ws_api.EP_FACTURAS +
-          factura +
-          "/" +
-          puntoReca +
-          "/" +
-          idRecaudador
-      )
+      .get(conexion.URL_WS + ws_api.EP_REPORTE + +fecha + "/" + idpunto)
       .then(response => {
         if (response) {
           resolve(response.data);

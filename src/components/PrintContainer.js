@@ -6,7 +6,7 @@ import ModalPrint from "./modal/ModalPrint";
 import { AppContext } from "../context/AppContext";
 import InputTextFmb from "./InputTextFmb";
 import ButtonFmb from "./ButtonFmb";
-import { PrintService } from "./../services/PrintService";
+import { buscarFactura } from "./../services/PrintService";
 import { withRouter } from "react-router";
 
 class PrintContainer extends Component {
@@ -41,7 +41,7 @@ class PrintContainer extends Component {
   }
 
   searchInvoice() {
-    PrintService.buscarFactura(this.state.orden, 12, 15).then(response => {
+    buscarFactura(this.state.orden, 12, 15).then(response => {
       if (response.length > 0 && response[0].numeroFactura !== null) {
         this.setState({ order: response[0].numeroFactura });
         this.setState({ customer: response[0].cliente });
