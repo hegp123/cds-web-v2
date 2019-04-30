@@ -20,7 +20,7 @@ class Login extends Component {
       loginAttempts: 0,
       modalAlert: false,
       modalAlertContent: "",
-      callbackOnClosed: ""
+      callbackOnClosed: () => {}
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -121,7 +121,7 @@ class Login extends Component {
   validateUserDate = (userData, loginAttempts) => {
     //siempre lo inicializamos en vacio, porque el callback onclose esto solo lo utilizan varios en la alertMessage
     this.setState({
-      callbackOnClosed: ""
+      callbackOnClosed: () => {}
     });
     let moment = require("moment");
     if (loginAttempts < 5) {
