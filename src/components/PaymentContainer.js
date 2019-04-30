@@ -34,10 +34,9 @@ export default class ContainerFmb extends Component {
               id="typeFilterForm"
               name="typeFilterForm"
               onChange={this.handleChange("typeFilter")}
+              defaultValue={cedulaValue}
             >
-              <option value={cedulaValue} selected>
-                Cédula
-              </option>
+              <option value={cedulaValue}>Cédula</option>
               <option value={creditoValue}>Crédito</option>
             </select>
           </div>
