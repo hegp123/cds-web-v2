@@ -3,6 +3,7 @@ import ButtonFmb from "./ButtonFmb";
 import "../css/Alert.css";
 import { AppContext } from "../context/AppContext";
 import { numberFilter } from "../utils/Utils";
+import { SESSION } from "../utils/Constants";
 
 class PrintDetail extends Component {
   constructor(props) {
@@ -13,14 +14,12 @@ class PrintDetail extends Component {
   }
 
   componentDidMount() {
-    var valueSession = JSON.parse(sessionStorage.getItem("sesion"));
+    var valueSession = JSON.parse(sessionStorage.getItem(SESSION));
     this.setState({ sesion: valueSession });
   }
 
   reprint(mostrarFactura) {
     var reimp = "";
-    var sesion = JSON.parse(sessionStorage.getItem("sesion"));
-    console.log(sesion);
     if (mostrarFactura) {
       reimp = " - REIMPRESION";
     }
@@ -70,10 +69,10 @@ class PrintDetail extends Component {
         "Mensaje: " +
         this.context.invoice.mensaje +
         " \r\n" +
-        sesion.mensajeImpresion +
+        this.state.sesion.mensajeImpresion +
         " \r\n \r\n" +
         "PROMOCION: " +
-        sesion.mensajeGlobal +
+        this.state.sesion.mensajeGlobal +
         " \r\n \r\n" +
         "CODIGO DE SEGURIDAD: " +
         this.context.invoice.codigoSeguridad +
@@ -81,10 +80,10 @@ class PrintDetail extends Component {
         "\r\n \r\n \r\n";
     } else {
       factura +=
-        sesion.mensajeImpresion +
+        this.state.sesion.mensajeImpresion +
         " \r\n \r\n" +
         "PROMOCION: " +
-        sesion.mensajeGlobal +
+        this.state.sesion.mensajeGlobal +
         " \r\n \r\n" +
         "CODIGO DE SEGURIDAD: " +
         this.context.invoice.codigoSeguridad +
