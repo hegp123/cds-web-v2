@@ -1,68 +1,93 @@
 import React, { Component } from "react";
 import InputTextFmb from "./InputTextFmb";
 import ButtonFmb from "./ButtonFmb";
+import { validateAPI } from "../services/LoginService";
+import { buscarPorCC } from "../services/PaymentService";
+import ModalAlert from "./modal/ModalAlert";
+
 import {
   placeHolderCedula,
   placeHolderCredito,
   cedulaValue,
   creditoValue
 } from "../utils/Constants";
+import { SESSION } from "../utils/Constants";
 
-export default class ContainerFmb extends Component {
+export default class PaymentContainer extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       typeFilter: "0", //cedula por defecto
       numberFilter: "",
-      placeHolderNumberFilter: placeHolderCedula
+      placeHolderNumberFilter: placeHolderCedula,
+      modalAlert: false,
+      modalAlertContent: "",
+      callbackOnClosed: () => {}
     };
+
+    this.toggleAlert = this.toggleAlert.bind(this);
+  }
+
+  toggleAlert() {
+    this.setState(prevState => ({
+      modalAlert: !prevState.modalAlert
+    }));
   }
 
   render() {
     return (
-      <form className="container" onSubmit={this.handleSubmit}>
-        <div className="row">
-          <div className="w-100">
-            <span className="float-left font-label-fmb">Buscar por:</span>
+      <>
+        <form className="container" onSubmit={this.handleSubmit}>
+          <div className="row">
+            <div className="w-100">
+              <span className="float-left font-label-fmb">Buscar por:</span>
+            </div>
           </div>
-        </div>
-        <div className="row">
-          <div className="w-100 form-group">
-            <select
-              className="form-control"
-              id="typeFilterForm"
-              name="typeFilterForm"
-              onChange={this.handleChange("typeFilter")}
-              defaultValue={cedulaValue}
-            >
-              <option value={cedulaValue}>Cédula</option>
-              <option value={creditoValue}>Crédito</option>
-            </select>
+          <div className="row">
+            <div className="w-100 form-group">
+              <select
+                className="form-control"
+                id="typeFilterForm"
+                name="typeFilterForm"
+                onChange={this.handleChange("typeFilter")}
+                defaultValue={cedulaValue}
+              >
+                <option value={cedulaValue}>Cédula</option>
+                <option value={creditoValue}>Crédito</option>
+              </select>
+            </div>
           </div>
-        </div>
-        <div className="row">
-          <div className="w-100 form-group">
-            <InputTextFmb
-              type="number"
-              icon="fa fa-search"
-              name="Titulo"
-              placeholder={this.state.placeHolderNumberFilter}
-              value={this.state.numberFilter}
-              onChange={this.handleChange("numberFilter")}
-            />
+          <div className="row">
+            <div className="w-100 form-group">
+              <InputTextFmb
+                type="number"
+                icon="fa fa-search"
+                name="Titulo"
+                placeholder={this.state.placeHolderNumberFilter}
+                value={this.state.numberFilter}
+                onChange={this.handleChange("numberFilter")}
+              />
+            </div>
           </div>
-        </div>
-        <div className="row">
-          <div className="w-100 form-group">
-            <ButtonFmb
-              name="Buscar"
-              disabled={this.validateForm()}
-              icon="fa fa-search"
-            />
+          <div className="row">
+            <div className="w-100 form-group">
+              <ButtonFmb
+                name="Buscar"
+                disabled={this.validateForm()}
+                icon="fa fa-search"
+                type="submit"
+              />
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+        <ModalAlert
+          toggle={this.toggleAlert}
+          isOpen={this.state.modalAlert}
+          content={this.state.modalAlertContent}
+          callbackOnClosed={this.state.callbackOnClosed}
+        />
+      </>
     );
   }
 
@@ -90,7 +115,40 @@ export default class ContainerFmb extends Component {
   };
 
   handleSubmit = event => {
-    alert(this.state.typeFilter + "    -  " + this.state.numberFilter);
     event.preventDefault();
+    var cadenaBusqueda = this.state.numberFilter;
+
+    var sesion = JSON.parse(sessionStorage.getItem(SESSION));
+
+    validateAPI()
+      .then(() => {
+        return buscarPorCC(cadenaBusqueda, sesion.idPunto);
+      })
+      .then(data => {
+        let creditos = data;
+        let mensaje =
+          "No hay créditos asociados al No. de identificación ingresado";
+
+        if (creditos.length > 0) {
+          //TODO: aca debe mostrar la modal
+          //scope.modal.show();
+          alert("aca va la modal :)");
+        } else {
+          this.showAlert(mensaje);
+        }
+      })
+
+      .catch(error => {
+        alert(error);
+      });
+  };
+
+  showAlert = (message, callback = () => {}) => {
+    this.setState({
+      modalAlertContent: message,
+      callbackOnClosed: callback
+    });
+
+    this.toggleAlert();
   };
 }

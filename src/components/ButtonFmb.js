@@ -4,9 +4,10 @@ import "../css/ButtonFmb.css";
 class ButtonFmb extends Component {
   render() {
     const disabled = this.props.disabled;
+    const type = this.props.type || "button";
     return (
       <button
-        type="button"
+        type={type}
         className="buttonFmb btn btn-primary btn-lg btn-block"
         disabled={!disabled}
         onClick={this.props.onClick}
