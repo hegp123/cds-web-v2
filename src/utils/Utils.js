@@ -34,8 +34,8 @@ function formatNumber(number, pattern, groupSep, decimalSep, fractionSize) {
 
   var hasExponent = false;
   if (numStr.indexOf("e") !== -1) {
-    var match = numStr.match(/([\d\.]+)e(-?)(\d+)/);
-    if (match && match[2] == "-" && match[3] > fractionSize + 1) {
+    var match = numStr.match(/([\d]+)e(-?)(\d+)/);
+    if (match && match[2] === "-" && match[3] > fractionSize + 1) {
       number = 0;
     } else {
       formatedText = numStr;

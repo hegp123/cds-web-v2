@@ -56,8 +56,6 @@ class PrintContainer extends Component {
   }
 
   handleChange(e) {
-    let valueText = e.target.value;
-
     const { name, value } = e.target;
     this.setState({ [name]: value });
   }

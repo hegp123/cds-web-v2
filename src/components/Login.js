@@ -42,7 +42,7 @@ class Login extends Component {
             <img src={logo} className="appIconLog" alt="" />
           </div>
           <div className="form-group">
-            <div class="headerLogin">Iniciar Sesión </div>
+            <div className="headerLogin">Iniciar Sesión </div>
           </div>
           <div className="form-group, labelLogin">Usuario</div>
           <div className="form-group">
