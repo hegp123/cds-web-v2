@@ -8,6 +8,7 @@ import InputTextFmb from "./InputTextFmb";
 import ButtonFmb from "./ButtonFmb";
 import { buscarFactura } from "./../services/PrintService";
 import { withRouter } from "react-router";
+import { SESSION } from "../utils/Constants";
 
 class PrintContainer extends Component {
   constructor(props) {
@@ -41,7 +42,12 @@ class PrintContainer extends Component {
   }
 
   searchInvoice() {
-    buscarFactura(this.state.orden, 12, 15).then(response => {
+    var valueSession = JSON.parse(sessionStorage.getItem(SESSION));
+    buscarFactura(
+      this.state.orden,
+      valueSession.idPunto,
+      valueSession.idRecaudador
+    ).then(response => {
       if (response.length > 0 && response[0].numeroFactura !== null) {
         this.setState({ order: response[0].numeroFactura });
         this.setState({ customer: response[0].cliente });

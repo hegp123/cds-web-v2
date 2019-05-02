@@ -3,11 +3,15 @@ import HeaderFmb from "./HeaderFmb";
 import FooterFmb from "./FooterFmb";
 import DatePicker from "react-datepicker";
 
+import { buscarPagos } from "./../services/ReportService";
 import "react-datepicker/dist/react-datepicker.css";
 import "../css/Payment.css";
 import "../css/Report.css";
 import ButtonFmb from "./ButtonFmb";
 import es from "date-fns/locale/es";
+import { SESSION } from "../utils/Constants";
+import { numberFilter } from "../utils/Utils";
+import ModalAlert from "./modal/ModalAlert";
 
 class Print extends Component {
   constructor(props) {
@@ -16,17 +20,79 @@ class Print extends Component {
       startDate: new Date()
     };
     this.handleChange = this.handleChange.bind(this);
+    this.searchPayments = this.searchPayments.bind(this);
   }
 
   handleChange(date) {
     this.setState({
-      startDate: date
+      startDate: date,
+      content: "",
+      toggle: false
     });
+    this.toggle = this.toggle.bind(this);
+    this.changeModalContent = this.changeModalContent.bind(this);
+  }
+
+  changeModalContent(valor) {
+    this.setState({ conten: valor });
+  }
+
+  toggle() {
+    this.setState(prevState => ({
+      modalAlert: !prevState.modalAlert
+    }));
   }
 
   validateForm() {
     return this.state.startDate.length === 0;
   }
+
+  searchPayments() {
+    var valueSession = JSON.parse(sessionStorage.getItem(SESSION));
+    var reporte = "";
+    let moment = require("moment");
+
+    buscarPagos(this.state.startDate, valueSession.idPunto).then(pagos => {
+      reporte =
+        "\r\n \r\n \r\n" +
+        "Reporte \r\n" +
+        "Fecha: " +
+        moment(new Date(this.state.startDate)).format("LLLL") +
+        " \r\n";
+      if (pagos.length > 0) {
+        reporte +=
+          "Punto de Recaudo: " +
+          pagos[0].agencia +
+          " \r\n" +
+          "\r\n" +
+          "ORDENES DE RECIBO CDS \r\n \r\n";
+        let totalPagado = 0;
+
+        for (var i = 0; i < pagos.length; i++) {
+          if (pagos[i].estado === "0" || pagos[i].estado === "1") {
+            pagos[i].mostrar = true;
+            totalPagado += Number(pagos[i].valor);
+            reporte +=
+              pagos[i].factura +
+              ": $" +
+              numberFilter(pagos[i].valor) +
+              ",00 \r\n";
+          } else {
+            pagos[i].mostrar = false;
+            reporte += pagos[i].factura + ": ANULADA \r\n";
+          }
+        }
+        reporte += "------ \r\n";
+        reporte +=
+          "TOTAL: $" +
+          numberFilter(totalPagado) +
+          ",00 \r\n \r\n \r\n \r\n \r\n \r\n";
+      } else {
+        this.toggle();
+      }
+    });
+  }
+
   render() {
     const typeProcess = "report";
     return (
@@ -62,14 +128,19 @@ class Print extends Component {
               <ButtonFmb
                 name="Buscar"
                 icon="fa fa-search"
-                onClick={this.searchInvoice}
+                onClick={this.searchPayments}
                 disabled={!this.validateForm()}
               />
             </div>
           </div>
         </form>
-
         <FooterFmb type={typeProcess} />
+
+        <ModalAlert
+          toggle={this.toggleAlert}
+          isOpen={this.state.modalAlert}
+          content={"No hay pagos registrados para la fecha " + this.startDate}
+        />
       </div>
     );
   }
