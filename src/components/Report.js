@@ -17,20 +17,20 @@ class Print extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      startDate: new Date()
+      startDate: new Date(),
+      content: "",
+      modalAlert: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.searchPayments = this.searchPayments.bind(this);
+    this.toggle = this.toggle.bind(this);
+    this.changeModalContent = this.changeModalContent.bind(this);
   }
 
   handleChange(date) {
     this.setState({
-      startDate: date,
-      content: "",
-      toggle: false
+      startDate: date
     });
-    this.toggle = this.toggle.bind(this);
-    this.changeModalContent = this.changeModalContent.bind(this);
   }
 
   changeModalContent(valor) {
@@ -52,7 +52,10 @@ class Print extends Component {
     var reporte = "";
     let moment = require("moment");
 
-    buscarPagos(this.state.startDate, valueSession.idPunto).then(pagos => {
+    buscarPagos(
+      moment(this.state.startDate).format("YYYYMMDD"),
+      valueSession.idRecaudador
+    ).then(pagos => {
       reporte =
         "\r\n \r\n \r\n" +
         "Reporte \r\n" +
@@ -137,9 +140,11 @@ class Print extends Component {
         <FooterFmb type={typeProcess} />
 
         <ModalAlert
-          toggle={this.toggleAlert}
+          toggle={this.toggle}
           isOpen={this.state.modalAlert}
-          content={"No hay pagos registrados para la fecha " + this.startDate}
+          content={
+            "No hay pagos registrados para la fecha " + this.state.startDate
+          }
         />
       </div>
     );
