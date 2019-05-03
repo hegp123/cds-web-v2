@@ -14,18 +14,22 @@ import { numberFilter } from "../utils/Utils";
 import ModalAlert from "./modal/ModalAlert";
 import ModalReport from "./modal/ModalReport";
 
-class Print extends Component {
+class Report extends Component {
   constructor(props) {
     super(props);
     this.state = {
       startDate: new Date(),
       modalReport: "",
-      modalAlert: false
+      modalAlert: false,
+      collectionPoint: "",
+      totalPaid: "",
+      payments: {}
     };
     this.handleChange = this.handleChange.bind(this);
     this.searchPayments = this.searchPayments.bind(this);
     this.toggle = this.toggle.bind(this);
     this.toggleReport = this.toggleReport.bind(this);
+    this.searchPayments = this.searchPayments.bind(this);
   }
 
   handleChange(date) {
@@ -73,7 +77,7 @@ class Print extends Component {
           "\r\n" +
           "ORDENES DE RECIBO CDS \r\n \r\n";
         let totalPagado = 0;
-
+        this.setState({ collectionPoint: pagos[0].agencia });
         for (var i = 0; i < pagos.length; i++) {
           if (pagos[i].estado === "0" || pagos[i].estado === "1") {
             pagos[i].mostrar = true;
@@ -93,6 +97,8 @@ class Print extends Component {
           "TOTAL: $" +
           numberFilter(totalPagado) +
           ",00 \r\n \r\n \r\n \r\n \r\n \r\n";
+        this.setState({ payments: pagos });
+        this.setState({ totalPaid: totalPagado });
         this.toggleReport();
       } else {
         this.toggle();
@@ -153,10 +159,13 @@ class Print extends Component {
         <ModalReport
           toggle={this.toggleReport}
           isOpen={this.state.modalReport}
+          collectionPoint={this.state.collectionPoint}
+          totalPaid={this.state.totalPaid}
+          payments={this.state.payments}
         />
       </div>
     );
   }
 }
 
-export default Print;
+export default Report;
