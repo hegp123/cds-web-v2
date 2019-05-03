@@ -41,7 +41,14 @@ class ModalPayment extends React.Component {
     const { items } = this.props.creditos;
     return (
       <div>
-        <Modal isOpen={this.props.isOpen} size="lg" className="modal-print">
+        <Modal
+          isOpen={this.props.isOpen}
+          size="lg"
+          className="modal-print"
+          onScrollCapture={true}
+          onScroll={true}
+          scrollable={true}
+        >
           <ModalHeader toggle={this.props.toggle} className="body-header" />
           <ModalBody className="pop-up-padding">
             <div className="navbar navbar-default navbar-fixed-top subHeader">
@@ -63,6 +70,7 @@ class ModalPayment extends React.Component {
                 </Button>{" "}
               </ModalFooter>
             </Modal>
+            <br />
           </ModalBody>
         </Modal>
       </div>
