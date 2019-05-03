@@ -12,6 +12,7 @@ import {
   creditoValue
 } from "../utils/Constants";
 import { SESSION } from "../utils/Constants";
+import ModalPayment from "./modal/ModalPayment";
 
 export default class PaymentContainer extends Component {
   constructor(props) {
@@ -23,10 +24,19 @@ export default class PaymentContainer extends Component {
       placeHolderNumberFilter: placeHolderCedula,
       modalAlert: false,
       modalAlertContent: "",
-      callbackOnClosed: () => {}
+      callbackOnClosed: () => {},
+      modal: false,
+      creditos: []
     };
 
     this.toggleAlert = this.toggleAlert.bind(this);
+    this.toggle = this.toggle.bind(this);
+  }
+
+  toggle() {
+    this.setState(prevState => ({
+      modal: !prevState.modal
+    }));
   }
 
   toggleAlert() {
@@ -87,6 +97,11 @@ export default class PaymentContainer extends Component {
           content={this.state.modalAlertContent}
           callbackOnClosed={this.state.callbackOnClosed}
         />
+        <ModalPayment
+          isOpen={this.state.modal}
+          toggle={this.toggle}
+          creditos={this.state.creditos}
+        />
       </>
     );
   }
@@ -132,7 +147,17 @@ export default class PaymentContainer extends Component {
         if (creditos.length > 0) {
           //TODO: aca debe mostrar la modal
           //scope.modal.show();
-          alert("aca va la modal :)");
+          // $creditos
+          // .buscarPorCC($scope.cadenaBusqueda.busqueda, sesion.idPunto)
+          //   function buscarPorCC(cedula, idPunto) {
+          //     return $http.get(URL_WS + EP_CREDITOS_CC + cedula + "/" + idPunto);
+          // }
+          this.setState({
+            creditos: creditos
+          });
+
+          this.toggle();
+          // alert("aca va la modal :)");
         } else {
           this.showAlert(mensaje);
         }
