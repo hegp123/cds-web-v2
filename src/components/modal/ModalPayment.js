@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import "../../css/Alert.css";
+import NumberFormat from "react-number-format";
 
 class ModalPayment extends React.Component {
   constructor(props) {
@@ -42,13 +43,13 @@ class ModalPayment extends React.Component {
       <div>
         <Modal isOpen={this.props.isOpen} size="lg" className="modal-print">
           <ModalHeader toggle={this.props.toggle} className="body-header" />
-          <ModalBody>
+          <ModalBody className="pop-up-padding">
             <div className="navbar navbar-default navbar-fixed-top subHeader">
               <div className="navbar-header">
                 <div className="container">Registrar Pago</div>
               </div>
             </div>
-            {this.displayCredito()}
+            {this.displayCreditos()}
             <Modal
               isOpen={this.state.nestedModal}
               toggle={this.toggleNested}
@@ -68,7 +69,9 @@ class ModalPayment extends React.Component {
     );
   }
 
-  displayCredito = () => {
+  displayCreditos = () => {
+    let moment = require("moment");
+    require("moment/locale/es");
     return this.props.creditos.map(credito => {
       return (
         <div className="list-group, list-print">
@@ -85,7 +88,14 @@ class ModalPayment extends React.Component {
               </div>
               <div className="row">
                 <div className="label-popup">
-                  <b>Cédula:</b> {credito.cedulaCliente}
+                  {" "}
+                  <b>Cédula:</b>{" "}
+                  <NumberFormat
+                    value={credito.cedulaCliente}
+                    thousandSeparator={"."}
+                    decimalSeparator={","}
+                    displayType={"text"}
+                  />
                 </div>
               </div>
               <div className="row">
@@ -103,13 +113,26 @@ class ModalPayment extends React.Component {
               <div className="row">
                 {" "}
                 <div className="label-popup">
-                  <b>Valor cuota:</b> {credito.cuotaCredito}
+                  <b>Valor cuota:</b>{" "}
+                  <NumberFormat
+                    value={credito.cuotaCredito}
+                    thousandSeparator={"."}
+                    decimalSeparator={","}
+                    displayType={"text"}
+                    prefix={"$"}
+                  />
                 </div>
               </div>
               <div className="row">
                 {" "}
                 <div className="label-popup">
-                  <b>Fecha de vencimiento:</b> {credito.vencimiento}
+                  <b>Fecha de vencimiento:</b>{" "}
+                  {moment(credito.vencimiento).format(
+                    "dddd, D [de] MMMM [de] YYYY"
+                  )}
+                  {/*                  
+     
+                  <FormattedDate value={credito.vencimiento} format="short" /> */}
                 </div>
               </div>
             </div>
