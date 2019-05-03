@@ -17,12 +17,7 @@ class ModalPrint extends Component {
 
   render() {
     return (
-      <Modal
-        isOpen={this.props.isOpen}
-        size="lg"
-        backdrop="false"
-        className="modal-print"
-      >
+      <Modal isOpen={this.props.isOpen} size="lg" className="modal-print">
         <ModalHeader toggle={this.props.toggle} className="body-header" />
 
         <ModalBody className="pop-up-padding">
