@@ -12,19 +12,20 @@ import es from "date-fns/locale/es";
 import { SESSION } from "../utils/Constants";
 import { numberFilter } from "../utils/Utils";
 import ModalAlert from "./modal/ModalAlert";
+import ModalReport from "./modal/ModalReport";
 
 class Print extends Component {
   constructor(props) {
     super(props);
     this.state = {
       startDate: new Date(),
-      content: "",
+      modalReport: "",
       modalAlert: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.searchPayments = this.searchPayments.bind(this);
     this.toggle = this.toggle.bind(this);
-    this.changeModalContent = this.changeModalContent.bind(this);
+    this.toggleReport = this.toggleReport.bind(this);
   }
 
   handleChange(date) {
@@ -33,13 +34,15 @@ class Print extends Component {
     });
   }
 
-  changeModalContent(valor) {
-    this.setState({ conten: valor });
-  }
-
   toggle() {
     this.setState(prevState => ({
       modalAlert: !prevState.modalAlert
+    }));
+  }
+
+  toggleReport() {
+    this.setState(prevState => ({
+      modalReport: !prevState.modalReport
     }));
   }
 
@@ -90,6 +93,7 @@ class Print extends Component {
           "TOTAL: $" +
           numberFilter(totalPagado) +
           ",00 \r\n \r\n \r\n \r\n \r\n \r\n";
+        this.toggleReport();
       } else {
         this.toggle();
       }
@@ -145,6 +149,10 @@ class Print extends Component {
           content={
             "No hay pagos registrados para la fecha " + this.state.startDate
           }
+        />
+        <ModalReport
+          toggle={this.toggleReport}
+          isOpen={this.state.modalReport}
         />
       </div>
     );
