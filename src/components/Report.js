@@ -11,6 +11,8 @@ import ButtonFmb from "./ButtonFmb";
 import es from "date-fns/locale/es";
 import { SESSION } from "../utils/Constants";
 import { numberFilter } from "../utils/Utils";
+import { dateFormat } from "../utils/Utils";
+
 import ModalAlert from "./modal/ModalAlert";
 import ModalReport from "./modal/ModalReport";
 
@@ -58,7 +60,6 @@ class Report extends Component {
     var valueSession = JSON.parse(sessionStorage.getItem(SESSION));
     var reporte = "";
     let moment = require("moment");
-
     buscarPagos(
       moment(this.state.startDate).format("YYYYMMDD"),
       valueSession.idRecaudador
@@ -67,7 +68,7 @@ class Report extends Component {
         "\r\n \r\n \r\n" +
         "Reporte \r\n" +
         "Fecha: " +
-        moment(new Date(this.state.startDate)).format("LLLL") +
+        moment(this.state.startDate).format("dddd, MMMM D") +
         " \r\n";
       if (pagos.length > 0) {
         reporte +=
@@ -162,6 +163,7 @@ class Report extends Component {
           collectionPoint={this.state.collectionPoint}
           totalPaid={this.state.totalPaid}
           payments={this.state.payments}
+          datePayment={dateFormat(this.state.startDate)}
         />
       </div>
     );
