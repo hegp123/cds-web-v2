@@ -6,12 +6,14 @@ import { withRouter } from "react-router";
 import "../css/HeaderFmb.css";
 import { logout } from "../utils/Utils";
 import { SESSION } from "../utils/Constants";
+import ModalChangePassword from "./modal/ModalChangePassword";
 
 class HeaderFmb extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sesion: {}
+      sesion: {},
+      modal: false
     };
     this.toggle = this.toggle.bind(this);
   }
@@ -66,7 +68,7 @@ class HeaderFmb extends Component {
                   <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400" />
                   {this.state.sesion.nombreUsuario}
                 </a>
-                <a className="dropdown-item" href="#">
+                <a className="dropdown-item" href="#" onClick={this.toggle}>
                   <i className="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400" />
                   Cambiar Contraseña
                 </a>
@@ -93,6 +95,8 @@ class HeaderFmb extends Component {
             <div className="container">{title}</div>
           </div>
         </div>
+
+        <ModalChangePassword toggle={this.toggle} isOpen={this.state.modal} />
       </div>
     );
   }
