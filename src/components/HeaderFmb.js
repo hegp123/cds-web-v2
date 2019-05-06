@@ -5,8 +5,28 @@ import icon from "../img/appIconMore.png";
 import { withRouter } from "react-router";
 import "../css/HeaderFmb.css";
 import { logout } from "../utils/Utils";
+import { SESSION } from "../utils/Constants";
 
 class HeaderFmb extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      sesion: {}
+    };
+    this.toggle = this.toggle.bind(this);
+  }
+
+  toggle() {
+    this.setState(prevState => ({
+      modal: !prevState.modal
+    }));
+  }
+
+  componentDidMount() {
+    var valueSession = JSON.parse(sessionStorage.getItem(SESSION));
+    this.setState({ sesion: valueSession });
+  }
+
   render() {
     var title = "Registrar pago";
     if (this.props.type === "print") {
@@ -44,7 +64,7 @@ class HeaderFmb extends Component {
               >
                 <a className="dropdown-item" href="#">
                   <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400" />
-                  Profile
+                  {this.state.sesion.nombreUsuario}
                 </a>
                 <a className="dropdown-item" href="#">
                   <i className="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400" />
