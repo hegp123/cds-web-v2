@@ -2,6 +2,10 @@ import React from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import "../../css/Alert.css";
 import NumberFormat from "react-number-format";
+import {
+  buscarPorSeleccion,
+  infoPagosCredito
+} from "../../services/PaymentService";
 
 class ModalPayment extends React.Component {
   constructor(props) {
@@ -45,8 +49,6 @@ class ModalPayment extends React.Component {
           isOpen={this.props.isOpen}
           size="lg"
           className="modal-print"
-          onScrollCapture={true}
-          onScroll={true}
           scrollable={true}
         >
           <ModalHeader toggle={this.props.toggle} className="body-header" />
@@ -82,11 +84,11 @@ class ModalPayment extends React.Component {
     require("moment/locale/es");
     return this.props.creditos.map(credito => {
       return (
-        <div className="list-group, list-print">
+        <div className="list-group, list-print" key={credito.codigoCredito}>
           <a
             href="#"
             className="list-group-item list-group-item-action"
-            onClick={this.toggleNested}
+            onClick={this.prepararPago.bind(this, credito)}
           >
             <div className="container">
               <div className="row">
@@ -148,6 +150,37 @@ class ModalPayment extends React.Component {
         </div>
       );
     });
+  };
+
+  prepararPago = credito => {
+    //
+    let parametrizado = false; //TODO
+    if (credito.valorBloqueado) {
+      parametrizado = true;
+    } else {
+      parametrizado = false;
+    }
+
+    buscarPorSeleccion(
+      credito.codigoCredito,
+      credito.cuotaCredito,
+      credito.id,
+      credito.tacCDS,
+      credito.porVencer
+    )
+      .then(data => {
+        let codigoCredito = data[0].codigoCredito;
+        this.toggleNested();
+        return infoPagosCredito(codigoCredito);
+      })
+      .then(data => {
+        if (data.mensaje !== null && data.valor !== null) {
+          alert(data.mensaje + "   -   " + data.valor);
+        }
+      })
+      .catch(error => {
+        alert(error);
+      });
   };
 }
 
