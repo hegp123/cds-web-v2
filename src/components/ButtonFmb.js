@@ -8,7 +8,7 @@ class ButtonFmb extends Component {
     return (
       <button
         type={type}
-        className="buttonFmb btn btn-primary btn-lg btn-block"
+        className="buttonFmb btn btn-primary btn-lg btn-block "
         disabled={!disabled}
         onClick={this.props.onClick}
       >

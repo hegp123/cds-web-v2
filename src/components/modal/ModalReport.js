@@ -20,14 +20,14 @@ class ModalReport extends Component {
           <div className="container">
             <div className="row">
               <div className="label-name">
-                <b>O.R no.</b>
+                <b>OR No.:</b>
                 {pago.factura}
               </div>
             </div>
             <div className="row">
               <div className="label-popup">
-                <b>{pago.mostrar ? "Valor pagado" : "ANULADA"} </b>
-                {pago.mostrar ? pago.valor : ""}
+                <b>{pago.mostrar ? "Valor pagado:" : "ANULADA"} </b>
+                {pago.mostrar ? "$" + numberFilter(pago.valor) + ",00" : ""}
               </div>
             </div>
           </div>
@@ -39,8 +39,19 @@ class ModalReport extends Component {
       <Modal isOpen={this.props.isOpen} size="lg" className="modal-print">
         <ModalHeader toggle={this.props.toggle} className="body-header" />
 
-        <ModalBody>
-          <div className="container">
+        <ModalBody className="pop-up-padding">
+          <div className="navbar navbar-default navbar-fixed-top subHeader">
+            <div className="navbar-header">
+              <div className="container">Reporte de pagos</div>
+            </div>
+          </div>
+
+          <div className="container list-print">
+            <div className="row">
+              <div className="popup-container">
+                <b>Fecha:</b> {this.props.datePayment}
+              </div>
+            </div>
             <div className="row">
               <div className="popup-container">
                 <b>Punto de recaudo:</b> {this.props.collectionPoint}
@@ -48,15 +59,23 @@ class ModalReport extends Component {
             </div>
             <div className="row">
               <div className="popup-container">
-                <b>Total pagado:</b> {this.props.totalPaid}
+                <b>Total pagado:</b>{" "}
+                {"$" + numberFilter(this.props.totalPaid) + ",00"}
               </div>
             </div>
           </div>
-          <div className="list-group, list-print">{paymentList}</div>
+
+          <div className="list-group  list-print">{paymentList}</div>
           <br />
-          <div className="container">
-            <div className="form-group">
-              <ButtonFmb name="Imprimir" disabled="true" icon="fas fa-print" />
+          <div className="container ">
+            <div className="list-print">
+              <div className="row">
+                <ButtonFmb
+                  name="Imprimir"
+                  disabled="true"
+                  icon="fas fa-print"
+                />
+              </div>
             </div>
           </div>
         </ModalBody>

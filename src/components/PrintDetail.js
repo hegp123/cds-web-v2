@@ -9,7 +9,8 @@ class PrintDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sesion: {}
+      sesion: {},
+      modal: false
     };
   }
 

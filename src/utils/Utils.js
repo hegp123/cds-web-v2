@@ -1,3 +1,4 @@
+import "moment/locale/es";
 /**
  * desloguea de la aplicacion
  * @param {redirect} historyPush
@@ -21,6 +22,11 @@ export let numberFilter = number => {
     posSuf: ""
   };
   return formatNumber(number, pattern, ".", ",", undefined);
+};
+
+export let dateFormat = dateToFormat => {
+  let moment = require("moment");
+  return moment(dateToFormat).format("dddd, D [de] MMMM [de] YYYY");
 };
 
 function formatNumber(number, pattern, groupSep, decimalSep, fractionSize) {
