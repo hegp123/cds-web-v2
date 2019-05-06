@@ -3,10 +3,10 @@ import { Modal, ModalHeader, ModalBody, Input, FormFeedback } from "reactstrap";
 import "../../css/Alert.css";
 import InputTextFmb from "./../InputTextFmb";
 import ButtonFmb from "./../ButtonFmb";
-
 import { cambiarClave } from "./../../services/PasswordService";
 import Login from "./../Login";
 import { SESSION } from "../../utils/Constants";
+import ModalAlert from "./ModalAlert";
 
 class ModalChangePassword extends Component {
   constructor(props) {
@@ -18,11 +18,27 @@ class ModalChangePassword extends Component {
       validate: {
         emailState: ""
       },
-      validationMessage: ""
+      validationMessage: "",
+      toggleAlert: "",
+      modalAlert: "",
+      contentAlert: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.validatePass = this.validatePass.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.toggleAlert = this.toggleAlert.bind(this);
+    this.changeContentAlert = this.changeContentAlert.bind(this);
+  }
+
+  changeContentAlert(content) {
+    this.setState({ contentAlert: content });
+    this.toggleAlert();
+  }
+
+  toggleAlert() {
+    this.setState(prevState => ({
+      modalAlert: !prevState.modalAlert
+    }));
   }
 
   validateForm() {
@@ -72,75 +88,90 @@ class ModalChangePassword extends Component {
       .then(response => {
         console.log(response);
         if (response) {
-          alert(response);
+          this.changeContentAlert("La contraseña se cambió correctamente");
+          this.props.toggle();
         } else {
-          alert("paila");
+          this.changeContentAlert(
+            "La contraseña no se ha cambiado, verifique que la contraseña actual sea correcta.  La nueva contraseña debe ser diferente a las últimas cinco asignadas."
+          );
+          this.props.toggle();
         }
+        this.setState({ currentPass: "", newPass: "", confirmNewPass: "" });
       })
       .catch(error => {
-        alert("error");
+        this.changeContentAlert(
+          "El sistema se encuentra cerrado, intente mas tarde."
+        );
+        this.props.toggle();
       });
   }
 
   render() {
     return (
-      <Modal isOpen={this.props.isOpen} size="lg" className="modal-print">
-        <ModalHeader toggle={this.props.toggle} className="body-header" />
-        <ModalBody className="pop-up-padding">
-          <div className="navbar navbar-default navbar-fixed-top subHeader">
-            <div className="navbar-header">
-              <div className="container">Cambiar contraseña</div>
+      <div>
+        <Modal isOpen={this.props.isOpen} size="lg" className="modal-print">
+          <ModalHeader toggle={this.props.toggle} className="body-header" />
+          <ModalBody className="pop-up-padding">
+            <div className="navbar navbar-default navbar-fixed-top subHeader">
+              <div className="navbar-header">
+                <div className="container">Cambiar contraseña</div>
+              </div>
             </div>
-          </div>
-          <br />
-          <form>
-            <div className="form-group list-print">
-              <InputTextFmb
-                icon="fas fa-key"
-                type="password"
-                name="currentPass"
-                placeholder="Ingrese la contraseña actual"
-                value={this.state.currentPass}
-                onChange={this.handleChange}
-              />
-            </div>
-            <div className="form-group list-print has-icon">
-              <span className="fas fa-key form-control-feedback" />
-              <Input
-                type="password"
-                name="newPass"
-                placeholder="Ingrese la nueva contraseña"
-                value={this.state.newPass}
-                valid={this.state.validate.emailState === "has-success"}
-                invalid={this.state.validate.emailState === "has-danger"}
-                onChange={e => {
-                  this.handleChange(e);
-                  this.validatePass(e);
-                }}
-              />
-              <FormFeedback>{this.state.validationMessage}</FormFeedback>
-            </div>
-            <div className="form-group list-print">
-              <InputTextFmb
-                icon="fas fa-key"
-                type="password"
-                name="confirmNewPass"
-                placeholder="Ingrese la nueva contraseña"
-                value={this.state.confirmNewPass}
-                onChange={this.handleChange}
-              />
-            </div>
-            <div className="form-group list-print">
-              <ButtonFmb
-                name="Cambiar contraseña"
-                icon="far fa-check-circle"
-                onClick={this.handleSubmit}
-                disabled={this.validateForm()}
-              />
-            </div>
-          </form>
-        </ModalBody>
-      </Modal>
+            <br />
+            <form>
+              <div className="form-group list-print">
+                <InputTextFmb
+                  icon="fas fa-key"
+                  type="password"
+                  name="currentPass"
+                  placeholder="Ingrese la contraseña actual"
+                  value={this.state.currentPass}
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div className="form-group list-print has-icon">
+                <span className="fas fa-key form-control-feedback" />
+                <Input
+                  type="password"
+                  name="newPass"
+                  placeholder="Ingrese la nueva contraseña"
+                  value={this.state.newPass}
+                  invalid={this.state.validate.emailState === "has-danger"}
+                  onChange={e => {
+                    this.handleChange(e);
+                    this.validatePass(e);
+                  }}
+                />
+                <FormFeedback>{this.state.validationMessage}</FormFeedback>
+              </div>
+              <div className="form-group list-print">
+                <InputTextFmb
+                  icon="fas fa-key"
+                  type="password"
+                  name="confirmNewPass"
+                  placeholder="Ingrese la nueva contraseña"
+                  value={this.state.confirmNewPass}
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div className="form-group list-print">
+                <ButtonFmb
+                  name="Cambiar contraseña"
+                  icon="far fa-check-circle"
+                  onClick={this.handleSubmit}
+                  disabled={this.validateForm()}
+                />
+              </div>
+            </form>
+          </ModalBody>
+        </Modal>
+
+        <ModalAlert
+          toggle={this.toggleAlert}
+          isOpen={this.state.modalAlert}
+          content={this.state.contentAlert}
+        />
+      </div>
     );
   }
 }
