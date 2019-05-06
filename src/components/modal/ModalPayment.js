@@ -6,6 +6,8 @@ import {
   buscarPorSeleccion,
   infoPagosCredito
 } from "../../services/PaymentService";
+import ButtonFmb from "../ButtonFmb";
+import InputTextFmb from "../InputTextFmb";
 
 class ModalPayment extends React.Component {
   constructor(props) {
@@ -14,12 +16,14 @@ class ModalPayment extends React.Component {
       modal: false,
       nestedModal: false,
       closeAll: false,
-      credito: {}
+      credito: {},
+      valueToPay: ""
     };
 
     // this.toggle = this.toggle.bind(this);
     this.toggleNested = this.toggleNested.bind(this);
     this.toggleAll = this.toggleAll.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   toggle() {
@@ -223,9 +227,34 @@ class ModalPayment extends React.Component {
             </div>
           </div>
         </div>
+        <br />
+        <InputTextFmb
+          type="number"
+          icon="fa fa-dollar-sign"
+          name="valueToPay"
+          placeholder="Valor a pagar"
+          value={this.state.valueToPay}
+          onChange={this.handleChange}
+        />
+
+        <ButtonFmb
+          id="buttonPagar"
+          name="Pagar"
+          icon="fa fa-dollar-sign"
+          disabled={this.validateForm()}
+        />
       </div>
     );
   };
+
+  handleChange(e) {
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
+  }
+
+  validateForm() {
+    return this.state.valueToPay.length > 0;
+  }
 
   prepararPago = credito => {
     //
@@ -246,12 +275,15 @@ class ModalPayment extends React.Component {
       .then(data => {
         let credito = data[0];
         this.setState({
-          credito
+          credito,
+          valueToPay: credito.cuotaCredito
         });
         this.toggleNested();
         return infoPagosCredito(credito.codigoCredito);
       })
       .then(data => {
+        var buttonPagar = document.getElementById("buttonPagar");
+        buttonPagar.disabled = false;
         if (data.mensaje !== null && data.valor !== null) {
           alert(data.mensaje + "   -   " + data.valor);
           //TODO

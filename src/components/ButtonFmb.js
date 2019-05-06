@@ -7,6 +7,7 @@ class ButtonFmb extends Component {
     const type = this.props.type || "button";
     return (
       <button
+        id={this.props.id}
         type={type}
         className="buttonFmb btn btn-primary btn-lg btn-block "
         disabled={!disabled}
