@@ -13,7 +13,8 @@ class ModalPayment extends React.Component {
     this.state = {
       modal: false,
       nestedModal: false,
-      closeAll: false
+      closeAll: false,
+      credito: {}
     };
 
     // this.toggle = this.toggle.bind(this);
@@ -58,20 +59,8 @@ class ModalPayment extends React.Component {
                 <div className="container">Registrar Pago</div>
               </div>
             </div>
-            {this.displayCreditos()}
-            <Modal
-              isOpen={this.state.nestedModal}
-              toggle={this.toggleNested}
-              onClosed={this.state.closeAll ? this.props.toggle : undefined}
-            >
-              <ModalHeader>Nested Modal title</ModalHeader>
-              <ModalBody>Stuff and things</ModalBody>
-              <ModalFooter>
-                <Button color="primary" onClick={this.toggleNested}>
-                  $ Pagar
-                </Button>{" "}
-              </ModalFooter>
-            </Modal>
+            {this.showCreditos()}
+            {this.showPago()}
             <br />
           </ModalBody>
         </Modal>
@@ -79,7 +68,7 @@ class ModalPayment extends React.Component {
     );
   }
 
-  displayCreditos = () => {
+  showCreditos = () => {
     let moment = require("moment");
     require("moment/locale/es");
     return this.props.creditos.map(credito => {
@@ -140,9 +129,6 @@ class ModalPayment extends React.Component {
                   {moment(credito.vencimiento).format(
                     "dddd, D [de] MMMM [de] YYYY"
                   )}
-                  {/*                  
-     
-                  <FormattedDate value={credito.vencimiento} format="short" /> */}
                 </div>
               </div>
             </div>
@@ -150,6 +136,95 @@ class ModalPayment extends React.Component {
         </div>
       );
     });
+  };
+
+  showPago = () => {
+    return (
+      <Modal
+        isOpen={this.state.nestedModal}
+        toggle={this.toggleNested}
+        onClosed={this.state.closeAll ? this.props.toggle : undefined}
+        className="modal-print"
+      >
+        <ModalHeader className="body-header" />
+        <ModalBody className="pop-up-padding">
+          <div className="navbar navbar-default navbar-fixed-top subHeader">
+            <div className="navbar-header">
+              <div className="container">Registrar Pago</div>
+            </div>
+          </div>
+          {this.showFormPago()}
+        </ModalBody>
+        {/* <ModalFooter>
+          <Button color="primary" onClick={this.toggleNested}>
+            $ Pagar
+          </Button>{" "}
+        </ModalFooter> */}
+      </Modal>
+    );
+  };
+
+  showFormPago = () => {
+    let moment = require("moment");
+    require("moment/locale/es");
+    const credito = this.state.credito;
+    return (
+      <div className="list-group, list-print">
+        <div className="container">
+          <div className="row">
+            <div className="label-name">
+              <b>Nombre del Cliente:</b> {credito.nombreCliente}
+            </div>
+          </div>
+          <div className="row">
+            <div className="label-popup">
+              {" "}
+              <b>Cédula:</b>{" "}
+              <NumberFormat
+                value={credito.cedulaCliente}
+                thousandSeparator={"."}
+                decimalSeparator={","}
+                displayType={"text"}
+              />
+            </div>
+          </div>
+          <div className="row">
+            {" "}
+            <div className="label-popup">
+              <b>Producto:</b> {credito.tipoCredito}
+            </div>
+          </div>
+          <div className="row">
+            {" "}
+            <div className="label-popup">
+              <b>Crédito:</b> {credito.codigoCredito}
+            </div>
+          </div>
+          <div className="row">
+            {" "}
+            <div className="label-popup">
+              <b>Valor cuota:</b>{" "}
+              <NumberFormat
+                value={credito.cuotaCredito}
+                thousandSeparator={"."}
+                decimalSeparator={","}
+                displayType={"text"}
+                prefix={"$"}
+              />
+            </div>
+          </div>
+          <div className="row">
+            {" "}
+            <div className="label-popup">
+              <b>Fecha de vencimiento:</b>{" "}
+              {moment(credito.vencimiento).format(
+                "dddd, D [de] MMMM [de] YYYY"
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   prepararPago = credito => {
@@ -169,13 +244,17 @@ class ModalPayment extends React.Component {
       credito.porVencer
     )
       .then(data => {
-        let codigoCredito = data[0].codigoCredito;
+        let credito = data[0];
+        this.setState({
+          credito
+        });
         this.toggleNested();
-        return infoPagosCredito(codigoCredito);
+        return infoPagosCredito(credito.codigoCredito);
       })
       .then(data => {
         if (data.mensaje !== null && data.valor !== null) {
           alert(data.mensaje + "   -   " + data.valor);
+          //TODO
         }
       })
       .catch(error => {
