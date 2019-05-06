@@ -4,6 +4,10 @@ import "../../css/Alert.css";
 import InputTextFmb from "./../InputTextFmb";
 import ButtonFmb from "./../ButtonFmb";
 
+import { cambiarClave } from "./../../services/PasswordService";
+import Login from "./../Login";
+import { SESSION } from "../../utils/Constants";
+
 class ModalChangePassword extends Component {
   constructor(props) {
     super(props);
@@ -18,6 +22,7 @@ class ModalChangePassword extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.validatePass = this.validatePass.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   validateForm() {
@@ -55,6 +60,28 @@ class ModalChangePassword extends Component {
     this.setState({ validationMessage: validationMessage });
   }
 
+  handleSubmit(e) {
+    var valueSession = JSON.parse(sessionStorage.getItem(SESSION));
+    cambiarClave(
+      this.state.currentPass,
+      this.state.newPass,
+      this.state.confirmNewPass,
+      valueSession.idRecaudador,
+      valueSession.login
+    )
+      .then(response => {
+        console.log(response);
+        if (response) {
+          alert(response);
+        } else {
+          alert("paila");
+        }
+      })
+      .catch(error => {
+        alert("error");
+      });
+  }
+
   render() {
     return (
       <Modal isOpen={this.props.isOpen} size="lg" className="modal-print">
@@ -67,7 +94,7 @@ class ModalChangePassword extends Component {
           </div>
           <br />
           <form>
-            <div class="form-group list-print">
+            <div className="form-group list-print">
               <InputTextFmb
                 icon="fas fa-key"
                 type="password"
@@ -77,7 +104,7 @@ class ModalChangePassword extends Component {
                 onChange={this.handleChange}
               />
             </div>
-            <div class="form-group list-print has-icon">
+            <div className="form-group list-print has-icon">
               <span className="fas fa-key form-control-feedback" />
               <Input
                 type="password"
@@ -93,7 +120,7 @@ class ModalChangePassword extends Component {
               />
               <FormFeedback>{this.state.validationMessage}</FormFeedback>
             </div>
-            <div class="form-group list-print">
+            <div className="form-group list-print">
               <InputTextFmb
                 icon="fas fa-key"
                 type="password"
