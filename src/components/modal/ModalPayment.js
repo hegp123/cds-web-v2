@@ -9,6 +9,7 @@ import {
 import ButtonFmb from "../ButtonFmb";
 import InputTextFmb from "../InputTextFmb";
 import ModalAlert from "./ModalAlert";
+import ModalConfirm from "./ModalConfirm";
 
 class ModalPayment extends React.Component {
   constructor(props) {
@@ -21,7 +22,10 @@ class ModalPayment extends React.Component {
       valueToPay: "",
       modalAlert: false,
       modalAlertContent: "",
-      callbackOnClosed: () => {}
+      callbackOnClosed: () => {},
+      modalConfirm: false,
+      modalConfirmContent: "",
+      callbackConfirmOnClosed: () => {}
     };
 
     // this.toggle = this.toggle.bind(this);
@@ -29,6 +33,7 @@ class ModalPayment extends React.Component {
     this.toggleAll = this.toggleAll.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.toggleAlert = this.toggleAlert.bind(this);
+    this.toggleConfirm = this.toggleConfirm.bind(this);
   }
 
   toggle() {
@@ -57,8 +62,13 @@ class ModalPayment extends React.Component {
     }));
   }
 
+  toggleConfirm() {
+    this.setState(prevState => ({
+      modalConfirm: !prevState.modalConfirm
+    }));
+  }
+
   render() {
-    const { items } = this.props.creditos;
     return (
       <div>
         <Modal
@@ -185,79 +195,91 @@ class ModalPayment extends React.Component {
     require("moment/locale/es");
     const credito = this.state.credito;
     return (
-      <div className="list-group, list-print">
-        <div className="container">
-          <div className="row">
-            <div className="label-name">
-              <b>Nombre del Cliente:</b> {credito.nombreCliente}
+      <>
+        <div className="list-group, list-print">
+          <div className="container">
+            <div className="row">
+              <div className="label-name">
+                <b>Nombre del Cliente:</b> {credito.nombreCliente}
+              </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="label-popup">
+            <div className="row">
+              <div className="label-popup">
+                {" "}
+                <b>Cédula:</b>{" "}
+                <NumberFormat
+                  value={credito.cedulaCliente}
+                  thousandSeparator={"."}
+                  decimalSeparator={","}
+                  displayType={"text"}
+                />
+              </div>
+            </div>
+            <div className="row">
               {" "}
-              <b>Cédula:</b>{" "}
-              <NumberFormat
-                value={credito.cedulaCliente}
-                thousandSeparator={"."}
-                decimalSeparator={","}
-                displayType={"text"}
-              />
+              <div className="label-popup">
+                <b>Producto:</b> {credito.tipoCredito}
+              </div>
+            </div>
+            <div className="row">
+              {" "}
+              <div className="label-popup">
+                <b>Crédito:</b> {credito.codigoCredito}
+              </div>
+            </div>
+            <div className="row">
+              {" "}
+              <div className="label-popup">
+                <b>Valor cuota:</b>{" "}
+                <NumberFormat
+                  value={credito.cuotaCredito}
+                  thousandSeparator={"."}
+                  decimalSeparator={","}
+                  displayType={"text"}
+                  prefix={"$"}
+                />
+              </div>
+            </div>
+            <div className="row">
+              {" "}
+              <div className="label-popup">
+                <b>Fecha de vencimiento:</b>{" "}
+                {moment(credito.vencimiento).format(
+                  "dddd, D [de] MMMM [de] YYYY"
+                )}
+              </div>
             </div>
           </div>
-          <div className="row">
-            {" "}
-            <div className="label-popup">
-              <b>Producto:</b> {credito.tipoCredito}
-            </div>
-          </div>
-          <div className="row">
-            {" "}
-            <div className="label-popup">
-              <b>Crédito:</b> {credito.codigoCredito}
-            </div>
-          </div>
-          <div className="row">
-            {" "}
-            <div className="label-popup">
-              <b>Valor cuota:</b>{" "}
-              <NumberFormat
-                value={credito.cuotaCredito}
-                thousandSeparator={"."}
-                decimalSeparator={","}
-                displayType={"text"}
-                prefix={"$"}
-              />
-            </div>
-          </div>
-          <div className="row">
-            {" "}
-            <div className="label-popup">
-              <b>Fecha de vencimiento:</b>{" "}
-              {moment(credito.vencimiento).format(
-                "dddd, D [de] MMMM [de] YYYY"
-              )}
-            </div>
-          </div>
-        </div>
-        <br />
-        <InputTextFmb
-          type="number"
-          icon="fa fa-dollar-sign"
-          name="valueToPay"
-          placeholder="Valor a pagar"
-          value={this.state.valueToPay}
-          onChange={this.handleChange}
-          ref="valueToPay"
-        />
+          <br />
+          <InputTextFmb
+            type="number"
+            icon="fa fa-dollar-sign"
+            name="valueToPay"
+            placeholder="Valor a pagar"
+            value={this.state.valueToPay}
+            onChange={this.handleChange}
+            ref="valueToPay"
+          />
 
-        <ButtonFmb
-          id="buttonPagar"
-          name="Pagar"
-          icon="fa fa-dollar-sign"
-          // disabled={this.refs.valueToPay && !this.validateForm()}
-          onClick={this.realizarPago.bind(this, credito, this.state.valueToPay)}
+          <ButtonFmb
+            id="buttonPagar"
+            name="Pagar"
+            icon="fa fa-dollar-sign"
+            // disabled={this.refs.valueToPay && !this.validateForm()}
+            onClick={this.realizarPago.bind(
+              this,
+              credito,
+              this.state.valueToPay
+            )}
+          />
+        </div>
+        <ModalConfirm
+          toggle={this.toggleConfirm}
+          isOpen={this.state.modalConfirm}
+          content={this.state.modalConfirmContent}
+          callbackOnClosed={this.state.callbackConfirmOnClosed}
         />
-      </div>
+      </>
     );
   };
 
@@ -321,6 +343,8 @@ class ModalPayment extends React.Component {
       return;
     } else if (fechaProceso < inicioCuota || credito.porVencer) {
     }
+    this.showConfirm("el configm :)");
+    // this.showAlert(`Todo bien :)`);
   };
 
   showAlert = (message, callback = () => {}) => {
@@ -330,6 +354,15 @@ class ModalPayment extends React.Component {
     });
 
     this.toggleAlert();
+  };
+
+  showConfirm = (message, callback = () => {}) => {
+    this.setState({
+      modalConfirmContent: message,
+      callbackConfirmOnClosed: callback
+    });
+
+    this.toggleConfirm();
   };
 }
 
