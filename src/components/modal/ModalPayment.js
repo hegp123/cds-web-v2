@@ -10,6 +10,7 @@ import ButtonFmb from "../ButtonFmb";
 import InputTextFmb from "../InputTextFmb";
 import ModalAlert from "./ModalAlert";
 import ModalConfirm from "./ModalConfirm";
+import { SESSION } from "../../utils/Constants";
 
 class ModalPayment extends React.Component {
   constructor(props) {
@@ -25,7 +26,8 @@ class ModalPayment extends React.Component {
       callbackOnClosed: () => {},
       modalConfirm: false,
       modalConfirmContent: "",
-      callbackConfirmOnClosed: () => {}
+      callbackConfirmOnClosed: () => {},
+      callbackConfirmOk: () => {}
     };
 
     // this.toggle = this.toggle.bind(this);
@@ -94,6 +96,7 @@ class ModalPayment extends React.Component {
           isOpen={this.state.modalAlert}
           content={this.state.modalAlertContent}
           callbackOnClosed={this.state.callbackOnClosed}
+          title="Realizar pago de cuota"
         />
       </div>
     );
@@ -274,10 +277,12 @@ class ModalPayment extends React.Component {
           />
         </div>
         <ModalConfirm
-          toggle={this.toggleConfirm}
+          ok={this.state.callbackConfirmOk}
+          cancel={this.toggleConfirm}
           isOpen={this.state.modalConfirm}
           content={this.state.modalConfirmContent}
           callbackOnClosed={this.state.callbackConfirmOnClosed}
+          title="Realizar pago de cuota"
         />
       </>
     );
@@ -334,7 +339,6 @@ class ModalPayment extends React.Component {
     require("moment/locale/es");
 
     let valor = valorPagar === "" ? "0" : valorPagar;
-    let popupConfirmacion = null;
     let inicioCuota = moment(credito.fechaInicioCuota);
     let fechaProceso = moment(credito.fechaProceso);
 
@@ -342,9 +346,33 @@ class ModalPayment extends React.Component {
       this.showAlert(`Debe registrar un valor igual o mayor a ${valor}`);
       return;
     } else if (fechaProceso < inicioCuota || credito.porVencer) {
+      //credito.fechaInicioCuota y credito.fechaProceso estan llegando undefined, porque el servicio web no lo esta retornando, tal vez un requerimiento
+      // pero esto no afecta (totea) la app porque la comparacion  fechaProceso < inicioCuota  esta correcta
+      // osea que en esa condicion solo se esta ejecutando realmente credito.porVencer=true
+      this.showConfirm(
+        "Está realizando abono a capital.",
+        () => {},
+        this.modalConfirmOk.bind(this, credito, valor)
+      );
     }
-    this.showConfirm("el configm :)");
+
     // this.showAlert(`Todo bien :)`);
+  };
+
+  modalConfirmOk = (credito, valor) => {
+    let sesion = JSON.parse(sessionStorage.getItem(SESSION));
+    let pago = {
+      cuenta: credito.codigoCredito,
+      cuota: credito.cuotaCredito,
+      operacion: credito.operacion,
+      sucursal: credito.sucursalCliente,
+      producto: credito.idproducto,
+      tac: credito.tacCDS,
+      valor: valor,
+      idRecaudador: sesion.idRecaudador,
+      pure: sesion.idPunto,
+      porVencer: credito.porVencer
+    };
   };
 
   showAlert = (message, callback = () => {}) => {
@@ -356,10 +384,11 @@ class ModalPayment extends React.Component {
     this.toggleAlert();
   };
 
-  showConfirm = (message, callback = () => {}) => {
+  showConfirm = (message, callback = () => {}, callbackOk = () => {}) => {
     this.setState({
       modalConfirmContent: message,
-      callbackConfirmOnClosed: callback
+      callbackConfirmOnClosed: callback,
+      callbackConfirmOk: callbackOk
     });
 
     this.toggleConfirm();

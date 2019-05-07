@@ -14,7 +14,7 @@ class ModalAlert extends Component {
         <ModalBody>
           <div className="container">
             <div className="row,text-center">
-              <h3 className="popup-title">CDS Web</h3>
+              <h3 className="popup-title">{this.props.title || "CDS Web"}</h3>
             </div>
             <br />
             <div className="row">

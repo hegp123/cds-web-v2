@@ -15,7 +15,7 @@ class ModalConfirm extends Component {
         <ModalBody>
           <div className="container">
             <div className="row,text-center">
-              <h3 className="popup-title">CDS Web</h3>
+              <h3 className="popup-title">{this.props.title || "CDS Web"}</h3>
             </div>
             <br />
             <div className="row">
@@ -26,7 +26,7 @@ class ModalConfirm extends Component {
                 <button
                   color="primary"
                   className="buttonFmb btn btn-primary  btn-sm"
-                  onClick={this.props.toggle}
+                  onClick={this.props.ok}
                 >
                   Aceptar
                 </button>
@@ -34,9 +34,9 @@ class ModalConfirm extends Component {
                 <button
                   color="secundary"
                   className="buttonFmb btn btn-secundary  btn-sm"
-                  onClick={this.props.toggle}
+                  onClick={this.props.cancel}
                 >
-                  Cancel
+                  Cancelar
                 </button>
               </div>
             </div>
