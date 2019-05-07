@@ -184,7 +184,7 @@ class PrintDetail extends Component {
           <div className="form-group">
             <ButtonFmb
               name="Imprimir"
-              disabled="true"
+              disabled={true}
               icon="fas fa-print"
               onClick={this.reprint.bind(this)}
             />
@@ -192,7 +192,7 @@ class PrintDetail extends Component {
           <div className="form-group">
             <ButtonFmb
               name="Cerrar"
-              disabled="true"
+              disabled={true}
               icon="fas fa-times"
               onClick={this.props.setMasterChanged}
             />

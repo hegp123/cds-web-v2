@@ -159,7 +159,7 @@ class ModalChangePassword extends Component {
                   name="Cambiar contraseña"
                   icon="far fa-check-circle"
                   onClick={this.handleSubmit}
-                  disabled={this.validateForm()}
+                  disabled={!this.validateForm()}
                 />
               </div>
             </form>

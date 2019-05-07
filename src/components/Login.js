@@ -68,7 +68,7 @@ class Login extends Component {
           </div>
           <ButtonFmb
             name="Iniciar Sesión"
-            disabled={this.validateForm()}
+            disabled={!this.validateForm()}
             icon="fa fa-unlock"
             onClick={this.handleSubmit}
           />

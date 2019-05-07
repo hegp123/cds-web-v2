@@ -139,7 +139,7 @@ class ReportContainer extends Component {
                 name="Buscar"
                 icon="fa fa-search"
                 onClick={this.searchPayments}
-                disabled={!this.validateForm()}
+                disabled={this.validateForm()}
               />
             </div>
           </div>

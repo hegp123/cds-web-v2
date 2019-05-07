@@ -101,7 +101,7 @@ class PrintContainer extends Component {
             <div className="w-100 form-group">
               <ButtonFmb
                 name="Buscar"
-                disabled={!this.validateForm()}
+                disabled={this.validateForm()}
                 icon="fa fa-search"
                 onClick={this.searchInvoice}
               />

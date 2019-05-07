@@ -20,7 +20,7 @@ export default class PaymentContainer extends Component {
 
     this.state = {
       typeFilter: "0", //cedula por defecto
-      numberFilter: "",
+      numberFilter: "82990",
       placeHolderNumberFilter: placeHolderCedula,
       modalAlert: false,
       modalAlertContent: "",
@@ -84,7 +84,7 @@ export default class PaymentContainer extends Component {
             <div className="w-100 form-group">
               <ButtonFmb
                 name="Buscar"
-                disabled={this.validateForm()}
+                disabled={!this.validateForm()}
                 icon="fa fa-search"
                 type="submit"
               />

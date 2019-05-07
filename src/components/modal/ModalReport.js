@@ -72,7 +72,7 @@ class ModalReport extends Component {
               <div className="row">
                 <ButtonFmb
                   name="Imprimir"
-                  disabled="true"
+                  disabled={true}
                   icon="fas fa-print"
                 />
               </div>

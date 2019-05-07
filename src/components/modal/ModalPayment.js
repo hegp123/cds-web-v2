@@ -8,6 +8,7 @@ import {
 } from "../../services/PaymentService";
 import ButtonFmb from "../ButtonFmb";
 import InputTextFmb from "../InputTextFmb";
+import ModalAlert from "./ModalAlert";
 
 class ModalPayment extends React.Component {
   constructor(props) {
@@ -17,13 +18,17 @@ class ModalPayment extends React.Component {
       nestedModal: false,
       closeAll: false,
       credito: {},
-      valueToPay: ""
+      valueToPay: "",
+      modalAlert: false,
+      modalAlertContent: "",
+      callbackOnClosed: () => {}
     };
 
     // this.toggle = this.toggle.bind(this);
     this.toggleNested = this.toggleNested.bind(this);
     this.toggleAll = this.toggleAll.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.toggleAlert = this.toggleAlert.bind(this);
   }
 
   toggle() {
@@ -44,6 +49,12 @@ class ModalPayment extends React.Component {
       nestedModal: !this.state.nestedModal,
       closeAll: true
     });
+  }
+
+  toggleAlert() {
+    this.setState(prevState => ({
+      modalAlert: !prevState.modalAlert
+    }));
   }
 
   render() {
@@ -68,6 +79,12 @@ class ModalPayment extends React.Component {
             <br />
           </ModalBody>
         </Modal>
+        <ModalAlert
+          toggle={this.toggleAlert}
+          isOpen={this.state.modalAlert}
+          content={this.state.modalAlertContent}
+          callbackOnClosed={this.state.callbackOnClosed}
+        />
       </div>
     );
   }
@@ -159,11 +176,6 @@ class ModalPayment extends React.Component {
           </div>
           {this.showFormPago()}
         </ModalBody>
-        {/* <ModalFooter>
-          <Button color="primary" onClick={this.toggleNested}>
-            $ Pagar
-          </Button>{" "}
-        </ModalFooter> */}
       </Modal>
     );
   };
@@ -235,13 +247,15 @@ class ModalPayment extends React.Component {
           placeholder="Valor a pagar"
           value={this.state.valueToPay}
           onChange={this.handleChange}
+          ref="valueToPay"
         />
 
         <ButtonFmb
           id="buttonPagar"
           name="Pagar"
           icon="fa fa-dollar-sign"
-          disabled={this.validateForm()}
+          // disabled={this.refs.valueToPay && !this.validateForm()}
+          onClick={this.realizarPago.bind(this, credito, this.state.valueToPay)}
         />
       </div>
     );
@@ -258,6 +272,7 @@ class ModalPayment extends React.Component {
 
   prepararPago = credito => {
     //
+
     let parametrizado = false; //TODO
     if (credito.valorBloqueado) {
       parametrizado = true;
@@ -282,8 +297,6 @@ class ModalPayment extends React.Component {
         return infoPagosCredito(credito.codigoCredito);
       })
       .then(data => {
-        var buttonPagar = document.getElementById("buttonPagar");
-        buttonPagar.disabled = false;
         if (data.mensaje !== null && data.valor !== null) {
           alert(data.mensaje + "   -   " + data.valor);
           //TODO
@@ -292,6 +305,31 @@ class ModalPayment extends React.Component {
       .catch(error => {
         alert(error);
       });
+  };
+
+  realizarPago = (credito, valorPagar) => {
+    let moment = require("moment");
+    require("moment/locale/es");
+
+    let valor = valorPagar === "" ? "0" : valorPagar;
+    let popupConfirmacion = null;
+    let inicioCuota = moment(credito.fechaInicioCuota);
+    let fechaProceso = moment(credito.fechaProceso);
+
+    if (valor === "0") {
+      this.showAlert(`Debe registrar un valor igual o mayor a ${valor}`);
+      return;
+    } else if (fechaProceso < inicioCuota || credito.porVencer) {
+    }
+  };
+
+  showAlert = (message, callback = () => {}) => {
+    this.setState({
+      modalAlertContent: message,
+      callbackOnClosed: callback
+    });
+
+    this.toggleAlert();
   };
 }
 
