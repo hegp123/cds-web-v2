@@ -30,9 +30,10 @@ class ModalConfirm extends Component {
                 >
                   Aceptar
                 </button>
+                {"  "}
                 <button
-                  color="secondary"
-                  className="buttonFmb btn btn-primary  btn-sm"
+                  color="secundary"
+                  className="buttonFmb btn btn-secundary  btn-sm"
                   onClick={this.props.toggle}
                 >
                   Cancel
