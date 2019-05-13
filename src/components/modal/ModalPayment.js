@@ -1,10 +1,11 @@
 import React from "react";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Modal, ModalHeader, ModalBody } from "reactstrap";
 import "../../css/Alert.css";
 import NumberFormat from "react-number-format";
 import {
   buscarPorSeleccion,
-  infoPagosCredito
+  infoPagosCredito,
+  pagarCredito
 } from "../../services/PaymentService";
 import ButtonFmb from "../ButtonFmb";
 import InputTextFmb from "../InputTextFmb";
@@ -325,12 +326,12 @@ class ModalPayment extends React.Component {
       })
       .then(data => {
         if (data.mensaje !== null && data.valor !== null) {
-          alert(data.mensaje + "   -   " + data.valor);
+          this.showAlert(data.mensaje + data.valor);
           //TODO
         }
       })
       .catch(error => {
-        alert(error);
+        this.showAlert(error);
       });
   };
 
@@ -345,7 +346,7 @@ class ModalPayment extends React.Component {
     if (valor === "0") {
       this.showAlert(`Debe registrar un valor igual o mayor a ${valor}`);
       return;
-    } else if (fechaProceso < inicioCuota || credito.porVencer) {
+    } else if (fechaProceso < inicioCuota || credito.porVencer || true) {
       //credito.fechaInicioCuota y credito.fechaProceso estan llegando undefined, porque el servicio web no lo esta retornando, tal vez un requerimiento
       // pero esto no afecta (totea) la app porque la comparacion  fechaProceso < inicioCuota  esta correcta
       // osea que en esa condicion solo se esta ejecutando realmente credito.porVencer=true
@@ -373,6 +374,36 @@ class ModalPayment extends React.Component {
       pure: sesion.idPunto,
       porVencer: credito.porVencer
     };
+
+    pagarCredito(pago).then(ordenRecibo => {
+      if (ordenRecibo.idFactura !== null && ordenRecibo.numeroFactura !== "0") {
+        this.toggleConfirm();
+        this.toggleNested();
+        // $state.go("factura", {
+        //   credito: JSON.stringify(ordenRecibo),
+        //   vista: "factura"
+        // });
+        alert("vamos para factura");
+      } else {
+        if (ordenRecibo.valorMensaje !== null) {
+          this.showAlert(
+            "Falló el pago al crédito No. " +
+              credito.codigoCredito +
+              ". " +
+              ordenRecibo.mensaje +
+              "$" +
+              ordenRecibo.valorMensaje
+          );
+        } else {
+          this.showAlert(
+            "Falló el pago al crédito No. " +
+              credito.codigoCredito +
+              ". " +
+              ordenRecibo.mensaje
+          );
+        }
+      }
+    });
   };
 
   showAlert = (message, callback = () => {}) => {

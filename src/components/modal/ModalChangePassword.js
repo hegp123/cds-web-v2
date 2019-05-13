@@ -20,7 +20,7 @@ class ModalChangePassword extends Component {
       },
       validationMessage: "",
       toggleAlert: "",
-      modalAlert: "",
+      modalAlert: false,
       contentAlert: ""
     };
     this.handleChange = this.handleChange.bind(this);
