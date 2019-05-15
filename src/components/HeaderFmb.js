@@ -64,21 +64,25 @@ class HeaderFmb extends Component {
                 className="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="userDropdown"
               >
-                <a className="dropdown-item" href="#">
+                <div className="dropdown-item letra-usuario">
                   <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400" />
                   {this.state.sesion.nombreUsuario}
-                </a>
-                <a className="dropdown-item" href="#" onClick={this.toggle}>
+                </div>
+                <a
+                  className="dropdown-item letra-menu"
+                  href="#"
+                  onClick={this.toggle}
+                >
                   <i className="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400" />
                   Cambiar Contraseña
                 </a>
-                <a className="dropdown-item" href="#">
+                <a className="dropdown-item letra-menu" href="#">
                   <i className="fas fa-list fa-sm fa-fw mr-2 text-gray-400" />
                   Probar impresora
                 </a>
                 <div className="dropdown-divider" />
                 <a
-                  className="dropdown-item"
+                  className="dropdown-item letra-menu"
                   href="#"
                   onClick={logout.bind(this, this.props.history)}
                 >
