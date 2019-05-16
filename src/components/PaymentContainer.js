@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import InputTextFmb from "./InputTextFmb";
 import ButtonFmb from "./ButtonFmb";
 import { validateAPI } from "../services/LoginService";
-import { buscarPorCC } from "../services/PaymentService";
+import { buscarPorCC, buscarPorCredito } from "../services/PaymentService";
 import ModalAlert from "./modal/ModalAlert";
 
 import {
@@ -47,7 +47,7 @@ export default class PaymentContainer extends Component {
 
   render() {
     return (
-      <>
+      <div>
         <form className="container" onSubmit={this.handleSubmit}>
           <div className="row">
             <div className="w-100">
@@ -102,7 +102,7 @@ export default class PaymentContainer extends Component {
           toggle={this.toggle}
           creditos={this.state.creditos}
         />
-      </>
+      </div>
     );
   }
 
@@ -134,17 +134,23 @@ export default class PaymentContainer extends Component {
     var cadenaBusqueda = this.state.numberFilter;
 
     var sesion = JSON.parse(sessionStorage.getItem(SESSION));
-
+    let mensaje = null;
     validateAPI()
       .then(() => {
-        return buscarPorCC(cadenaBusqueda, sesion.idPunto);
+        if (this.state.typeFilter === "0") {
+          mensaje =
+            "No hay créditos asociados al No. de identificación ingresado";
+          return buscarPorCC(cadenaBusqueda, sesion.idPunto);
+        } else {
+          mensaje = "No hay créditos asociados al No. de crédito ingresado";
+
+          return buscarPorCredito(cadenaBusqueda, sesion.idPunto);
+        }
       })
       .then(data => {
         let creditos = data;
-        let mensaje =
-          "No hay créditos asociados al No. de identificación ingresado";
 
-        if (creditos.length > 0) {
+        if (creditos.length > 0 && creditos[0].id !== null) {
           //TODO: aca debe mostrar la modal
           //scope.modal.show();
           // $creditos

@@ -12,6 +12,7 @@ import InputTextFmb from "../InputTextFmb";
 import ModalAlert from "./ModalAlert";
 import ModalConfirm from "./ModalConfirm";
 import { SESSION } from "../../utils/Constants";
+import { numberFilter } from "../../utils/Utils";
 
 class ModalPayment extends React.Component {
   constructor(props) {
@@ -75,10 +76,10 @@ class ModalPayment extends React.Component {
     return (
       <div>
         <Modal
-          isOpen={this.props.isOpen}
           size="lg"
           className="modal-print"
           scrollable={true}
+          isOpen={this.props.isOpen}
         >
           <ModalHeader toggle={this.props.toggle} className="body-header" />
           <ModalBody className="pop-up-padding">
@@ -88,10 +89,10 @@ class ModalPayment extends React.Component {
               </div>
             </div>
             {this.showCreditos()}
-            {this.showPago()}
             <br />
           </ModalBody>
         </Modal>
+        {this.showPago()}
         <ModalAlert
           toggle={this.toggleAlert}
           isOpen={this.state.modalAlert}
@@ -176,12 +177,12 @@ class ModalPayment extends React.Component {
   showPago = () => {
     return (
       <Modal
+        size="lg"
         isOpen={this.state.nestedModal}
-        toggle={this.toggleNested}
-        onClosed={this.state.closeAll ? this.props.toggle : undefined}
         className="modal-print"
+        scrollable={true}
       >
-        <ModalHeader className="body-header" />
+        <ModalHeader toggle={this.toggleNested} className="body-header" />
         <ModalBody className="pop-up-padding">
           <div className="navbar navbar-default navbar-fixed-top subHeader">
             <div className="navbar-header">
@@ -189,8 +190,27 @@ class ModalPayment extends React.Component {
             </div>
           </div>
           {this.showFormPago()}
+          <br />
         </ModalBody>
       </Modal>
+
+      /*<Modal
+        isOpen={this.state.nestedModal}
+        toggle={this.toggleNested}
+        onClosed={this.state.closeAll ? this.props.toggle : undefined}
+        className="modal-print"
+        centered={true}
+      >
+        <ModalHeader className="body-header" />
+        <ModalBody className="pop-up-padding">
+          <div className="navbar navbar-default navbar-fixed-top subHeader">
+            <div className="navbar-header">
+              <div className="container">Registrar Pago2</div>
+            </div>
+          </div>
+          {this.showFormPago()}
+        </ModalBody>
+      </Modal>*/
     );
   };
 
@@ -346,12 +366,32 @@ class ModalPayment extends React.Component {
     if (valor === "0") {
       this.showAlert(`Debe registrar un valor igual o mayor a ${valor}`);
       return;
-    } else if (fechaProceso < inicioCuota || credito.porVencer || true) {
+    } else if (fechaProceso < inicioCuota || credito.porVencer) {
       //credito.fechaInicioCuota y credito.fechaProceso estan llegando undefined, porque el servicio web no lo esta retornando, tal vez un requerimiento
       // pero esto no afecta (totea) la app porque la comparacion  fechaProceso < inicioCuota  esta correcta
       // osea que en esa condicion solo se esta ejecutando realmente credito.porVencer=true
       this.showConfirm(
         "Está realizando abono a capital.",
+        () => {},
+        this.modalConfirmOk.bind(this, credito, valor)
+      );
+    } else if (valor > credito.cuotaCredito) {
+      this.showConfirm(
+        "Pago supera el valor de la cuota.",
+        () => {},
+        this.modalConfirmOk.bind(this, credito, valor)
+      );
+    } else if (valor < credito.cuotaCredito) {
+      this.showConfirm(
+        "El valor a pagar es menor que la cuota. ¿Seguro que desea realizar el pago por $" +
+          numberFilter(valor) +
+          "?",
+        () => {},
+        this.modalConfirmOk.bind(this, credito, valor)
+      );
+    } else {
+      this.showConfirm(
+        " ¿Seguro que desea realizar el pago por $" + numberFilter(valor) + "?",
         () => {},
         this.modalConfirmOk.bind(this, credito, valor)
       );

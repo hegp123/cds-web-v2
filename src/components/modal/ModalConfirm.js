@@ -9,7 +9,6 @@ class ModalConfirm extends Component {
         isOpen={this.props.isOpen}
         size="sm"
         centered={true}
-        contentClassName="body-transparent"
         onClosed={this.props.callbackOnClosed}
       >
         <ModalBody>
@@ -24,19 +23,19 @@ class ModalConfirm extends Component {
             <div className="row, text-center">
               <div className="popup-container-button">
                 <button
+                  color="secundary"
+                  className="buttonCancelFmb btn btn-secundary  btn-sm"
+                  onClick={this.props.cancel}
+                >
+                  Cancelar
+                </button>
+                {"  "}
+                <button
                   color="primary"
                   className="buttonFmb btn btn-primary  btn-sm"
                   onClick={this.props.ok}
                 >
                   Aceptar
-                </button>
-                {"  "}
-                <button
-                  color="secundary"
-                  className="buttonFmb btn btn-secundary  btn-sm"
-                  onClick={this.props.cancel}
-                >
-                  Cancelar
                 </button>
               </div>
             </div>

@@ -4,7 +4,6 @@ import "../../css/Alert.css";
 import InputTextFmb from "./../InputTextFmb";
 import ButtonFmb from "./../ButtonFmb";
 import { cambiarClave } from "./../../services/PasswordService";
-import Login from "./../Login";
 import { SESSION } from "../../utils/Constants";
 import ModalAlert from "./ModalAlert";
 

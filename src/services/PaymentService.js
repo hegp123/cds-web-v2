@@ -20,6 +20,27 @@ export let buscarPorCC = (cedula, idPunto) => {
   });
 };
 
+export let buscarPorCredito = (cedula, idPunto) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(
+        conexion.URL_WS + ws_api.EP_CREDITOS_CREDITO + cedula + "/" + idPunto
+      )
+      .then(response => {
+        if (response) {
+          if (!response.data) {
+            reject("problemas con el crédito");
+          } else {
+            resolve(response.data);
+          }
+        }
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
+
 export let buscarPorSeleccion = (
   credito,
   cuota,
@@ -107,6 +128,25 @@ export let pagarCredito = pago => {
         if (response) {
           if (!response.data) {
             reject("creo que aca nunca se va a meter");
+          } else {
+            resolve(response.data);
+          }
+        }
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
+
+export let buscarPorNombre = nombre => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(conexion.URL_WS + ws_api.EP_CREDITOS_NOMBRE + nombre)
+      .then(response => {
+        if (response) {
+          if (!response.data) {
+            reject("problemas con el buscar nombre");
           } else {
             resolve(response.data);
           }
