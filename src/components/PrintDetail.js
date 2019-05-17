@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import ButtonFmb from "./ButtonFmb";
 import "../css/Alert.css";
-import { AppContext } from "../context/AppContext";
 import { numberFilter } from "../utils/Utils";
 import { SESSION } from "../utils/Constants";
 
@@ -29,46 +28,46 @@ class PrintDetail extends Component {
       "Fundacion delamujer \r\n" +
       "NIT. 901.128.535-8 \r\n" +
       "Fecha: " +
-      this.context.invoice.fecha +
+      this.props.invoice.fecha +
       " \r\n" +
       "AG: " +
-      this.context.invoice.agencia +
+      this.props.invoice.agencia +
       " \r\n" +
       "\r\n" +
       "ORDEN DE RECIBO POR CDS NO.: \r\n" +
-      this.context.invoice.numeroFactura +
+      this.props.invoice.numeroFactura +
       "\r\n" +
       "\r\n" +
       reimp +
       "\r\n" +
       "Cliente: " +
-      this.context.invoice.cliente +
+      this.props.invoice.cliente +
       " \r\n" +
       "Documento identidad: " +
-      numberFilter(this.context.invoice.cedulaCliente) +
+      numberFilter(this.props.invoice.cedulaCliente) +
       "\r\n";
 
     factura +=
       "Concepto: Abono Credito " +
-      this.context.invoice.codigoCredito +
+      this.props.invoice.codigoCredito +
       " \r\n \r\n";
 
     factura +=
-      "Valor pagado: $" + numberFilter(this.context.invoice.total) + ",00 \r\n";
+      "Valor pagado: $" + numberFilter(this.props.invoice.total) + ",00 \r\n";
 
     factura +=
       "------ \r\n" +
       "Total: $" +
-      numberFilter(this.context.invoice.total) +
+      numberFilter(this.props.invoice.total) +
       ",00 \r\n \r\n";
 
     if (
-      this.context.invoice.mensaje !== "" &&
-      this.context.invoice.mensaje !== null
+      this.props.invoice.mensaje !== "" &&
+      this.props.invoice.mensaje !== null
     ) {
       factura +=
         "Mensaje: " +
-        this.context.invoice.mensaje +
+        this.props.invoice.mensaje +
         " \r\n" +
         this.state.sesion.mensajeImpresion +
         " \r\n \r\n" +
@@ -76,7 +75,7 @@ class PrintDetail extends Component {
         this.state.sesion.mensajeGlobal +
         " \r\n \r\n" +
         "CODIGO DE SEGURIDAD: " +
-        this.context.invoice.codigoSeguridad +
+        this.props.invoice.codigoSeguridad +
         " \r\n" +
         "\r\n \r\n \r\n";
     } else {
@@ -87,7 +86,7 @@ class PrintDetail extends Component {
         this.state.sesion.mensajeGlobal +
         " \r\n \r\n" +
         "CODIGO DE SEGURIDAD: " +
-        this.context.invoice.codigoSeguridad +
+        this.props.invoice.codigoSeguridad +
         " \r\n" +
         "\r\n \r\n \r\n";
     }
@@ -111,44 +110,44 @@ class PrintDetail extends Component {
               <div className="row">
                 <div className="label-name space">
                   <b>OR No.:</b>
-                  {this.context.invoice.numeroFactura}
+                  {this.props.invoice.numeroFactura}
                 </div>
               </div>
               <div className="row">
                 <div className="label-detail space">
                   <b>Fecha:</b>
-                  {this.context.invoice.fecha}
+                  {this.props.invoice.fecha}
                 </div>
               </div>
               <div className="row">
                 <div className="label-detail space">
                   <b>Agencia:</b>
-                  {this.context.invoice.agencia}
+                  {this.props.invoice.agencia}
                 </div>
               </div>
               <div className="row">
                 <div className="label-detail space">
                   <b>Cliene:</b>
-                  {this.context.invoice.cliente}
+                  {this.props.invoice.cliente}
                 </div>
               </div>
 
               <div className="row">
                 <div className="label-detail space">
                   <b>Cédula:</b>
-                  {this.context.invoice.cedulaCliente}
+                  {this.props.invoice.cedulaCliente}
                 </div>
               </div>
               <div className="row">
                 <div className="label-detail space">
                   <b>Crédito:</b>
-                  {this.context.invoice.codigoCredito}
+                  {this.props.invoice.codigoCredito}
                 </div>
               </div>
               <div className="row">
                 <div className="label-detail space">
                   <b>Total:</b>
-                  {"$" + numberFilter(this.context.invoice.total) + ",00"}
+                  {"$" + numberFilter(this.props.invoice.total) + ",00"}
                 </div>
               </div>
               <br />
@@ -164,10 +163,14 @@ class PrintDetail extends Component {
 
               <div className="row">
                 <div className="label-detail space">
-                  {this.context.invoice.mensaje !== "" &&
-                  this.context.invoice.mensaje !== null
-                    ? <b>Mensaje:</b> + "this.context.invoice.mensaje "
-                    : ""}
+                  {this.props.invoice.mensaje !== "" &&
+                  this.props.invoice.mensaje !== null ? (
+                    <div>
+                      <b>Mensaje:</b> {this.props.invoice.mensaje}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
               <div className="row">
@@ -184,7 +187,7 @@ class PrintDetail extends Component {
           <div className="form-group">
             <ButtonFmb
               name="Imprimir"
-              disabled={true}
+              disabled={false}
               icon="fas fa-print"
               onClick={this.reprint.bind(this)}
             />
@@ -192,7 +195,7 @@ class PrintDetail extends Component {
           <div className="form-group">
             <ButtonFmb
               name="Cerrar"
-              disabled={true}
+              disabled={false}
               icon="fas fa-times"
               onClick={this.props.setMasterChanged}
             />
@@ -202,7 +205,5 @@ class PrintDetail extends Component {
     );
   }
 }
-
-PrintDetail.contextType = AppContext;
 
 export default PrintDetail;

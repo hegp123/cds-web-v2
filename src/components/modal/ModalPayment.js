@@ -11,8 +11,9 @@ import ButtonFmb from "../ButtonFmb";
 import InputTextFmb from "../InputTextFmb";
 import ModalAlert from "./ModalAlert";
 import ModalConfirm from "./ModalConfirm";
-import { SESSION } from "../../utils/Constants";
+import { SESSION, INVOICE_PRINT } from "../../utils/Constants";
 import { numberFilter } from "../../utils/Utils";
+import { withRouter } from "react-router";
 
 class ModalPayment extends React.Component {
   constructor(props) {
@@ -401,6 +402,7 @@ class ModalPayment extends React.Component {
   };
 
   modalConfirmOk = (credito, valor) => {
+    this.toggleConfirm();
     let sesion = JSON.parse(sessionStorage.getItem(SESSION));
     let pago = {
       cuenta: credito.codigoCredito,
@@ -419,11 +421,8 @@ class ModalPayment extends React.Component {
       if (ordenRecibo.idFactura !== null && ordenRecibo.numeroFactura !== "0") {
         this.toggleConfirm();
         this.toggleNested();
-        // $state.go("factura", {
-        //   credito: JSON.stringify(ordenRecibo),
-        //   vista: "factura"
-        // });
-        alert("vamos para factura");
+        sessionStorage.setItem(INVOICE_PRINT, JSON.stringify(ordenRecibo));
+        this.props.history.push("/paymentPrint");
       } else {
         if (ordenRecibo.valorMensaje !== null) {
           this.showAlert(
@@ -465,5 +464,5 @@ class ModalPayment extends React.Component {
     this.toggleConfirm();
   };
 }
-
+ModalPayment = withRouter(ModalPayment);
 export default ModalPayment;

@@ -8,6 +8,7 @@ import PaymentPage from "../components/Payment";
 import PrintPage from "../components/Print";
 import ReportPage from "../components/Report";
 import PrintDetailPage from "../components/PrintDetail";
+import PaymentPrint from "../components/PaymentPrint";
 import axios from "axios";
 
 axios.interceptors.request.use(
@@ -43,12 +44,7 @@ class App extends React.Component {
             <PrivateRoute exact path="/payment" component={PaymentPage} />
             <PrivateRoute exact path="/report" component={ReportPage} />
             <PrivateRoute exact path="/print" component={PrintPage} />
-            <PrivateRoute
-              exact
-              path="/printDetail"
-              component={PrintDetailPage}
-            />
-
+            <PrivateRoute exact path="/paymentPrint" component={PaymentPrint} />
             <Route path="/login" component={LoginPage} />
           </div>
         </Router>

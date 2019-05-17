@@ -3,3 +3,4 @@ export const creditoValue = "1";
 export const placeHolderCedula = "Escriba aquí el número de Cédula";
 export const placeHolderCredito = "Escriba aquí el número del Crédito";
 export const SESSION = "session";
+export const INVOICE_PRINT = "invoicePrint";
