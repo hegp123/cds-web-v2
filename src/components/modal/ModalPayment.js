@@ -397,8 +397,6 @@ class ModalPayment extends React.Component {
         this.modalConfirmOk.bind(this, credito, valor)
       );
     }
-
-    // this.showAlert(`Todo bien :)`);
   };
 
   modalConfirmOk = (credito, valor) => {

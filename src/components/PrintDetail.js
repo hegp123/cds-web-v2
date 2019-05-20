@@ -18,6 +18,12 @@ class PrintDetail extends Component {
     this.setState({ sesion: valueSession });
   }
 
+  componentDidUpdate() {
+    if (!this.props.printer) {
+      this.reprint(false);
+    }
+  }
+
   reprint(mostrarFactura) {
     var reimp = "";
     if (mostrarFactura) {
@@ -38,8 +44,7 @@ class PrintDetail extends Component {
       this.props.invoice.numeroFactura +
       "\r\n" +
       "\r\n" +
-      reimp +
-      "\r\n" +
+      (mostrarFactura ? reimp + "\r\n" : "") +
       "Cliente: " +
       this.props.invoice.cliente +
       " \r\n" +
@@ -102,7 +107,7 @@ class PrintDetail extends Component {
       <div>
         <div className="container">
           <div className="form-group text-center">
-            <b>Reimpresión</b>
+            <b>{this.props.printer ? "Reimpresión" : ""}</b>
           </div>
 
           <div className="form-group">
@@ -185,12 +190,16 @@ class PrintDetail extends Component {
         <br />
         <div className="container">
           <div className="form-group">
-            <ButtonFmb
-              name="Imprimir"
-              disabled={false}
-              icon="fas fa-print"
-              onClick={this.reprint.bind(this)}
-            />
+            {this.props.printer ? (
+              <ButtonFmb
+                name="Imprimir"
+                disabled={false}
+                icon="fas fa-print"
+                onClick={this.reprint.bind(this, true)}
+              />
+            ) : (
+              <div />
+            )}
           </div>
           <div className="form-group">
             <ButtonFmb

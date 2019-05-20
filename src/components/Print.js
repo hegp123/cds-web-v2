@@ -33,6 +33,7 @@ class Print extends Component {
           <PrintDetail
             setMasterChanged={this.setMasterChanged}
             invoice={this.context.invoice}
+            printer={true}
           />
         )}
         {!this.state.masterChanged ? <FooterFmb type={typeProcess} /> : ""}

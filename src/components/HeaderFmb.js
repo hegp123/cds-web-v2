@@ -35,6 +35,8 @@ class HeaderFmb extends Component {
       title = "Reimprimir orden de recibo";
     } else if (this.props.type === "report") {
       title = "Reporte de pagos";
+    } else if (this.props.type === "paymentPrint") {
+      title = "Pago realizado con éxito";
     }
 
     return (
