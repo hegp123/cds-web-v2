@@ -108,7 +108,6 @@ class ReportContainer extends Component {
   render() {
     return (
       <div>
-        <br />
         <form className="container">
           <div className="row">
             <div className="w-100">
