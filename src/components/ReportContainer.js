@@ -111,12 +111,10 @@ class ReportContainer extends Component {
         <br />
         <form className="container">
           <div className="row">
-            <div className="w-100  form-group">
+            <div className="w-100">
               <span className="float-left font-label-fmb">Fecha:</span>
             </div>
-          </div>
-          <div className="row">
-            <div className="w-100  form-group">
+            <div className="w-100">
               <span className="float-left font-label-fmb">
                 <DatePicker
                   peekNextMonth
