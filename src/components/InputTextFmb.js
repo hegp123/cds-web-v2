@@ -14,6 +14,7 @@ class InputTextFmb extends Component {
           placeholder={this.props.placeholder}
           value={this.props.value}
           onChange={this.props.onChange}
+          readOnly={this.props.readOnly}
         />
       </div>
     );

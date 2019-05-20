@@ -151,24 +151,14 @@ export default class PaymentContainer extends Component {
         let creditos = data;
 
         if (creditos.length > 0 && creditos[0].id !== null) {
-          //TODO: aca debe mostrar la modal
-          //scope.modal.show();
-          // $creditos
-          // .buscarPorCC($scope.cadenaBusqueda.busqueda, sesion.idPunto)
-          //   function buscarPorCC(cedula, idPunto) {
-          //     return $http.get(URL_WS + EP_CREDITOS_CC + cedula + "/" + idPunto);
-          // }
           this.setState({
             creditos: creditos
           });
-
           this.toggle();
-          // alert("aca va la modal :)");
         } else {
           this.showAlert(mensaje);
         }
       })
-
       .catch(error => {
         alert(error);
       });

@@ -30,7 +30,8 @@ class ModalPayment extends React.Component {
       modalConfirm: false,
       modalConfirmContent: "",
       callbackConfirmOnClosed: () => {},
-      callbackConfirmOk: () => {}
+      callbackConfirmOk: () => {},
+      parametrizado: false
     };
 
     // this.toggle = this.toggle.bind(this);
@@ -284,6 +285,7 @@ class ModalPayment extends React.Component {
             value={this.state.valueToPay}
             onChange={this.handleChange}
             ref="valueToPay"
+            readOnly={this.state.parametrizado}
           />
 
           <ButtonFmb
@@ -322,11 +324,10 @@ class ModalPayment extends React.Component {
   prepararPago = credito => {
     //
 
-    let parametrizado = false; //TODO
     if (credito.valorBloqueado) {
-      parametrizado = true;
+      this.setState({ parametrido: true });
     } else {
-      parametrizado = false;
+      this.setState({ parametrido: false });
     }
 
     buscarPorSeleccion(
@@ -348,7 +349,6 @@ class ModalPayment extends React.Component {
       .then(data => {
         if (data.mensaje !== null && data.valor !== null) {
           this.showAlert(data.mensaje + data.valor);
-          //TODO
         }
       })
       .catch(error => {
