@@ -13,7 +13,7 @@ export let cambiarClave = (
       .get(
         conexion.URL_WS +
           ws_api.EP_CLAVE +
-          +clave +
+          clave +
           "/" +
           nuevaClave +
           "/" +

@@ -9,6 +9,7 @@ import { validateAPI, login } from "../services/LoginService";
 import { logout } from "../utils/Utils";
 import { SESSION } from "../utils/Constants";
 import { PAYMENT } from "../utils/Paths";
+import ModalChangePassword from "./modal/ModalChangePassword";
 
 class Login extends Component {
   constructor(props) {
@@ -20,16 +21,29 @@ class Login extends Component {
       loginAttempts: 0,
       modalAlert: false,
       modalAlertContent: "",
+      modalChangePassword: false,
       callbackOnClosed: () => {}
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.toggleAlert = this.toggleAlert.bind(this);
+    this.toggleChangePassword = this.toggleChangePassword.bind(this);
+    this.clearForm = this.clearForm.bind(this);
   }
 
   toggleAlert() {
     this.setState(prevState => ({
       modalAlert: !prevState.modalAlert
+    }));
+  }
+
+  clearForm() {
+    this.setState({ user: "", password: "" });
+  }
+
+  toggleChangePassword() {
+    this.setState(prevState => ({
+      modalChangePassword: !prevState.modalChangePassword
     }));
   }
 
@@ -78,6 +92,10 @@ class Login extends Component {
           isOpen={this.state.modalAlert}
           content={this.state.modalAlertContent}
           callbackOnClosed={this.state.callbackOnClosed}
+        />
+        <ModalChangePassword
+          toggle={this.toggleChangePassword}
+          isOpen={this.state.modalChangePassword}
         />
       </div>
     );
@@ -164,11 +182,10 @@ class Login extends Component {
 
           if (userData.forzarCambioClave === 1 || diasCambio >= 60) {
             this.asignarSesion(SESSION, userData);
-            //$scope.modalCambiarContrasenha.show();
-            //TODO: aca debe abrir la modal
+            this.clearForm();
+            this.toggleChangePassword();
           } else {
             this.asignarSesion(SESSION, userData);
-            // $state.go("tab.pagos");
             this.props.history.push(PAYMENT);
           }
         }

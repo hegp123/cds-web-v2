@@ -82,7 +82,7 @@ class ModalChangePassword extends Component {
       this.state.newPass,
       this.state.confirmNewPass,
       valueSession.idRecaudador,
-      valueSession.login
+      valueSession.loginUsuario
     )
       .then(response => {
         console.log(response);
