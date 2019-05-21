@@ -19,7 +19,7 @@ class ReportContainer extends Component {
     super(props);
     this.state = {
       startDate: new Date(),
-      modalReport: "",
+      modalReport: false,
       modalAlert: false,
       collectionPoint: "",
       totalPaid: "",
