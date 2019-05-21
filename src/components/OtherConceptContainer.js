@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import InputTextFmb from "./InputTextFmb";
 import ButtonFmb from "./ButtonFmb";
+import ModalOtherConcept from "./modal/ModalOtheConcept";
+import { withRouter } from "react-router";
 
 class OtherConceptContainer extends Component {
   constructor(props) {
@@ -8,9 +10,22 @@ class OtherConceptContainer extends Component {
     this.state = {
       concept: "",
       poliza: "",
-      quantity: ""
+      quantity: "",
+      modal: false
     };
     this.handleChange = this.handleChange.bind(this);
+    this.toggle = this.toggle.bind(this);
+    this.payOtherConcept = this.payOtherConcept.bind(this);
+  }
+
+  toggle() {
+    this.setState(prevState => ({
+      modal: !prevState.modal
+    }));
+  }
+
+  payOtherConcept() {
+    this.toggle();
   }
 
   handleChange(e) {
@@ -96,14 +111,17 @@ class OtherConceptContainer extends Component {
                 name="Buscar"
                 disabled={!this.validateForm()}
                 icon="fa fa-search"
-                type="submit"
+                type="button"
+                onClick={this.payOtherConcept}
               />
             </div>
           </div>
         </form>
+
+        <ModalOtherConcept isOpen={this.state.modal} toggle={this.toggle} />
       </div>
     );
   }
 }
-
+OtherConceptContainer = withRouter(OtherConceptContainer);
 export default OtherConceptContainer;

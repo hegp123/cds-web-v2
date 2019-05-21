@@ -420,7 +420,7 @@ class ModalPayment extends React.Component {
         this.toggleConfirm();
         this.toggleNested();
         sessionStorage.setItem(INVOICE_PRINT, JSON.stringify(ordenRecibo));
-        this.props.history.push("/paymentPrint");
+        this.props.history.push("/paymentPrint/payment");
       } else {
         if (ordenRecibo.valorMensaje !== null) {
           this.showAlert(

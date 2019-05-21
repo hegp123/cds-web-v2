@@ -46,7 +46,11 @@ class App extends React.Component {
             <PrivateRoute exact path="/payment" component={PaymentPage} />
             <PrivateRoute exact path="/report" component={ReportPage} />
             <PrivateRoute exact path="/print" component={PrintPage} />
-            <PrivateRoute exact path="/paymentPrint" component={PaymentPrint} />
+            <PrivateRoute
+              exact
+              path="/paymentPrint/:type?"
+              component={PaymentPrint}
+            />
             <PrivateRoute
               exact
               path="/otherConcept"

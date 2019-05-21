@@ -5,8 +5,15 @@ import PrintDetail from "./PrintDetail";
 import { withRouter } from "react-router";
 
 class PaymentPrint extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { path: "" };
+  }
+  componentDidMount() {
+    this.setState({ path: this.props.match.params.type });
+  }
   goToPayment() {
-    this.props.history.push("/payment");
+    this.props.history.push("/" + this.state.path);
   }
   render() {
     const typeProcess = "paymentPrint";
