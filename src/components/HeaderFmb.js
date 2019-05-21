@@ -37,6 +37,8 @@ class HeaderFmb extends Component {
       title = "Reporte de pagos";
     } else if (this.props.type === "paymentPrint") {
       title = "Pago realizado con éxito";
+    } else if (this.props.type === "otherConcept") {
+      title = "Pago otros conceptos";
     }
 
     return (
