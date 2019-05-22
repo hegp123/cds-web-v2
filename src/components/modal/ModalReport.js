@@ -5,10 +5,6 @@ import { numberFilter } from "../../utils/Utils";
 import ButtonFmb from "./../ButtonFmb";
 
 class ModalReport extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   alertar() {
     this.props.setMasterChanged();
   }

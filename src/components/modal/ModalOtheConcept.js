@@ -2,23 +2,19 @@ import React, { Component } from "react";
 import { Modal, ModalHeader, ModalBody } from "reactstrap";
 import InputTextFmb from "./../InputTextFmb";
 import ButtonFmb from "./../ButtonFmb";
-import { SESSION, INVOICE_PRINT } from "../../utils/Constants";
+import { INVOICE_PRINT } from "../../utils/Constants";
 import { withRouter } from "react-router";
 
 class ModalOtherConcept extends Component {
   constructor(props) {
     super(props);
-    this.state = { documentType: "", documentNumber: "", valueToPay: "" };
+    this.state = { valueToPay: "" };
     this.handleChange = this.handleChange.bind(this);
     this.payOtherConcept = this.payOtherConcept.bind(this);
   }
 
   validateForm() {
-    return (
-      this.state.documentNumber.length > 0 &&
-      this.state.documentType.length > 0 &&
-      this.state.valueToPay.length > 0
-    );
+    return this.state.valueToPay.length > 0;
   }
 
   handleChange(e) {
@@ -70,31 +66,7 @@ class ModalOtherConcept extends Component {
                   <b>Sede:</b>{" "}
                 </div>
               </div>
-              <div className="row ">
-                <div className="w-100 form-group">
-                  <select
-                    className="form-control"
-                    name="documentType"
-                    onChange={this.handleChange}
-                  >
-                    <option value="">Tipo documento</option>
-                    <option value="1">Tipo Documento 1</option>
-                    <option value="2">Tipo Documento 2</option>
-                    <option value="3">Tipo Documento 3</option>
-                  </select>
-                </div>
-              </div>
-              <div className="row ">
-                <div className="w-100">
-                  <InputTextFmb
-                    type="number"
-                    icon="far fa-id-card"
-                    name="documentNumber"
-                    placeholder="Número de documento"
-                    onChange={this.handleChange}
-                  />
-                </div>
-              </div>
+
               <div className="row ">
                 <div className="w-100">
                   <InputTextFmb

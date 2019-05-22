@@ -11,7 +11,9 @@ class OtherConceptContainer extends Component {
       concept: "",
       poliza: "",
       quantity: "",
-      modal: false
+      modal: false,
+      documentType: "",
+      documentNumber: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.toggle = this.toggle.bind(this);
@@ -38,7 +40,9 @@ class OtherConceptContainer extends Component {
       this.state.concept.length > 0 &&
       ((this.state.concept === "2" && this.state.poliza.length > 0) ||
         this.state.concept !== "2") &&
-      this.state.quantity.length > 0
+      this.state.quantity.length > 0 &&
+      this.state.documentNumber.length > 0 &&
+      this.state.documentType.length > 0
     );
   }
 
@@ -93,6 +97,37 @@ class OtherConceptContainer extends Component {
             </div>
           </div>
           {partial}
+
+          <div className="row">
+            <div className="w-100">
+              <span className="float-left font-label-fmb">Tipo documento:</span>
+            </div>
+          </div>
+          <div className="row">
+            <div className="w-100 form-group">
+              <select
+                className="form-control"
+                name="documentType"
+                onChange={this.handleChange}
+              >
+                <option value="" />
+                <option value="1">Tipo documento 1</option>
+                <option value="2">Tipo documento 2</option>
+                <option value="3">Tipo documento 3</option>
+              </select>
+            </div>
+          </div>
+          <div className="row">
+            <div className="w-100">
+              <InputTextFmb
+                type="number"
+                icon="far fa-id-card"
+                name="documentNumber"
+                placeholder="Número de documento"
+                onChange={this.handleChange}
+              />
+            </div>
+          </div>
           <div className="row">
             <div className="w-100 form-group">
               <InputTextFmb
