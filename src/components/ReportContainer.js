@@ -9,7 +9,7 @@ import ButtonFmb from "./ButtonFmb";
 import es from "date-fns/locale/es";
 import { SESSION } from "../utils/Constants";
 import { numberFilter } from "../utils/Utils";
-import { dateFormat } from "../utils/Utils";
+import { dateFormat, dateFormatParameter } from "../utils/Utils";
 
 import ModalAlert from "./modal/ModalAlert";
 import ModalReport from "./modal/ModalReport";
@@ -146,7 +146,8 @@ class ReportContainer extends Component {
           toggle={this.toggle}
           isOpen={this.state.modalAlert}
           content={
-            "No hay pagos registrados para la fecha " + this.state.startDate
+            "No hay pagos registrados para la fecha " +
+            dateFormatParameter(this.state.startDate, "DD/MM/YYYY")
           }
         />
         <ModalReport

@@ -29,6 +29,11 @@ export let dateFormat = dateToFormat => {
   return moment(dateToFormat).format("dddd, D [de] MMMM [de] YYYY");
 };
 
+export let dateFormatParameter = (dateToFormat, format) => {
+  let moment = require("moment");
+  return moment(dateToFormat).format(format);
+};
+
 function formatNumber(number, pattern, groupSep, decimalSep, fractionSize) {
   if (!isFinite(number)) return "";
   var DECIMAL_SEP = ".";
