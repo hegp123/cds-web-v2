@@ -3,6 +3,8 @@ import InputTextFmb from "./InputTextFmb";
 import ButtonFmb from "./ButtonFmb";
 import ModalOtherConcept from "./modal/ModalOtheConcept";
 import { withRouter } from "react-router";
+import { getInfoConcept } from "./../services/OtherConceptService";
+import { SESSION } from "./../utils/Constants";
 
 class OtherConceptContainer extends Component {
   constructor(props) {
@@ -17,7 +19,7 @@ class OtherConceptContainer extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.toggle = this.toggle.bind(this);
-    this.payOtherConcept = this.payOtherConcept.bind(this);
+    this.consultOtherConcept = this.consultOtherConcept.bind(this);
   }
 
   toggle() {
@@ -26,8 +28,20 @@ class OtherConceptContainer extends Component {
     }));
   }
 
-  payOtherConcept() {
-    this.toggle();
+  consultOtherConcept() {
+    var userData = sessionStorage.getItem(SESSION);
+
+    var otherConcept = {
+      TipoDocumento: this.state.documentType,
+      NroDocumento: this.state.documentNumber,
+      IdConcepto: this.setState.concept,
+      Cantidad: this.state.quantity,
+      Oficina: userData.idPunto,
+      Sociedad: "FM01"
+    };
+    getInfoConcept(otherConcept).then(otherConceptData => {
+      this.toggle();
+    });
   }
 
   handleChange(e) {
@@ -147,7 +161,7 @@ class OtherConceptContainer extends Component {
                 disabled={!this.validateForm()}
                 icon="fa fa-search"
                 type="button"
-                onClick={this.payOtherConcept}
+                onClick={this.consultOtherConcept}
               />
             </div>
           </div>

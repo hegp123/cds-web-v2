@@ -32,5 +32,6 @@ export const ws_api = {
   EP_CLAVE: "/autenticacion/clave/",
   EP_VALIDAR_API: "/validar/api",
   EP_CLAVE_BLOQUEO: "/autenticacion/bloqueo/",
-  EP_CLAVE_BLOQUEO_VAL: "/autenticacion/validarbloqueo/"
+  EP_CLAVE_BLOQUEO_VAL: "/autenticacion/validarbloqueo/",
+  EP_OTRO: "/otro/consultar"
 };

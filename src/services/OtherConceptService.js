@@ -1,26 +1,17 @@
 import axios from "axios";
+import { conexion, ws_api } from "../utils/Parameters";
 
-export let getConcepts = () => {
+export let getInfoConcept = otherConcept => {
   return new Promise((resolve, reject) => {
     axios
-      .get(
-        conexion.URL_WS +
-          ws_api.EP_FACTURAS +
-          factura +
-          "/" +
-          puntoReca +
-          "/" +
-          idRecaudador
-      )
+      .post(conexion.URL_WS + ws_api.EP_OTRO, otherConcept)
       .then(response => {
         if (response) {
           resolve(response.data);
-        } else {
-          reject(null);
         }
       })
       .catch(error => {
-        reject("error");
+        reject(error);
       });
   });
 };
