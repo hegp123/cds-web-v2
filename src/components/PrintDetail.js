@@ -68,7 +68,8 @@ class PrintDetail extends Component {
 
     if (
       this.props.invoice.mensaje !== "" &&
-      this.props.invoice.mensaje !== null
+      this.props.invoice.mensaje !== null &&
+      this.props.invoice.mensaje !== undefined
     ) {
       factura +=
         "Mensaje: " +
@@ -85,7 +86,9 @@ class PrintDetail extends Component {
         "\r\n \r\n \r\n";
     } else {
       factura +=
-        this.state.sesion.mensajeImpresion +
+        (this.state.sesion.mensajeImpresion !== undefined
+          ? this.state.sesion.mensajeImpresion
+          : "") +
         " \r\n \r\n" +
         "PROMOCION: " +
         this.state.sesion.mensajeGlobal +
@@ -169,7 +172,8 @@ class PrintDetail extends Component {
               <div className="row">
                 <div className="label-detail space">
                   {this.props.invoice.mensaje !== "" &&
-                  this.props.invoice.mensaje !== null ? (
+                  this.props.invoice.mensaje !== null &&
+                  this.props.invoice.mensaje !== undefined ? (
                     <div>
                       <b>Mensaje:</b> {this.props.invoice.mensaje}
                     </div>

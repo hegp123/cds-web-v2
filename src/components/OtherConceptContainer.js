@@ -11,11 +11,16 @@ class OtherConceptContainer extends Component {
     super(props);
     this.state = {
       concept: "",
+      conceptName: "",
       poliza: "",
+      polizaName: "",
       quantity: "",
-      modal: false,
       documentType: "",
-      documentNumber: ""
+      documentTypeName: "",
+      documentNumber: "",
+      valueToPay: "",
+      modal: false,
+      costumer: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.toggle = this.toggle.bind(this);
@@ -29,17 +34,20 @@ class OtherConceptContainer extends Component {
   }
 
   consultOtherConcept() {
-    var userData = sessionStorage.getItem(SESSION);
-
+    var userData = JSON.parse(sessionStorage.getItem(SESSION));
     var otherConcept = {
       TipoDocumento: this.state.documentType,
       NroDocumento: this.state.documentNumber,
-      IdConcepto: this.setState.concept,
+      IdConcepto: this.state.concept,
       Cantidad: this.state.quantity,
       Oficina: userData.idPunto,
       Sociedad: "FM01"
     };
     getInfoConcept(otherConcept).then(otherConceptData => {
+      this.setState({
+        valueToPay: otherConceptData.Valor,
+        costumer: otherConceptData.NombreCompleto
+      });
       this.toggle();
     });
   }
@@ -47,6 +55,12 @@ class OtherConceptContainer extends Component {
   handleChange(e) {
     const { name, value } = e.target;
     this.setState({ [name]: value });
+    var index = e.nativeEvent.target.selectedIndex;
+    if (name === "concept") {
+      this.setState({ conceptName: e.nativeEvent.target[index].text });
+    } else if (name === "poliza") {
+      this.setState({ polizaName: e.nativeEvent.target[index].text });
+    }
   }
 
   validateForm() {
@@ -167,7 +181,11 @@ class OtherConceptContainer extends Component {
           </div>
         </form>
 
-        <ModalOtherConcept isOpen={this.state.modal} toggle={this.toggle} />
+        <ModalOtherConcept
+          isOpen={this.state.modal}
+          toggle={this.toggle}
+          otherConceptSelected={this.state}
+        />
       </div>
     );
   }

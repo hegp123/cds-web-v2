@@ -15,3 +15,18 @@ export let getInfoConcept = otherConcept => {
       });
   });
 };
+
+export let saveOtherConcept = otherConcept => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(conexion.URL_WS + ws_api.EP_PAGAR_OTRO, otherConcept)
+      .then(response => {
+        if (response) {
+          resolve(response.data);
+        }
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};

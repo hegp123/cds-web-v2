@@ -4,6 +4,9 @@ import InputTextFmb from "./../InputTextFmb";
 import ButtonFmb from "./../ButtonFmb";
 import { INVOICE_PRINT } from "../../utils/Constants";
 import { withRouter } from "react-router";
+import { numberFilter, dateFormatParameter } from "../../utils/Utils";
+import { SESSION } from "./../../utils/Constants";
+import { saveOtherConcept } from "./../../services/OtherConceptService";
 
 class ModalOtherConcept extends Component {
   constructor(props) {
@@ -13,18 +16,36 @@ class ModalOtherConcept extends Component {
     this.payOtherConcept = this.payOtherConcept.bind(this);
   }
 
-  validateForm() {
-    return this.state.valueToPay.length > 0;
-  }
-
   handleChange(e) {
     const { name, value } = e.target;
     this.setState({ [name]: value });
   }
 
   payOtherConcept() {
-    sessionStorage.setItem(INVOICE_PRINT, JSON.stringify({}));
-    this.props.history.push("/paymentPrint/otherConcept");
+    var userData = JSON.parse(sessionStorage.getItem(SESSION));
+    console.log(userData);
+    var otherConcept = {
+      TipoDocumento: this.props.otherConceptSelected.documentType,
+      NroDocumento: this.props.otherConceptSelected.documentNumber,
+      Valor: this.props.otherConceptSelected.valueToPay,
+      IdConcepto: this.props.otherConceptSelected.IdConcepto,
+      Cantidad: this.props.quantity,
+      Oficina: userData.idPunto
+    };
+
+    saveOtherConcept(otherConcept).then(otherConceptData => {
+      var invoice = {
+        fecha: dateFormatParameter(new Date(), "DD/MM/YYYY"),
+        agencia: "",
+        numeroFactura: otherConceptData.IndicaPagoDto.NumeroFactura,
+        cliente: this.props.otherConceptSelected.costumer,
+        codigoCredito: "",
+        total: otherConcept.Valor,
+        cedulaCliente: this.props.otherConceptSelected.documentNumber
+      };
+      sessionStorage.setItem(INVOICE_PRINT, JSON.stringify(invoice));
+      this.props.history.push("/paymentPrint/otherConcept");
+    });
   }
 
   render() {
@@ -43,48 +64,33 @@ class ModalOtherConcept extends Component {
             <div className="container">
               <div className="row">
                 <div className="label-popup">
-                  <b>Concepto:</b> {""}
+                  <b>Concepto:</b> {this.props.otherConceptSelected.conceptName}
                 </div>
               </div>
               <div className="row">
                 <div className="label-popup">
-                  <b>Poliza:</b>{" "}
+                  <b>Poliza:</b> {this.props.otherConceptSelected.polizaName}
+                </div>
+              </div>
+              <div className="row">
+                <div className="label-popup">
+                  <b>Cantidad:</b> {this.props.otherConceptSelected.quantity}
                 </div>
               </div>
               <div className="row">
                 <div className="label-popup">
                   <b>Valor a pagar:</b>
-                </div>
-              </div>
-              <div className="row">
-                <div className="label-popup">
-                  <b>Cantidad:</b>
-                </div>
-              </div>
-              <div className="row">
-                <div className="label-popup form-group">
-                  <b>Sede:</b>{" "}
-                </div>
-              </div>
-
-              <div className="row ">
-                <div className="w-100">
-                  <InputTextFmb
-                    type="number"
-                    icon="fa fa-dollar-sign"
-                    name="valueToPay"
-                    placeholder="Valor a pagar"
-                    onChange={this.handleChange}
-                  />
+                  {" $"}
+                  {numberFilter(this.props.otherConceptSelected.valueToPay)}
                 </div>
               </div>
             </div>
+            <br />
 
             <ButtonFmb
               id="buttonPagar"
               name="Pagar"
               icon="fa fa-dollar-sign"
-              disabled={!this.validateForm()}
               onClick={this.payOtherConcept}
             />
           </div>
