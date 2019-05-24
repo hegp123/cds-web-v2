@@ -25,6 +25,7 @@ class ModalOtherConcept extends Component {
     this.payOtherConcept = this.payOtherConcept.bind(this);
     this.toggleAlert = this.toggleAlert.bind(this);
     this.toggleConfirm = this.toggleConfirm.bind(this);
+    this.showConfirm = this.showConfirm.bind(this);
   }
 
   toggleConfirm() {
@@ -136,7 +137,10 @@ class ModalOtherConcept extends Component {
                 id="buttonPagar"
                 name="Pagar"
                 icon="fa fa-dollar-sign"
-                onClick={this.payOtherConcept}
+                onClick={this.showConfirm.bind(
+                  this,
+                  "¿Está seguro que desea realizar el pago?"
+                )}
               />
             </div>
           </ModalBody>
