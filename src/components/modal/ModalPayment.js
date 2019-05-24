@@ -30,8 +30,7 @@ class ModalPayment extends React.Component {
       modalConfirm: false,
       modalConfirmContent: "",
       callbackConfirmOnClosed: () => {},
-      callbackConfirmOk: () => {},
-      parametrizado: false
+      callbackConfirmOk: () => {}
     };
 
     // this.toggle = this.toggle.bind(this);
@@ -138,7 +137,7 @@ class ModalPayment extends React.Component {
               <div className="row">
                 {" "}
                 <div className="label-popup">
-                  <b>Producto:</b> {credito.tipoCredito}
+                  <b>Producto:</b> {credito.idproducto}
                 </div>
               </div>
               <div className="row">
@@ -195,24 +194,6 @@ class ModalPayment extends React.Component {
           <br />
         </ModalBody>
       </Modal>
-
-      /*<Modal
-        isOpen={this.state.nestedModal}
-        toggle={this.toggleNested}
-        onClosed={this.state.closeAll ? this.props.toggle : undefined}
-        className="modal-print"
-        centered={true}
-      >
-        <ModalHeader className="body-header" />
-        <ModalBody className="pop-up-padding">
-          <div className="navbar navbar-default navbar-fixed-top subHeader">
-            <div className="navbar-header">
-              <div className="container">Registrar Pago2</div>
-            </div>
-          </div>
-          {this.showFormPago()}
-        </ModalBody>
-      </Modal>*/
     );
   };
 
@@ -244,7 +225,7 @@ class ModalPayment extends React.Component {
             <div className="row">
               {" "}
               <div className="label-popup">
-                <b>Producto:</b> {credito.tipoCredito}
+                <b>Producto:</b> {credito.idproducto}
               </div>
             </div>
             <div className="row">
@@ -324,12 +305,12 @@ class ModalPayment extends React.Component {
   prepararPago = credito => {
     //
 
-    if (credito.valorBloqueado) {
-      this.setState({ parametrido: true });
-    } else {
-      this.setState({ parametrido: false });
-    }
-
+    this.setState({
+      credito,
+      valueToPay: credito.cuotaCredito
+    });
+    this.toggleNested();
+    /*
     buscarPorSeleccion(
       credito.codigoCredito,
       credito.cuotaCredito,
@@ -353,7 +334,7 @@ class ModalPayment extends React.Component {
       })
       .catch(error => {
         this.showAlert(error);
-      });
+      });*/
   };
 
   realizarPago = (credito, valorPagar) => {
@@ -403,16 +384,11 @@ class ModalPayment extends React.Component {
     this.toggleConfirm();
     let sesion = JSON.parse(sessionStorage.getItem(SESSION));
     let pago = {
-      cuenta: credito.codigoCredito,
-      cuota: credito.cuotaCredito,
-      operacion: credito.operacion,
-      sucursal: credito.sucursalCliente,
-      producto: credito.idproducto,
-      tac: credito.tacCDS,
-      valor: valor,
-      idRecaudador: sesion.idRecaudador,
-      pure: sesion.idPunto,
-      porVencer: credito.porVencer
+      Nrocredito: credito.codigoCredito,
+      ValorEfectivo: valor,
+      FechaPago: new Date(),
+      CodigoBP: sesion.idPunto,
+      TipoPago: "1"
     };
 
     pagarCredito(pago).then(ordenRecibo => {

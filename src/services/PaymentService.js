@@ -1,16 +1,18 @@
 import axios from "axios";
 import { conexion, ws_api } from "../utils/Parameters";
 
-export let buscarPorCC = (cedula, idPunto) => {
+export let buscarCredito = creditSearch => {
   return new Promise((resolve, reject) => {
     axios
-      .get(conexion.URL_WS + ws_api.EP_CREDITOS_CC + cedula + "/" + idPunto)
+      .post(conexion.URL_WS + ws_api.EP_CREDITOS_CC, creditSearch)
       .then(response => {
         if (response) {
           if (!response.data) {
-            reject("creo que aca nunca se va a meter");
+            reject("No se encuentran datos");
           } else {
-            resolve(response.data);
+            //Preguntar como se van a llamar la lista CreditoClientesDto dentro del response
+            var credits = convertJsonSearch(response.data);
+            resolve(credits);
           }
         }
       })
@@ -20,27 +22,22 @@ export let buscarPorCC = (cedula, idPunto) => {
   });
 };
 
-export let buscarPorCredito = (cedula, idPunto) => {
-  return new Promise((resolve, reject) => {
-    axios
-      .get(
-        conexion.URL_WS + ws_api.EP_CREDITOS_CREDITO + cedula + "/" + idPunto
-      )
-      .then(response => {
-        if (response) {
-          if (!response.data) {
-            reject("problemas con el crédito");
-          } else {
-            resolve(response.data);
-          }
-        }
-      })
-      .catch(error => {
-        reject(error);
-      });
-  });
-};
+function convertJsonSearch(data) {
+  var credits = new Array();
+  for (var i = 0; i < data.CreditoClientesDto.length; i++) {
+    var credit = new Object();
+    credit.nombreCliente = data.NombreCompleto;
+    credit.cedulaCliente = data.NroDocumento;
+    credit.codigoCredito = data.CreditoClientesDto[i].NroCredito;
+    credit.idproducto = data.CreditoClientesDto[i].Producto;
+    credit.cuotaCredito = data.CreditoClientesDto[i].ValorPagar;
+    credit.vencimiento = data.CreditoClientesDto[i].FechaVencimiento;
+    credits.push(credit);
+  }
+  return credits;
+}
 
+/*
 export let buscarPorSeleccion = (
   credito,
   cuota,
@@ -96,40 +93,19 @@ export let infoPagosCredito = cuenta => {
       });
   });
 };
+*/
 
 export let pagarCredito = pago => {
   return new Promise((resolve, reject) => {
     axios
-      .get(
-        conexion.URL_WS +
-          ws_api.EP_CREDITOS_PAGAR +
-          "/" +
-          pago.cuenta +
-          "/" +
-          pago.operacion +
-          "/" +
-          pago.sucursal +
-          "/" +
-          pago.producto +
-          "/" +
-          pago.valor +
-          "/" +
-          pago.idRecaudador +
-          "/" +
-          pago.tac +
-          "/" +
-          pago.pure +
-          "/" +
-          pago.cuota +
-          "/" +
-          pago.porVencer
-      )
+      .post(conexion.URL_WS + ws_api.EP_CREDITOS_PAGAR, pago)
       .then(response => {
         if (response) {
           if (!response.data) {
             reject("creo que aca nunca se va a meter");
           } else {
-            resolve(response.data);
+            var payment = convertJsonPayment(response.data);
+            resolve(payment);
           }
         }
       })
@@ -139,6 +115,20 @@ export let pagarCredito = pago => {
   });
 };
 
+function convertJsonPayment(data) {
+  //TODO preguntar que que hacemos con los campos DocumentoFI y AnoDocFI
+  var payment = new Object();
+  let moment = require("moment");
+  payment.numeroFactura = data.NumFactura;
+  payment.cliente = data.NombreCompleto;
+  payment.cedulaCliente = data.NroDocumento;
+  payment.codigoCredito = data.NroCredito;
+  payment.agencia = data.NombreOficina;
+  payment.total = data.Valortotal;
+  payment.fecha = moment(new Date()).format("DD/MM/YYYY");
+  return payment;
+}
+/*
 export let buscarPorNombre = nombre => {
   return new Promise((resolve, reject) => {
     axios
@@ -157,7 +147,7 @@ export let buscarPorNombre = nombre => {
       });
   });
 };
-
+*/
 // function buscarPorCredito(credito, idPunto, purePrejuridico) {
 //     return $http.get(URL_WS + EP_CREDITOS_CREDITO + credito + "/" + idPunto);
 // }

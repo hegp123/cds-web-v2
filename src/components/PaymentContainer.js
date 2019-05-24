@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import InputTextFmb from "./InputTextFmb";
 import ButtonFmb from "./ButtonFmb";
 import { validateAPI } from "../services/LoginService";
-import { buscarPorCC, buscarPorCredito } from "../services/PaymentService";
+import { buscarCredito } from "../services/PaymentService";
 import ModalAlert from "./modal/ModalAlert";
 
 import {
@@ -135,22 +135,39 @@ export default class PaymentContainer extends Component {
 
     var sesion = JSON.parse(sessionStorage.getItem(SESSION));
     let mensaje = null;
+    let creditSearch = null;
     validateAPI()
       .then(() => {
         if (this.state.typeFilter === "0") {
           mensaje =
             "No hay créditos asociados al No. de identificación ingresado";
-          return buscarPorCC(cadenaBusqueda, sesion.idPunto);
+
+          //TODO setear usaer y pass de SAP Y preguntar cual es id de la cedula y el del nit para colocarlo en idFilter
+          creditSearch = {
+            Usuario: "usuario",
+            Contraseña: "36523",
+            ParametroBusqueda: "1",
+            TipoDocumento: this.state.typeFilter,
+            NroDocumento: this.state.numberFilter,
+            CodigoBP: sesion.idPunto
+          };
+          return buscarCredito(creditSearch);
         } else {
           mensaje = "No hay créditos asociados al No. de crédito ingresado";
-
-          return buscarPorCredito(cadenaBusqueda, sesion.idPunto);
+          creditSearch = {
+            Usuario: "usuario",
+            Contraseña: "36523",
+            ParametroBusqueda: "2",
+            NroCredito: this.state.numberFilter,
+            CodigoBP: sesion.idPunto
+          };
+          return buscarCredito(creditSearch);
         }
       })
       .then(data => {
         let creditos = data;
 
-        if (creditos.length > 0 && creditos[0].id !== null) {
+        if (creditos.length > 0) {
           this.setState({
             creditos: creditos
           });

@@ -20,12 +20,12 @@ export const conexion = {
  * Métodos del API
  **************************************************/
 export const ws_api = {
-  EP_CREDITOS_CC: "/creditos/cedula/",
-  EP_CREDITOS_CREDITO: "/creditos/credito/",
-  EP_CREDITOS_SELECCION: "/creditos/seleccion/",
-  EP_CREDITOS_NOMBRE: "/creditos/nombre/",
-  EP_CREDITOS_PAGAR: "/creditos/pagar",
-  EP_CREDITOS_INFO: "/creditos/info/",
+  EP_CREDITOS_CC: "/creditosdummy/consultar",
+  //EP_CREDITOS_CREDITO: "/creditos/credito/",
+  //EP_CREDITOS_SELECCION: "/creditos/seleccion/",
+  // EP_CREDITOS_NOMBRE: "/creditos/nombre/",
+  EP_CREDITOS_PAGAR: "/creditosdummy/pagar",
+  // EP_CREDITOS_INFO: "/creditos/info/",
   EP_REPORTE: "/reporte/obtener/",
   EP_FACTURAS: "/orden/obtener/",
   EP_SESION: "/sesion/login",

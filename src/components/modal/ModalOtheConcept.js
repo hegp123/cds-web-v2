@@ -160,7 +160,7 @@ class ModalOtherConcept extends Component {
           isOpen={this.state.modalConfirm}
           content={this.state.modalConfirmContent}
           callbackOnClosed={this.state.callbackConfirmOnClosed}
-          title="Pago otro concepto"
+          title="Pago otros conceptos"
         />
       </div>
     );
