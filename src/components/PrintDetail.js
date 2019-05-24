@@ -36,9 +36,9 @@ class PrintDetail extends Component {
       "Fecha: " +
       this.props.invoice.fecha +
       " \r\n" +
-      "AG: " +
-      this.props.invoice.agencia +
-      " \r\n" +
+      (this.props.invoice.agencia !== undefined
+        ? "AG: " + this.props.invoice.agencia + " \r\n"
+        : "") +
       "\r\n" +
       "ORDEN DE RECIBO POR CDS NO.: \r\n" +
       this.props.invoice.numeroFactura +
@@ -52,10 +52,12 @@ class PrintDetail extends Component {
       numberFilter(this.props.invoice.cedulaCliente) +
       "\r\n";
 
-    factura +=
-      "Concepto: Abono Credito " +
-      this.props.invoice.codigoCredito +
-      " \r\n \r\n";
+    if (this.props.invoice.codigoCredito !== undefined) {
+      factura +=
+        "Concepto: Abono Credito " +
+        this.props.invoice.codigoCredito +
+        " \r\n \r\n";
+    }
 
     factura +=
       "Valor pagado: $" + numberFilter(this.props.invoice.total) + ",00 \r\n";
@@ -104,6 +106,44 @@ class PrintDetail extends Component {
     qz.print();*/
   }
 
+  returnAgencia() {
+    if (
+      this.props.invoice.agencia !== null &&
+      this.props.invoice.agencia !== "" &&
+      this.props.invoice.agencia !== undefined
+    ) {
+      return (
+        <div className="row">
+          <div className="label-detail space">
+            <b>Agencia:</b>
+            {this.props.invoice.agencia}
+          </div>
+        </div>
+      );
+    } else {
+      return "";
+    }
+  }
+
+  returnCodigoCredito() {
+    if (
+      this.props.invoice.codigoCredito !== null &&
+      this.props.invoice.codigoCredito !== "" &&
+      this.props.invoice.codigoCredito !== undefined
+    ) {
+      return (
+        <div className="row">
+          <div className="label-detail space">
+            <b>Crédito:</b>
+            {this.props.invoice.codigoCredito}
+          </div>
+        </div>
+      );
+    } else {
+      return "";
+    }
+  }
+
   render() {
     const typeProcess = "print";
     return (
@@ -127,31 +167,20 @@ class PrintDetail extends Component {
                   {this.props.invoice.fecha}
                 </div>
               </div>
-              <div className="row">
-                <div className="label-detail space">
-                  <b>Agencia:</b>
-                  {this.props.invoice.agencia}
-                </div>
-              </div>
+              {this.returnAgencia()}
               <div className="row">
                 <div className="label-detail space">
                   <b>Cliene:</b>
                   {this.props.invoice.cliente}
                 </div>
               </div>
-
               <div className="row">
                 <div className="label-detail space">
                   <b>Cédula:</b>
                   {this.props.invoice.cedulaCliente}
                 </div>
               </div>
-              <div className="row">
-                <div className="label-detail space">
-                  <b>Crédito:</b>
-                  {this.props.invoice.codigoCredito}
-                </div>
-              </div>
+              {this.returnCodigoCredito()}
               <div className="row">
                 <div className="label-detail space">
                   <b>Total:</b>
@@ -159,7 +188,6 @@ class PrintDetail extends Component {
                 </div>
               </div>
               <br />
-
               <div className="row">
                 <div className="label-detail space">
                   {this.state.sesion.mensajePantalla !== "" &&
@@ -168,7 +196,6 @@ class PrintDetail extends Component {
                     : ""}
                 </div>
               </div>
-
               <div className="row">
                 <div className="label-detail space">
                   {this.props.invoice.mensaje !== "" &&

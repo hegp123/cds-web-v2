@@ -34,6 +34,14 @@ export let dateFormatParameter = (dateToFormat, format) => {
   return moment(dateToFormat).format(format);
 };
 
+export let isEmpty = stringParameter => {
+  return (
+    stringParameter === "" ||
+    stringParameter === null ||
+    stringParameter === undefined
+  );
+};
+
 function formatNumber(number, pattern, groupSep, decimalSep, fractionSize) {
   if (!isFinite(number)) return "";
   var DECIMAL_SEP = ".";

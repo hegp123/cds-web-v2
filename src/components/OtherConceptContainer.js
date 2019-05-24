@@ -5,6 +5,8 @@ import ModalOtherConcept from "./modal/ModalOtheConcept";
 import { withRouter } from "react-router";
 import { getInfoConcept } from "./../services/OtherConceptService";
 import { SESSION } from "./../utils/Constants";
+import { isEmpty } from "./../utils/Utils";
+import ModalAlert from "./modal/ModalAlert";
 
 class OtherConceptContainer extends Component {
   constructor(props) {
@@ -20,7 +22,10 @@ class OtherConceptContainer extends Component {
       documentNumber: "",
       valueToPay: "",
       modal: false,
-      costumer: ""
+      costumer: "",
+      modalAlert: false,
+      modalAlertContent: "",
+      callbackOnClosed: () => {}
     };
     this.handleChange = this.handleChange.bind(this);
     this.toggle = this.toggle.bind(this);
@@ -33,23 +38,43 @@ class OtherConceptContainer extends Component {
     }));
   }
 
+  showAlert = (message, callback = () => {}) => {
+    this.setState({
+      modalAlertContent: message,
+      callbackOnClosed: callback
+    });
+
+    this.toggleAlert();
+  };
+
+  toggleAlert() {
+    this.setState(prevState => ({
+      modalAlert: !prevState.modalAlert
+    }));
+  }
   consultOtherConcept() {
     var userData = JSON.parse(sessionStorage.getItem(SESSION));
     var otherConcept = {
       TipoDocumento: this.state.documentType,
       NroDocumento: this.state.documentNumber,
-      IdConcepto: this.state.concept,
+      IdConcepto: isEmpty(this.state.poliza)
+        ? this.state.concept
+        : this.state.poliza,
       Cantidad: this.state.quantity,
       Oficina: userData.idPunto,
       Sociedad: "FM01"
     };
-    getInfoConcept(otherConcept).then(otherConceptData => {
-      this.setState({
-        valueToPay: otherConceptData.Valor,
-        costumer: otherConceptData.NombreCompleto
+    getInfoConcept(otherConcept)
+      .then(otherConceptData => {
+        this.setState({
+          valueToPay: otherConceptData.Valor,
+          costumer: otherConceptData.NombreCompleto
+        });
+        this.toggle();
+      })
+      .catch(error => {
+        this.showAlert(error);
       });
-      this.toggle();
-    });
   }
 
   handleChange(e) {
@@ -185,6 +210,13 @@ class OtherConceptContainer extends Component {
           isOpen={this.state.modal}
           toggle={this.toggle}
           otherConceptSelected={this.state}
+        />
+        <ModalAlert
+          toggle={this.toggleAlert}
+          isOpen={this.state.modalAlert}
+          content={this.state.modalAlertContent}
+          callbackOnClosed={this.state.callbackOnClosed}
+          title="Pago otro concepto"
         />
       </div>
     );
