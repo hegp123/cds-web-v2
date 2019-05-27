@@ -58,10 +58,13 @@ class ReportContainer extends Component {
     var valueSession = JSON.parse(sessionStorage.getItem(SESSION));
     var reporte = "";
     let moment = require("moment");
-    buscarPagos(
-      moment(this.state.startDate).format("YYYYMMDD"),
-      valueSession.idRecaudador
-    ).then(pagos => {
+    //TODO Preguntar formato de la fecha, no se pasa el idRecaudador, para que idDOucmento tipoDOcumento
+    //Va a retornar todas las activas?
+    let paymentSeach = {
+      FechaConsulta: moment(this.state.startDate).format("YYYY/MM/DD")
+    };
+
+    buscarPagos(paymentSeach).then(pagos => {
       reporte =
         "\r\n \r\n \r\n" +
         "Reporte \r\n" +

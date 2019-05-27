@@ -29,8 +29,7 @@ export const ws_api = {
   EP_OTRO: "/otro/consultar",
   EP_PAGAR_OTRO: "/otro/registrar",
   EP_FACTURAS: "/reimprimir/reimprimir",
-
-  EP_REPORTE: "/reporte/obtener/",
+  EP_REPORTE: "/reportepagos/consultar",
 
   EP_SESION: "/sesion/login",
   EP_CLAVE: "/autenticacion/clave/",

@@ -7,16 +7,7 @@ export let buscarFactura = factura => {
       .post(conexion.URL_WS + ws_api.EP_FACTURAS, factura)
       .then(response => {
         if (response) {
-          let data = response.data;
-          let invoiceReturn = {
-            numeroFactura: data.DocumentoFI,
-            cliente: data.NombreCompleto,
-            cedulaCliente: data.NroDocumento,
-            codigoCredito: data.NroCredito,
-            fecha: data.FechaPago,
-            agencia: data.NombreCDS,
-            total: data.ValorPagado
-          };
+          let invoiceReturn = convertJSONReport(response.data);
           resolve(invoiceReturn);
         } else {
           reject(null);
@@ -27,3 +18,16 @@ export let buscarFactura = factura => {
       });
   });
 };
+
+function convertJSONReport(data) {
+  let invoiceReturn = {
+    numeroFactura: data.DocumentoFI,
+    cliente: data.NombreCompleto,
+    cedulaCliente: data.NroDocumento,
+    codigoCredito: data.NroCredito,
+    fecha: data.FechaPago,
+    agencia: data.NombreCDS,
+    total: data.ValorPagado
+  };
+  return invoiceReturn;
+}
