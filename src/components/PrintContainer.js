@@ -9,6 +9,7 @@ import ButtonFmb from "./ButtonFmb";
 import { buscarFactura } from "./../services/PrintService";
 import { withRouter } from "react-router";
 import { SESSION } from "../utils/Constants";
+import { isEmpty } from "./../utils/Utils";
 
 class PrintContainer extends Component {
   constructor(props) {
@@ -42,18 +43,17 @@ class PrintContainer extends Component {
   }
 
   searchInvoice() {
+    var invoiceSearch = { DocumentoFI: this.state.orden };
+    //TODO el DocumentoFI es el mismo numero de factura
     var valueSession = JSON.parse(sessionStorage.getItem(SESSION));
-    buscarFactura(
-      this.state.orden,
-      valueSession.idPunto,
-      valueSession.idRecaudador
-    ).then(response => {
-      if (response.length > 0 && response[0].numeroFactura !== null) {
-        this.setState({ order: response[0].numeroFactura });
-        this.setState({ customer: response[0].cliente });
-        this.setState({ dateOrder: response[0].fecha });
-        this.setState({ total: response[0].total });
-        this.context.setInvoice(response[0]);
+    buscarFactura(invoiceSearch).then(response => {
+      //TODO preguntar cuando ni hay info de la factura
+      if (!isEmpty(response.numeroFactura)) {
+        this.setState({ order: response.numeroFactura });
+        this.setState({ customer: response.cliente });
+        this.setState({ dateOrder: response.fecha });
+        this.setState({ total: response.total });
+        this.context.setInvoice(response);
         this.toggle();
       } else {
         this.toggleAlert();

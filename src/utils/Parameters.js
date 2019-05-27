@@ -26,13 +26,15 @@ export const ws_api = {
   // EP_CREDITOS_NOMBRE: "/creditos/nombre/",
   EP_CREDITOS_PAGAR: "/creditosdummy/pagar",
   // EP_CREDITOS_INFO: "/creditos/info/",
+  EP_OTRO: "/otro/consultar",
+  EP_PAGAR_OTRO: "/otro/registrar",
+  EP_FACTURAS: "/reimprimir/reimprimir",
+
   EP_REPORTE: "/reporte/obtener/",
-  EP_FACTURAS: "/orden/obtener/",
+
   EP_SESION: "/sesion/login",
   EP_CLAVE: "/autenticacion/clave/",
   EP_VALIDAR_API: "/validar/api",
   EP_CLAVE_BLOQUEO: "/autenticacion/bloqueo/",
-  EP_CLAVE_BLOQUEO_VAL: "/autenticacion/validarbloqueo/",
-  EP_OTRO: "/otro/consultar",
-  EP_PAGAR_OTRO: "/otro/registrar"
+  EP_CLAVE_BLOQUEO_VAL: "/autenticacion/validarbloqueo/"
 };

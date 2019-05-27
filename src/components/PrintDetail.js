@@ -3,6 +3,7 @@ import ButtonFmb from "./ButtonFmb";
 import "../css/Alert.css";
 import { numberFilter } from "../utils/Utils";
 import { SESSION } from "../utils/Constants";
+import { AppContext } from "./../context/AppContext";
 
 class PrintDetail extends Component {
   constructor(props) {
@@ -145,6 +146,7 @@ class PrintDetail extends Component {
   }
 
   render() {
+    console.log(this.context.invoice);
     const typeProcess = "print";
     return (
       <div>
@@ -245,5 +247,7 @@ class PrintDetail extends Component {
     );
   }
 }
+
+PrintDetail.contextType = AppContext;
 
 export default PrintDetail;
