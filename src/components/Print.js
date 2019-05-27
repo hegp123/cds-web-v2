@@ -5,9 +5,9 @@ import { withRouter } from "react-router";
 
 import PrintContainer from "./PrintContainer";
 import PrintDetail from "./PrintDetail";
-import { AppContextProvider, AppContext } from "../context/AppContext";
 
 import "../css/Payment.css";
+import { INVOICE_PRINT } from "../utils/Constants";
 
 class Print extends Component {
   constructor(props) {
@@ -24,25 +24,26 @@ class Print extends Component {
 
   render() {
     const typeProcess = "print";
+    let invoiceSession = JSON.parse(sessionStorage.getItem(INVOICE_PRINT));
+
     return (
-      <AppContextProvider>
+      <div>
         <HeaderFmb type={typeProcess} />
         {!this.state.masterChanged ? (
           <PrintContainer setMasterChanged={this.setMasterChanged} />
         ) : (
           <PrintDetail
             setMasterChanged={this.setMasterChanged}
-            invoice={this.context.invoice}
+            invoice={invoiceSession}
             printer={true}
           />
         )}
         {!this.state.masterChanged ? <FooterFmb type={typeProcess} /> : ""}
-      </AppContextProvider>
+      </div>
     );
   }
 }
 
-Print.contextType = AppContext;
 Print = withRouter(Print);
 
 export default Print;

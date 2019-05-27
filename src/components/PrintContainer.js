@@ -2,13 +2,11 @@ import React, { Component } from "react";
 
 import ModalAlert from "./modal/ModalAlert";
 import ModalPrint from "./modal/ModalPrint";
-
-import { AppContext } from "../context/AppContext";
 import InputTextFmb from "./InputTextFmb";
 import ButtonFmb from "./ButtonFmb";
 import { buscarFactura } from "./../services/PrintService";
 import { withRouter } from "react-router";
-import { SESSION } from "../utils/Constants";
+import { SESSION, INVOICE_PRINT } from "../utils/Constants";
 import { isEmpty } from "./../utils/Utils";
 
 class PrintContainer extends Component {
@@ -53,7 +51,7 @@ class PrintContainer extends Component {
         this.setState({ customer: response.cliente });
         this.setState({ dateOrder: response.fecha });
         this.setState({ total: response.total });
-        this.context.setInvoice(response);
+        sessionStorage.setItem(INVOICE_PRINT, JSON.stringify(response));
         this.toggle();
       } else {
         this.toggleAlert();
@@ -128,8 +126,6 @@ class PrintContainer extends Component {
     );
   }
 }
-
-PrintContainer.contextType = AppContext;
 
 PrintContainer = withRouter(PrintContainer);
 export default PrintContainer;

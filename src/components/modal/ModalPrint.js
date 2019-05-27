@@ -3,7 +3,6 @@ import { Modal, ModalHeader, ModalBody } from "reactstrap";
 import "../../css/Alert.css";
 import { withRouter } from "react-router";
 
-import { AppContext } from "../../context/AppContext";
 import { numberFilter } from "../../utils/Utils";
 
 class ModalPrint extends Component {
@@ -65,7 +64,6 @@ class ModalPrint extends Component {
   }
 }
 
-ModalPrint.contextType = AppContext;
 ModalPrint = withRouter(ModalPrint);
 
 export default ModalPrint;
