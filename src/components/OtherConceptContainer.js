@@ -73,7 +73,7 @@ class OtherConceptContainer extends Component {
         this.toggle();
       })
       .catch(error => {
-        this.showAlert(error);
+        alert(error);
       });
   }
 

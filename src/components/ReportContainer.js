@@ -58,54 +58,60 @@ class ReportContainer extends Component {
     var valueSession = JSON.parse(sessionStorage.getItem(SESSION));
     var reporte = "";
     let moment = require("moment");
-    //TODO Preguntar formato de la fecha, no se pasa el idRecaudador, para que idDOucmento tipoDOcumento
+    //TODO  toca cargar a la session el idDocumento y el numero de documento del usuario logueado
     //Va a retornar todas las activas?
     let paymentSeach = {
-      FechaConsulta: moment(this.state.startDate).format("YYYY/MM/DD")
+      FechaConsulta: moment(this.state.startDate).format("DD/MM/YYYY"),
+      NroDocumento: valueSession.dumeroDocumento,
+      TipoDocumento: valueSession.tipoDocumento
     };
 
-    buscarPagos(paymentSeach).then(pagos => {
-      reporte =
-        "\r\n \r\n \r\n" +
-        "Reporte \r\n" +
-        "Fecha: " +
-        moment(this.state.startDate).format("dddd, MMMM D") +
-        " \r\n";
-      if (pagos.length > 0) {
-        reporte +=
-          "Punto de Recaudo: " +
-          pagos[0].agencia +
-          " \r\n" +
-          "\r\n" +
-          "ORDENES DE RECIBO CDS \r\n \r\n";
-        let totalPagado = 0;
-        this.setState({ collectionPoint: pagos[0].agencia });
-        for (var i = 0; i < pagos.length; i++) {
-          if (pagos[i].estado === "0" || pagos[i].estado === "1") {
-            pagos[i].mostrar = true;
-            totalPagado += Number(pagos[i].valor);
-            reporte +=
-              pagos[i].factura +
-              ": $" +
-              numberFilter(pagos[i].valor) +
-              ",00 \r\n";
-          } else {
-            pagos[i].mostrar = false;
-            reporte += pagos[i].factura + ": ANULADA \r\n";
+    buscarPagos(paymentSeach)
+      .then(pagos => {
+        reporte =
+          "\r\n \r\n \r\n" +
+          "Reporte \r\n" +
+          "Fecha: " +
+          moment(this.state.startDate).format("dddd, MMMM D") +
+          " \r\n";
+        if (pagos.length > 0) {
+          reporte +=
+            "Punto de Recaudo: " +
+            pagos[0].agencia +
+            " \r\n" +
+            "\r\n" +
+            "ORDENES DE RECIBO CDS \r\n \r\n";
+          let totalPagado = 0;
+          this.setState({ collectionPoint: pagos[0].agencia });
+          for (var i = 0; i < pagos.length; i++) {
+            if (pagos[i].estado === "0" || pagos[i].estado === "1") {
+              pagos[i].mostrar = true;
+              totalPagado += Number(pagos[i].valor);
+              reporte +=
+                pagos[i].factura +
+                ": $" +
+                numberFilter(pagos[i].valor) +
+                ",00 \r\n";
+            } else {
+              pagos[i].mostrar = false;
+              reporte += pagos[i].factura + ": ANULADA \r\n";
+            }
           }
+          reporte += "------ \r\n";
+          reporte +=
+            "TOTAL: $" +
+            numberFilter(totalPagado) +
+            ",00 \r\n \r\n \r\n \r\n \r\n \r\n";
+          this.setState({ payments: pagos });
+          this.setState({ totalPaid: totalPagado });
+          this.toggleReport();
+        } else {
+          this.toggle();
         }
-        reporte += "------ \r\n";
-        reporte +=
-          "TOTAL: $" +
-          numberFilter(totalPagado) +
-          ",00 \r\n \r\n \r\n \r\n \r\n \r\n";
-        this.setState({ payments: pagos });
-        this.setState({ totalPaid: totalPagado });
-        this.toggleReport();
-      } else {
-        this.toggle();
-      }
-    });
+      })
+      .catch(error => {
+        alert(error);
+      });
   }
 
   render() {

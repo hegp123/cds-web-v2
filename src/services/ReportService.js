@@ -14,7 +14,7 @@ export let buscarPagos = fechaParameter => {
         }
       })
       .catch(error => {
-        reject("error");
+        reject("Error en el sistema: " + error.message);
       });
   });
 };
@@ -25,7 +25,7 @@ function convertJsonReposr(data) {
 
   for (var i = 0; i < data.PagosDto.CreditosDto.length; i++) {
     obj = new Object();
-    obj.factura = data.PagosDto.CreditosDto[i].DocumentoFI;
+    obj.factura = data.PagosDto.CreditosDto[i].NumFactura;
     obj.valor = data.PagosDto.CreditosDto[i].ValorPagado;
     obj.agencia = data.PagosDto.NombreCDS;
     obj.estado = "1";

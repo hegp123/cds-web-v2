@@ -13,7 +13,7 @@ class PrintContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      orden: "",
+      numeroFactura: "",
       order: "",
       customer: "",
       dateOrder: "",
@@ -41,21 +41,25 @@ class PrintContainer extends Component {
   }
 
   searchInvoice() {
-    var invoiceSearch = { NumFactura: this.state.orden };
+    var invoiceSearch = { NumFactura: this.state.numeroFactura };
     var valueSession = JSON.parse(sessionStorage.getItem(SESSION));
-    buscarFactura(invoiceSearch).then(response => {
-      //TODO preguntar cuando ni hay info de la factura
-      if (!isEmpty(response.numeroFactura)) {
-        this.setState({ order: response.numeroFactura });
-        this.setState({ customer: response.cliente });
-        this.setState({ dateOrder: response.fecha });
-        this.setState({ total: response.total });
-        sessionStorage.setItem(INVOICE_PRINT, JSON.stringify(response));
-        this.toggle();
-      } else {
-        this.toggleAlert();
-      }
-    });
+    buscarFactura(invoiceSearch)
+      .then(response => {
+        //TODO preguntar cuando ni hay info de la factura
+        if (!isEmpty(response.numeroFactura)) {
+          this.setState({ order: response.numeroFactura });
+          this.setState({ customer: response.cliente });
+          this.setState({ dateOrder: response.fecha });
+          this.setState({ total: response.total });
+          sessionStorage.setItem(INVOICE_PRINT, JSON.stringify(response));
+          this.toggle();
+        } else {
+          this.toggleAlert();
+        }
+      })
+      .catch(error => {
+        alert(error);
+      });
   }
 
   handleChange(e) {
@@ -64,7 +68,7 @@ class PrintContainer extends Component {
   }
 
   validateForm() {
-    return this.state.orden.length === 0;
+    return this.state.numeroFactura.length === 0;
   }
 
   handleSubmit(e) {
@@ -87,9 +91,9 @@ class PrintContainer extends Component {
               <InputTextFmb
                 type="number"
                 icon="fa fa-search"
-                name="orden"
+                name="numeroFactura"
                 placeholder="Escriba aquí el No. de factura"
-                value={this.state.orden}
+                value={this.state.numeroFactura}
                 onChange={this.handleChange}
               />
             </div>

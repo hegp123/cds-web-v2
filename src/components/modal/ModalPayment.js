@@ -391,32 +391,39 @@ class ModalPayment extends React.Component {
       TipoPago: "1"
     };
 
-    pagarCredito(pago).then(ordenRecibo => {
-      if (ordenRecibo.idFactura !== null && ordenRecibo.numeroFactura !== "0") {
-        this.toggleConfirm();
-        this.toggleNested();
-        sessionStorage.setItem(INVOICE_PRINT, JSON.stringify(ordenRecibo));
-        this.props.history.push("/paymentPrint/payment");
-      } else {
-        if (ordenRecibo.valorMensaje !== null) {
-          this.showAlert(
-            "Falló el pago al crédito No. " +
-              credito.codigoCredito +
-              ". " +
-              ordenRecibo.mensaje +
-              "$" +
-              ordenRecibo.valorMensaje
-          );
+    pagarCredito(pago)
+      .then(ordenRecibo => {
+        if (
+          ordenRecibo.idFactura !== null &&
+          ordenRecibo.numeroFactura !== "0"
+        ) {
+          this.toggleConfirm();
+          this.toggleNested();
+          sessionStorage.setItem(INVOICE_PRINT, JSON.stringify(ordenRecibo));
+          this.props.history.push("/paymentPrint/payment");
         } else {
-          this.showAlert(
-            "Falló el pago al crédito No. " +
-              credito.codigoCredito +
-              ". " +
-              ordenRecibo.mensaje
-          );
+          if (ordenRecibo.valorMensaje !== null) {
+            this.showAlert(
+              "Falló el pago al crédito No. " +
+                credito.codigoCredito +
+                ". " +
+                ordenRecibo.mensaje +
+                "$" +
+                ordenRecibo.valorMensaje
+            );
+          } else {
+            this.showAlert(
+              "Falló el pago al crédito No. " +
+                credito.codigoCredito +
+                ". " +
+                ordenRecibo.mensaje
+            );
+          }
         }
-      }
-    });
+      })
+      .catch(error => {
+        alert(error);
+      });
   };
 
   showAlert = (message, callback = () => {}) => {

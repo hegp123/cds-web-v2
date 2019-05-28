@@ -14,7 +14,7 @@ export let buscarFactura = factura => {
         }
       })
       .catch(error => {
-        reject("error");
+        reject("Error en el sistema: " + error.message);
       });
   });
 };

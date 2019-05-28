@@ -11,7 +11,7 @@ export let getInfoConcept = otherConcept => {
         }
       })
       .catch(error => {
-        reject(error);
+        reject("Error en el sistema: " + error.message);
       });
   });
 };
@@ -26,7 +26,7 @@ export let saveOtherConcept = otherConcept => {
         }
       })
       .catch(error => {
-        reject(error);
+        reject("Error en el sistema: " + error.message);
       });
   });
 };

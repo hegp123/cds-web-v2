@@ -17,7 +17,7 @@ export let buscarCredito = creditSearch => {
         }
       })
       .catch(error => {
-        reject(error);
+        reject("Error en el sistema: " + error.message);
       });
   });
 };
@@ -110,13 +110,12 @@ export let pagarCredito = pago => {
         }
       })
       .catch(error => {
-        reject(error);
+        reject("Error en el sistema: " + error.messageerror);
       });
   });
 };
 
 function convertJsonPayment(data) {
-  //TODO preguntar que que hacemos con los campos DocumentoFI y AnoDocFI
   var payment = new Object();
   let moment = require("moment");
   payment.numeroFactura = data.NumFactura;
