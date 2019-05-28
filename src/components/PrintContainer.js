@@ -41,8 +41,7 @@ class PrintContainer extends Component {
   }
 
   searchInvoice() {
-    var invoiceSearch = { DocumentoFI: this.state.orden };
-    //TODO el DocumentoFI es el mismo numero de factura
+    var invoiceSearch = { NumFactura: this.state.orden };
     var valueSession = JSON.parse(sessionStorage.getItem(SESSION));
     buscarFactura(invoiceSearch).then(response => {
       //TODO preguntar cuando ni hay info de la factura

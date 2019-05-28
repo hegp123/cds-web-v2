@@ -21,7 +21,7 @@ export let buscarFactura = factura => {
 
 function convertJSONReport(data) {
   let invoiceReturn = {
-    numeroFactura: data.DocumentoFI,
+    numeroFactura: data.NumFactura,
     cliente: data.NombreCompleto,
     cedulaCliente: data.NroDocumento,
     codigoCredito: data.NroCredito,
