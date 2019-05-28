@@ -8,25 +8,28 @@ import ModalAlert from "./modal/ModalAlert";
 import {
   placeHolderCedula,
   placeHolderCredito,
-  cedulaValue,
-  creditoValue
+  tipoIdentificacionValue,
+  creditoValue,
+  nitValue
 } from "../utils/Constants";
 import { SESSION } from "../utils/Constants";
 import ModalPayment from "./modal/ModalPayment";
+import { idValue } from "./../utils/Constants";
 
 export default class PaymentContainer extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      typeFilter: "0", //cedula por defecto
+      typeFilter: "0", //tipo identificacion por defecto
       numberFilter: "82990",
       placeHolderNumberFilter: placeHolderCedula,
       modalAlert: false,
       modalAlertContent: "",
       callbackOnClosed: () => {},
       modal: false,
-      creditos: []
+      creditos: [],
+      documentType: idValue
     };
 
     this.toggleAlert = this.toggleAlert.bind(this);
@@ -61,13 +64,16 @@ export default class PaymentContainer extends Component {
                 id="typeFilterForm"
                 name="typeFilterForm"
                 onChange={this.handleChange("typeFilter")}
-                defaultValue={cedulaValue}
+                defaultValue={tipoIdentificacionValue}
               >
-                <option value={cedulaValue}>Cédula</option>
+                <option value={tipoIdentificacionValue}>
+                  Tipo identificación
+                </option>
                 <option value={creditoValue}>Crédito</option>
               </select>
             </div>
           </div>
+          {this.returnDocumentType()}
           <div className="row">
             <div className="w-100 form-group">
               <InputTextFmb
@@ -106,6 +112,35 @@ export default class PaymentContainer extends Component {
     );
   }
 
+  returnDocumentType() {
+    if (this.state.typeFilter === tipoIdentificacionValue) {
+      return (
+        <div>
+          {" "}
+          <div className="row">
+            <div className="w-100">
+              <span className="float-left font-label-fmb">Tipo documento:</span>
+            </div>
+          </div>
+          <div className="row">
+            <div className="w-100 form-group">
+              <select
+                className="form-control"
+                id="documentType"
+                name="documentType"
+                onChange={this.handleChange("documentType")}
+                defaultValue={idValue}
+              >
+                <option value={idValue}>Cédula</option>
+                <option value={nitValue}>NIT</option>
+              </select>
+            </div>
+          </div>{" "}
+        </div>
+      );
+    }
+  }
+
   validateForm() {
     return (
       this.state.typeFilter.length > 0 && this.state.numberFilter.length > 0
@@ -117,7 +152,7 @@ export default class PaymentContainer extends Component {
 
     this.setState({ [prop]: value });
     if (prop === "typeFilter") {
-      if (value === cedulaValue) {
+      if (value === tipoIdentificacionValue) {
         this.setState({
           placeHolderNumberFilter: placeHolderCedula
         });
@@ -142,12 +177,12 @@ export default class PaymentContainer extends Component {
           mensaje =
             "No hay créditos asociados al No. de identificación ingresado";
 
-          //TODO setear usaer y pass de SAP Y preguntar cual es id de la cedula y el del nit para colocarlo en idFilter
+          //TODO setear usaer y pass de SAP
           creditSearch = {
             Usuario: "usuario",
             Contraseña: "36523",
             ParametroBusqueda: "1",
-            TipoDocumento: this.state.typeFilter,
+            TipoDocumento: this.state.documentType,
             NroDocumento: this.state.numberFilter,
             CodigoBP: sesion.idPunto
           };
